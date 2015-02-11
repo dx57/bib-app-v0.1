@@ -2,7 +2,15 @@
 <resources>
 
     <string name="app_name">BiBApp</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="logo_description">Born in Bradford Logo</string>
+    <string name="bottom_description">Born in Bradford Design</string>
+    <string name="login_text">Enter your User-ID:</string>
+    <string name="login_button">LOGIN</string>
+    <string name="remember_me">Remember Me |</string>
+    <string name="forgot_id">Forgot ID?</string>
+    <string name="login_hint"></string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_overview">OverviewActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

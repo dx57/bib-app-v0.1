@@ -2,15 +2,94 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#f5f5f5"
     tools:context="com.uni.bradford.bib.LoginActivity" >
 
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/logo_description"
+        android:paddingBottom="40dp"
+        android:paddingTop="10dp"
+        android:src="@drawable/ic_launcher" />
+
     <TextView
+        android:id="@+id/tvLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivLogo"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:textColor="#7e7e7f"
+        android:text="@string/login_text" />
+
+    <EditText
+        android:id="@+id/etLogin"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tvLogin"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="#ffffff"
+        android:ems="10"
+        android:hint="@string/login_hint"
+        android:inputType="text" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/etLogin"
+        android:layout_marginBottom="25dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="5dp"
+        android:background="#0171bd"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:text="@string/login_button" />
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_below="@+id/btnLogin"
+        android:layout_centerHorizontal="true" >
+        
+        <CheckBox
+            android:id="@+id/cbRememberMe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/remember_me"
+            android:textColor="#7e7e7f"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/tvForgotID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/cbRememberMe"
+            android:layout_alignBaseline="@+id/cbRememberMe"
+			android:layout_marginLeft="2dp"
+            android:text="@string/forgot_id"
+            android:textColor="#7e7e7f"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/ivBottom"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentBottom="true"
+        android:contentDescription="@string/bottom_description"
+        android:src="@drawable/ic_launcher" />
+
+    
 
 </RelativeLayout>
