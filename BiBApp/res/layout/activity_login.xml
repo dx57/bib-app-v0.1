@@ -78,6 +78,7 @@
 			android:layout_marginLeft="2dp"
             android:text="@string/forgot_id"
             android:textColor="#7e7e7f"
+            android:textStyle=""
             android:textAppearance="?android:attr/textAppearanceSmall" />
         
     </RelativeLayout>
