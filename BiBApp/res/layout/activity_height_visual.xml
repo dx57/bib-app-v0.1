@@ -1,0 +1,145 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.bibtestdump.MainActivity" >
+
+    <SeekBar
+        android:id="@+id/sbTimeLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true" />
+    
+    <ImageView
+        android:id="@+id/ivRuler"
+        android:layout_width="25dp"
+        android:layout_height="300dp"
+        android:layout_above="@+id/sbTimeLine"
+        android:layout_alignParentLeft="true"
+        android:scaleType="fitXY"
+        android:contentDescription="@string/image_description"
+        android:src="@drawable/ruler" />
+
+    <ImageView
+        android:id="@+id/ivOwnChildHead"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_above="@+id/ivOwnChildMiddleScale"
+        android:scaleType="fitXY"
+        android:contentDescription="@string/image_description"
+        android:src="@drawable/boy_top" />
+
+    <ImageView
+        android:id="@+id/ivOwnChildMiddleScale"
+        android:layout_width="100dp"
+        android:layout_height="1dp"
+        android:layout_above="@+id/ivOwnChildHip"
+        android:scaleType="fitXY"
+        android:contentDescription="@string/image_description"
+        android:src="@drawable/boy_top_scale" />
+    
+    <ImageView
+        android:id="@+id/ivOwnChildHip"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/ivOwnChildBottomScale"
+        android:scaleType="fitXY"
+        android:contentDescription="@string/image_description"
+        android:src="@drawable/boy_middle" />
+    
+    <ImageView
+        android:id="@+id/ivOwnChildBottomScale"
+        android:layout_width="100dp"
+        android:layout_height="1dp"
+        android:layout_above="@+id/ivOwnChildFeet"
+        android:scaleType="fitXY"
+        android:contentDescription="@string/image_description"
+        android:src="@drawable/boy_middle_scale" />
+    
+    <ImageView
+        android:id="@+id/ivOwnChildFeet"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/sbTimeLine"
+        android:layout_alignLeft="@+id/sbTimeLine"
+        android:scaleType="fitXY"
+        android:contentDescription="@string/image_description"
+        android:src="@drawable/boy_bottom" />
+    
+    <TextView
+        android:id="@+id/tvOwnChild"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/own_child"
+        android:contentDescription="@string/image_description"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/tvAverageChild"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvOwnChild"
+        android:layout_alignBottom="@+id/tvOwnChild"
+        android:layout_alignRight="@+id/sbTimeLine"
+        android:text="@string/average_child"
+        android:contentDescription="@string/image_description"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ImageView
+        android:id="@+id/ivAverageChildHead"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_above="@+id/ivAverageChildMiddleScale"
+        android:layout_alignLeft="@+id/ivAverageChildMiddleScale"
+        android:scaleType="fitXY"
+        android:contentDescription="@string/image_description"
+        android:src="@drawable/boy_top2" />
+    
+    <ImageView
+        android:id="@+id/ivAverageChildMiddleScale"
+        android:layout_width="100dp"
+        android:layout_height="1dp"
+        android:layout_above="@+id/ivAverageChildHip"
+        android:layout_alignLeft="@+id/ivAverageChildHip"
+        android:scaleType="fitXY"
+        android:contentDescription="@string/image_description"
+        android:src="@drawable/boy_top_scale2" />
+    
+    <ImageView
+        android:id="@+id/ivAverageChildHip"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/ivAverageChildBottomScale"
+        android:layout_alignLeft="@+id/ivAverageChildBottomScale"
+        android:scaleType="fitXY"
+        android:contentDescription="@string/image_description"
+        android:src="@drawable/boy_middle2" />
+    
+    <ImageView
+        android:id="@+id/ivAverageChildBottomScale"
+        android:layout_width="100dp"
+        android:layout_height="1dp"
+        android:layout_above="@+id/ivAverageChildFeet"
+        android:layout_alignLeft="@+id/ivAverageChildFeet"
+        android:scaleType="fitXY"
+        android:contentDescription="@string/image_description"
+        android:src="@drawable/boy_middle_scale2" />
+    
+    <ImageView
+        android:id="@+id/ivAverageChildFeet"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/sbTimeLine"
+        android:layout_alignParentRight="true"
+        android:scaleType="fitXY"
+        android:contentDescription="@string/image_description"
+        android:src="@drawable/boy_bottom2" />
+
+</RelativeLayout>

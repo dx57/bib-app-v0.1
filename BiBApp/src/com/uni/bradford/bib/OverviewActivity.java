@@ -5,7 +5,13 @@ import java.util.ArrayList;
 
 
 
+
+
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,6 +36,10 @@ public class OverviewActivity extends Activity
 	{		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_overview);
+		
+		// Change ActionBar color
+		ActionBar bar = getActionBar();
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
 		
 		// Init local data-model
 		overviewList = new ArrayList<OverviewEntry>();
@@ -64,7 +74,34 @@ public class OverviewActivity extends Activity
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 		{
 			// TODO: Add behaviour
-			System.out.println("Clicked on item in listview");
+			System.out.println("Clicked on item in listview: " + position);
+			
+			switch(position)
+			{
+				case 0: 
+				{
+					// Change to overview activity 
+					Intent changeToHeightVisual = new Intent(OverviewActivity.this, HeightVisualActivity.class);
+					startActivity(changeToHeightVisual);
+					
+					break;
+				}
+				case 1: 
+				{
+					
+					break;
+				}
+				case 2: 
+				{
+					
+					break;
+				}
+				default:
+				{
+					System.out.println("Default: No behaviour specified");
+					break;
+				}
+			}
 		}	
 	}
 	
@@ -76,26 +113,26 @@ public class OverviewActivity extends Activity
 			// TODO: Add behaviour
 			switch(view.getId())
 			{
-			case R.id.ivSocialMedia1: 
-			{
-				System.out.println("Clicked social media 1");
-				break;
-			}
-			case R.id.ivSocialMedia2: 
-			{
-				System.out.println("Clicked social media 2");
-				break;
-			}
-			case R.id.ivSocialMedia3: 
-			{
-				System.out.println("Clicked social media 3");
-				break;
-			}
-			default:
-			{
-				System.out.println("Error");
-				break;
-			}
+				case R.id.ivSocialMedia1: 
+				{
+					System.out.println("Clicked social media 1");
+					break;
+				}
+				case R.id.ivSocialMedia2: 
+				{
+					System.out.println("Clicked social media 2");
+					break;
+				}
+				case R.id.ivSocialMedia3: 
+				{
+					System.out.println("Clicked social media 3");
+					break;
+				}
+				default:
+				{
+					System.out.println("Error");
+					break;
+				}
 			}
 			
 		}
