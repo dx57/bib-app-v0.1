@@ -29,7 +29,7 @@ public class LoginActivity extends Activity
 		cbRememberMe = (CheckBox)findViewById(R.id.cbRememberMe);
 		tvForgotId = (TextView)findViewById(R.id.tvForgotID);
 		
-		// Add Listener
+		// Add listener
 		btnLogin.setOnClickListener(new OnBtnLoginClickListener());
 		cbRememberMe.setOnCheckedChangeListener(new OnCbRememberMeChangeListener());
 		tvForgotId.setOnClickListener(new OnTvForgotIdClickListener());

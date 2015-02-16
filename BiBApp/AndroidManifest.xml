@@ -28,6 +28,10 @@
             android:name=".OverviewActivity"
             android:label="@string/title_activity_overview" >
         </activity>
+        <activity
+            android:name=".HeightVisualActivity"
+            android:label="@string/title_activity_Height" >
+        </activity>
     </application>
 
 </manifest>
