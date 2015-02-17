@@ -1,10 +1,13 @@
 package com.uni.bradford.bib;
 
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -55,7 +58,6 @@ public class HeightVisualActivity extends Activity
 			
 			// Change color of slider to BiB green
 			// Add Share Button in ActionBar
-			// Add start- and end- point for SeekBar
 			
 			// Dummy behaviour
 			ivOwnChildMiddleScale.getLayoutParams().height= (int)(sbTimeLine.getProgress( )*(float)1.1);
@@ -74,5 +76,29 @@ public class HeightVisualActivity extends Activity
 
 		@Override
 		public void onStopTrackingTouch(SeekBar seekBar) { }
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.height_visual, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_share)
+		{
+			System.out.println("Clicked share");
+			
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

@@ -12,15 +12,24 @@
         android:id="@+id/sbTimeLine"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/tvCurrentDate"
         android:layout_toLeftOf="@+id/tvEndDate"
         android:layout_toRightOf="@+id/tvStartDate" />
+    
+    <TextView
+        android:id="@+id/tvCurrentDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/current_date"
+        android:contentDescription="@string/image_description" />
     
     <TextView
         android:id="@+id/tvStartDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/tvCurrentDate"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="10dp"
         android:text="@string/start_date"
@@ -32,7 +41,7 @@
         android:id="@+id/tvEndDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/tvCurrentDate"
         android:layout_alignParentRight="true"
         android:layout_marginTop="10dp"
         android:text="@string/end_date"
