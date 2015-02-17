@@ -10,16 +10,41 @@
 
     <SeekBar
         android:id="@+id/sbTimeLine"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true" />
+        android:layout_toLeftOf="@+id/tvEndDate"
+        android:layout_toRightOf="@+id/tvStartDate" />
+    
+    <TextView
+        android:id="@+id/tvStartDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/start_date"
+        android:gravity="center"
+        android:background="@drawable/ic_launcher"
+        android:contentDescription="@string/image_description" />
+    
+    <TextView
+        android:id="@+id/tvEndDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/end_date"
+        android:gravity="center"
+        android:background="@drawable/ic_launcher"
+        android:contentDescription="@string/image_description" />
     
     <ImageView
         android:id="@+id/ivRuler"
         android:layout_width="25dp"
         android:layout_height="300dp"
-        android:layout_above="@+id/sbTimeLine"
+        android:layout_above="@+id/tvStartDate"
         android:layout_alignParentLeft="true"
         android:scaleType="fitXY"
         android:contentDescription="@string/image_description"
@@ -65,8 +90,8 @@
         android:id="@+id/ivOwnChildFeet"
         android:layout_width="100dp"
         android:layout_height="40dp"
-        android:layout_above="@+id/sbTimeLine"
-        android:layout_alignLeft="@+id/sbTimeLine"
+        android:layout_above="@+id/tvStartDate"
+        android:layout_alignLeft="@+id/tvStartDate"
         android:scaleType="fitXY"
         android:contentDescription="@string/image_description"
         android:src="@drawable/boy_bottom" />
@@ -87,7 +112,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/tvOwnChild"
         android:layout_alignBottom="@+id/tvOwnChild"
-        android:layout_alignRight="@+id/sbTimeLine"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
         android:text="@string/average_child"
         android:contentDescription="@string/image_description"
         android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -136,7 +162,7 @@
         android:id="@+id/ivAverageChildFeet"
         android:layout_width="100dp"
         android:layout_height="40dp"
-        android:layout_above="@+id/sbTimeLine"
+        android:layout_above="@+id/tvEndDate"
         android:layout_alignParentRight="true"
         android:scaleType="fitXY"
         android:contentDescription="@string/image_description"

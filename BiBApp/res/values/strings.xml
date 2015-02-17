@@ -27,5 +27,8 @@
     <string name="image_description">Image description</string>
     <string name="own_child">Own child</string>
     <string name="average_child">Average child</string>
+    <string name="start_date">XXXX</string>
+    <string name="end_date">YYYY</string>
+    
     
 </resources>

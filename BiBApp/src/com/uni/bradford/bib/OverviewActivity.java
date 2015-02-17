@@ -7,11 +7,13 @@ import java.util.ArrayList;
 
 
 
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -110,21 +112,34 @@ public class OverviewActivity extends Activity
 		@Override
 		public void onClick(View view)
 		{
-			// TODO: Add behaviour
 			switch(view.getId())
 			{
 				case R.id.ivSocialMedia1: 
 				{
 					System.out.println("Clicked social media 1");
+					
+					// Start browser with BiB Facebook page
+					Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.facebook.com/BornInBradford?fref=ts"));
+					startActivity(browserIntent);
+					
 					break;
 				}
 				case R.id.ivSocialMedia2: 
 				{
 					System.out.println("Clicked social media 2");
+					
+					// Start browser with BiB Twitter page
+					Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/BiBresearch"));
+					startActivity(browserIntent);
+					
 					break;
 				}
 				case R.id.ivSocialMedia3: 
 				{
+					// Start browser with BiB Youtube page
+					Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/user/BorninBradford2011"));
+					startActivity(browserIntent);
+					
 					System.out.println("Clicked social media 3");
 					break;
 				}
