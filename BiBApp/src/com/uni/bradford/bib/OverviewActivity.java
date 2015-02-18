@@ -76,7 +76,7 @@ public class OverviewActivity extends Activity
 			{
 				case 0: 
 				{
-					// Change to overview activity 
+					// Change to HeightVisual activity 
 					Intent changeToHeightVisual = new Intent(OverviewActivity.this, HeightVisualActivity.class);
 					startActivity(changeToHeightVisual);
 					
@@ -89,6 +89,14 @@ public class OverviewActivity extends Activity
 				}
 				case 2: 
 				{
+					
+					break;
+				}
+				case 4: 
+				{
+					// Change to About activity 
+					Intent changeToAbout = new Intent(OverviewActivity.this, AboutActivity.class);
+					startActivity(changeToAbout);
 					
 					break;
 				}
