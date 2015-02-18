@@ -3,6 +3,7 @@ package com.uni.bradford.bib;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -19,14 +20,14 @@ public class HeightVisualActivity extends Activity
 	private ImageView ivOwnChildBottomScale;
 	private ImageView ivAverageChildMiddleScale;
 	private ImageView ivAverageChildBottomScale;
-	
+		
 	private SeekBar sbTimeLine;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_height_visual);
+		setContentView(R.layout.activity_height_visual);	
 		
 		// Change ActionBar color
 		ActionBar bar = getActionBar();
@@ -55,10 +56,7 @@ public class HeightVisualActivity extends Activity
 			// Idea: Visualisation of time with timelapse of season/earth images fading in the background or rotation
 			// Idea: Visualisation of time with calender leaves which fall off (fading out) in the background
 			// Idea: On the right side a group of children (shortest, tallest, average).. 
-			
-			// Change color of slider to BiB green
-			// Add Share Button in ActionBar
-			
+					
 			// Dummy behaviour
 			ivOwnChildMiddleScale.getLayoutParams().height= (int)(sbTimeLine.getProgress( )*(float)1.1);
 			ivOwnChildMiddleScale.requestLayout();
@@ -85,7 +83,7 @@ public class HeightVisualActivity extends Activity
 		getMenuInflater().inflate(R.menu.height_visual, menu);
 		return true;
 	}
-
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
@@ -96,6 +94,13 @@ public class HeightVisualActivity extends Activity
 		if (id == R.id.action_share)
 		{
 			System.out.println("Clicked share");
+			
+			// TODO: Just to get going
+			Intent sendIntent = new Intent();
+			sendIntent.setAction(Intent.ACTION_SEND);
+			sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+			sendIntent.setType("text/plain");
+			startActivity(sendIntent);
 			
 			return true;
 		}
