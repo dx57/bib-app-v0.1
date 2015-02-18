@@ -58,14 +58,14 @@ public class HeightVisualActivity extends Activity
 			// Idea: On the right side a group of children (shortest, tallest, average).. 
 					
 			// Dummy behaviour
-			ivOwnChildMiddleScale.getLayoutParams().height= (int)(sbTimeLine.getProgress( )*(float)1.1);
+			ivOwnChildMiddleScale.getLayoutParams().height= (int)(sbTimeLine.getProgress( )*(float)1.001);
 			ivOwnChildMiddleScale.requestLayout();
-			ivOwnChildBottomScale.getLayoutParams().height= (int)(sbTimeLine.getProgress( )*(float)1.3);
+			ivOwnChildBottomScale.getLayoutParams().height= (int)(sbTimeLine.getProgress( )*(float)1.003);
 			ivOwnChildBottomScale.requestLayout();
 			
-			ivAverageChildMiddleScale.getLayoutParams().height= (int)(sbTimeLine.getProgress( )*(float)1.5);
+			ivAverageChildMiddleScale.getLayoutParams().height= (int)(sbTimeLine.getProgress( )*(float)1.005);
 			ivAverageChildMiddleScale.requestLayout();
-			ivAverageChildBottomScale.getLayoutParams().height= (int)(sbTimeLine.getProgress( )*(float)1.8);
+			ivAverageChildBottomScale.getLayoutParams().height= (int)(sbTimeLine.getProgress( )*(float)1.008);
 			ivAverageChildBottomScale.requestLayout();
 		}
 
@@ -95,7 +95,7 @@ public class HeightVisualActivity extends Activity
 		{
 			System.out.println("Clicked share");
 			
-			// TODO: Just to get going
+			// TODO: Just basic approach to get going.. not full functional
 			Intent sendIntent = new Intent();
 			sendIntent.setAction(Intent.ACTION_SEND);
 			sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
