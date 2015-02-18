@@ -8,6 +8,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.bibtestdump.MainActivity" >
 
+    <View
+        android:id="@+id/vBackground"
+        android:layout_width="fill_parent" 
+        android:layout_height="120dp"
+        android:background="#dcd9da"
+        android:layout_alignParentBottom="true" />
+    
     <SeekBar
         android:id="@+id/sbTimeLine"
         android:layout_width="fill_parent"
@@ -114,7 +121,7 @@
         android:text="@string/own_child"
         android:contentDescription="@string/image_description"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
+    
     <TextView
         android:id="@+id/tvAverageChild"
         android:layout_width="wrap_content"
