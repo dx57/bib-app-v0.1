@@ -112,26 +112,20 @@
         android:contentDescription="@string/image_description"
         android:src="@drawable/boy_bottom" />
     
-    <TextView
-        android:id="@+id/tvOwnChild"
+	<Spinner
+        android:id="@+id/sSelectChild"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="@string/own_child"
-        android:contentDescription="@string/image_description"
         android:textAppearance="?android:attr/textAppearanceLarge" />
     
-    <TextView
-        android:id="@+id/tvAverageChild"
+    <Spinner
+        android:id="@+id/sSelectCriterion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/tvOwnChild"
-        android:layout_alignBottom="@+id/tvOwnChild"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:text="@string/average_child"
-        android:contentDescription="@string/image_description"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ImageView
