@@ -36,7 +36,7 @@ public class OverviewActivity extends Activity
 		// Change ActionBar color and icon
 		ActionBar bar = getActionBar();
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
-		bar.setIcon(R.drawable.ic_action_share);
+		bar.setIcon(R.drawable.ic_launcher);
 		
 		// Init local data-model
 		overviewList = new ArrayList<OverviewEntry>();
@@ -89,6 +89,14 @@ public class OverviewActivity extends Activity
 					break;
 				}
 				case 2: 
+				{
+					// Change to Survey activity 
+					Intent changeToSurvey = new Intent(OverviewActivity.this, SurveyActivity.class);
+					startActivity(changeToSurvey);
+					
+					break; 
+				}
+				case 3: 
 				{
 					
 					break; 
