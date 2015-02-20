@@ -31,9 +31,8 @@
     <string name="start_date">XXXX</string>
     <string name="end_date">YYYY</string>
     <string name="current_date">YYYY-MM-TT</string>
-    <string name="title_activity_temp_dump">TempDumpActivity</string>
-    <string name="about_text">
-        <b>What is Born in Bradford?</b>\n\n
+	<string name="title_activity_survey">Survey XY</string>
+    <string name="about_text"><b>What is Born in Bradford?</b>\n\n
 		Born in Bradford is a long term study of a cohort of 13,500 children, born at Bradford Royal 
 		Infirmary between March 2007 and December 2010, whose health is being tracked from pregnancy 
 		through childhood and into adult life. A birth cohort study is a powerful way of researching 
@@ -41,17 +40,14 @@
 		the way we choose to live, the local environment, the services we access and how all these 
 		come together to affect our health and well-being. The information collected from the BiB 
 		families is being used to find the causes of common childhood illnesses and to explore the 
-		mental and social development of this new generation.\n\n
-		
-		<b>The Born in Bradford Charter</b>\n\n
+		mental and social development of this new generation.\n\n <b>The Born in Bradford Charter</b>\n\n
 		Born in Bradford will:
 	    learn why most Bradford babies are healthy but some babies and children get sick use what we 
 	    learn to help plan ways to improve health for people in Bradford and elsewhere do this by 
 	    getting information from mothers, fathers and babies about how they live, where they live, 
 	    where they come from and all the other things that help make us stay healthy or that can make 
 	    us sick work with families, community groups, health professionals and all those others whose 
-	    actions can help to make Bradford a healthier place
-		
-    </string>
+	    actions can help to make Bradford a healthier place	</string>
+    
 
 </resources>
