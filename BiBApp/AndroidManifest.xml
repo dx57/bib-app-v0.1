@@ -7,7 +7,7 @@
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="16" />
-    
+
     <!-- WebView requires Internet permission -->
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -29,23 +29,27 @@
         </activity>
         <activity
             android:name=".OverviewActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_overview" >
+            android:label="@string/title_activity_overview"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".HeightVisualActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_Height" >
+            android:label="@string/title_activity_Height"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".AboutActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/about" >
+            android:label="@string/about"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".SurveyActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_survey" >
+            android:label="@string/title_activity_survey"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".HeightDiagramActivity"
+            android:label="@string/title_activity_height_diagram" >
         </activity>
     </application>
 
