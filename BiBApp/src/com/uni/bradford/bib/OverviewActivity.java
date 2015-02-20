@@ -85,6 +85,9 @@ public class OverviewActivity extends Activity
 				}
 				case 1: 
 				{
+					// Change to diagram height activity 
+					Intent changeToDiagramHeight = new Intent(OverviewActivity.this, HeightDiagramActivity.class);
+					startActivity(changeToDiagramHeight);
 					
 					break;
 				}
