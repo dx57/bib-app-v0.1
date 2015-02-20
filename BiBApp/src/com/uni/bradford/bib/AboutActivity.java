@@ -1,6 +1,9 @@
 package com.uni.bradford.bib;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +16,12 @@ public class AboutActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about);
+		
+		// TODO: Define this repeating color at some point
+		// Change ActionBar color and icon
+		ActionBar bar = getActionBar();
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
+		bar.setIcon(R.drawable.ic_action_share);
 	}
 
 	@Override

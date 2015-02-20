@@ -33,9 +33,10 @@ public class OverviewActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_overview);
 		
-		// Change ActionBar color
+		// Change ActionBar color and icon
 		ActionBar bar = getActionBar();
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
+		bar.setIcon(R.drawable.ic_action_share);
 		
 		// Init local data-model
 		overviewList = new ArrayList<OverviewEntry>();
@@ -90,7 +91,7 @@ public class OverviewActivity extends Activity
 				case 2: 
 				{
 					
-					break;
+					break; 
 				}
 				case 4: 
 				{
@@ -114,6 +115,8 @@ public class OverviewActivity extends Activity
 		@Override
 		public void onClick(View view)
 		{
+			// TODO: Check for Internet connection?
+			
 			switch(view.getId())
 			{
 				case R.id.ivSocialMedia1: 
