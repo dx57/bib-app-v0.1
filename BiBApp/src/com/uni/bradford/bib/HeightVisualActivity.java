@@ -36,9 +36,10 @@ public class HeightVisualActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_height_visual);	
 		
-		// Change ActionBar color
+		// Change ActionBar color and icon
 		ActionBar bar = getActionBar();
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
+		bar.setIcon(R.drawable.ic_action_share);
 		
 		// Connect to GUI views
 		ivOwnChildMiddleScale = (ImageView)findViewById(R.id.ivOwnChildMiddleScale);
