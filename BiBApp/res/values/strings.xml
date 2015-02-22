@@ -16,9 +16,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="social_media">Social Media</string>
     <string name="height">Children Height</string>
-    <string name="height_detail">Compare childs height</string>
-    <string name="temperature">Children Temperature</string>
-    <string name="temperature_detail">Compare childs temperature</string>
+    <string name="height_detail1">Compare childs height visual</string>
+    <string name="height_detail2">Compare childs height diagram</string>
     <string name="survey">Survey</string>
     <string name="survey_detail">Complete Survey Tour</string>
     <string name="location">Location</string>
@@ -32,6 +31,7 @@
     <string name="end_date">YYYY</string>
     <string name="current_date">YYYY-MM-TT</string>
     <string name="title_activity_survey">Survey XY</string>
+    <string name="title_activity_height_diagram">Children Height Diagram</string>
     <string name="about_text"><b>What is Born in Bradford?</b>\n\n
 		Born in Bradford is a long term study of a cohort of 13,500 children, born at Bradford Royal 
 		Infirmary between March 2007 and December 2010, whose health is being tracked from pregnancy 
@@ -48,6 +48,5 @@
 	    where they come from and all the other things that help make us stay healthy or that can make 
 	    us sick work with families, community groups, health professionals and all those others whose 
 	    actions can help to make Bradford a healthier place	</string>
-    <string name="title_activity_height_diagram">HeightDiagramActivity</string>
 
 </resources>

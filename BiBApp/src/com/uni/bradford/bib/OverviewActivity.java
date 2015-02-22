@@ -40,8 +40,8 @@ public class OverviewActivity extends Activity
 		
 		// Init local data-model
 		overviewList = new ArrayList<OverviewEntry>();
-		overviewList.add(new OverviewEntry(getResources().getString(R.string.height), getResources().getString(R.string.height_detail), R.drawable.ic_launcher)); // TODO: Build that entries know which intent to call.. saves code
-		overviewList.add(new OverviewEntry(getResources().getString(R.string.temperature), getResources().getString(R.string.temperature_detail), R.drawable.ic_launcher));
+		overviewList.add(new OverviewEntry(getResources().getString(R.string.height), getResources().getString(R.string.height_detail1), R.drawable.ic_launcher)); // TODO: Build that entries know which intent to call.. saves code
+		overviewList.add(new OverviewEntry(getResources().getString(R.string.height), getResources().getString(R.string.height_detail2), R.drawable.ic_launcher));
 		overviewList.add(new OverviewEntry(getResources().getString(R.string.survey), getResources().getString(R.string.survey_detail), R.drawable.ic_launcher));
 		overviewList.add(new OverviewEntry(getResources().getString(R.string.location), getResources().getString(R.string.location_detail), R.drawable.ic_launcher));
 		overviewList.add(new OverviewEntry(getResources().getString(R.string.about), getResources().getString(R.string.about_detail), R.drawable.ic_launcher));
