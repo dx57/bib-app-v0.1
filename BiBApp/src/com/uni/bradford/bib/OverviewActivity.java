@@ -11,8 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -23,6 +21,8 @@ public class OverviewActivity extends Activity
 	private ImageView ivSocialMediaFacebook;
 	private ImageView ivSocialMediaTwitter;
 	private ImageView ivSocialMediaYoutube;
+	
+	private OverviewListViewAdapter listAdapter;
 	
 	// Model
 	private ArrayList<OverviewEntry> overviewList;
@@ -57,67 +57,10 @@ public class OverviewActivity extends Activity
 		ivSocialMediaTwitter.setOnClickListener(ivSocialMediaOnClickListener);
 		ivSocialMediaYoutube.setOnClickListener(ivSocialMediaOnClickListener);
 		
-		OverviewListViewAdapter listAdapter = new OverviewListViewAdapter(overviewList);
+		listAdapter = new OverviewListViewAdapter(overviewList, this);
 		lvOverview = (ListView)findViewById(R.id.lvOverview);
+		lvOverview.setDivider(null);
 		lvOverview.setAdapter(listAdapter);
-		
-		lvOverview.setOnItemClickListener(new LvOverviewOnItemClickListener());
-	}
-	
-	private class LvOverviewOnItemClickListener implements OnItemClickListener
-	{
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-		{
-			// TODO: Add behaviour
-			System.out.println("Clicked on item in listview: " + position);
-			
-			switch(position)
-			{
-				case 0: 
-				{
-					// Change to HeightVisual activity 
-					Intent changeToHeightVisual = new Intent(OverviewActivity.this, HeightVisualActivity.class);
-					startActivity(changeToHeightVisual);
-					
-					break;
-				}
-				case 1: 
-				{
-					// Change to diagram height activity 
-					Intent changeToDiagramHeight = new Intent(OverviewActivity.this, HeightDiagramActivity.class);
-					startActivity(changeToDiagramHeight);
-					
-					break;
-				}
-				case 2: 
-				{
-					// Change to Survey activity 
-					Intent changeToSurvey = new Intent(OverviewActivity.this, SurveyActivity.class);
-					startActivity(changeToSurvey);
-					
-					break; 
-				}
-				case 3: 
-				{
-					// Change to About activity 
-					Intent changeToAbout = new Intent(OverviewActivity.this, AboutActivity.class);
-					startActivity(changeToAbout);
-					
-					break; 
-				}
-				case 4: 
-				{
-									
-					break;
-				}
-				default:
-				{
-					System.out.println("Default: No behaviour specified");
-					break;
-				}
-			}
-		}	
 	}
 	
 	private class IvSocialMediaOnClickListener implements OnClickListener
