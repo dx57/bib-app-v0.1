@@ -21,7 +21,7 @@ public class AboutActivity extends Activity
 		// Change ActionBar color and icon
 		ActionBar bar = getActionBar();
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
-		bar.setIcon(R.drawable.ic_action_share);
+		bar.setIcon(R.drawable.ic_about_white);
 	}
 
 	@Override

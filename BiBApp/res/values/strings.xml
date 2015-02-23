@@ -3,6 +3,9 @@
 
     <string name="app_name">BiBApp</string>
     <string name="logo_description">Born in Bradford Logo</string>
+    <string name="icon_facebook_description">Facebook</string>
+    <string name="icon_twitter_description">Twitter</string>
+    <string name="icon_youtube_description">Youtube</string>
     <string name="bottom_description">Born in Bradford Design</string>
     <string name="login_text">Enter your User-ID:</string>
     <string name="login_button">LOGIN</string>
@@ -33,16 +36,16 @@
     <string name="current_date">YYYY-MM-TT</string>
     <string name="title_activity_survey">Survey XY</string>
     <string name="title_activity_height_diagram">Children Height Diagram</string>
-    <string name="about_text"><b>What is Born in Bradford?</b>\n\n
-		Born in Bradford is a long term study of a cohort of 13,500 children, born at Bradford Royal 
+    <string name="about_text"><b>What is Born in Bradford?</b>\n\nBorn 
+        in Bradford is a long term study of a cohort of 13,500 children, born at Bradford Royal 
 		Infirmary between March 2007 and December 2010, whose health is being tracked from pregnancy 
 		through childhood and into adult life. A birth cohort study is a powerful way of researching 
 		into the many influences that shape our lives: our parents and our wider family, our genes, 
 		the way we choose to live, the local environment, the services we access and how all these 
 		come together to affect our health and well-being. The information collected from the BiB 
 		families is being used to find the causes of common childhood illnesses and to explore the 
-		mental and social development of this new generation.\n\n <b>The Born in Bradford Charter</b>\n\n
-		Born in Bradford will:
+		mental and social development of this new generation.\n\n <b>The Born in Bradford Charter</b>\n\nBorn 
+ 		in Bradford will:
 	    learn why most Bradford babies are healthy but some babies and children get sick use what we 
 	    learn to help plan ways to improve health for people in Bradford and elsewhere do this by 
 	    getting information from mothers, fathers and babies about how they live, where they live, 

@@ -8,12 +8,12 @@
     <ImageView
         android:id="@+id/ivPictureLogo"
         android:layout_width="fill_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/logo_description"
         android:paddingBottom="5dp"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/overview_slider" />
     
     <ListView android:id="@+id/lvOverview"
         android:layout_below="@+id/ivPictureLogo"
@@ -31,42 +31,42 @@
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/ivSocialMedia2"
+        android:layout_above="@+id/ivSocialMediaTwitter"
         android:background="#dfdfe0"
         android:gravity="center_horizontal"
         android:text="@string/social_media" />
     
     <ImageView
-        android:id="@+id/ivSocialMedia1"
+        android:id="@+id/ivSocialMediaFacebook"
         android:layout_width="fill_parent"
-        android:layout_height="75dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/ivSocialMedia2"
-        android:contentDescription="@string/logo_description"
+        android:layout_toLeftOf="@+id/ivSocialMediaTwitter"
+        android:contentDescription="@string/icon_facebook_description"
         android:paddingBottom="8dp"
         android:background="#dfdfe0"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/ic_facebook" />
     
     <ImageView
-        android:id="@+id/ivSocialMedia2"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:id="@+id/ivSocialMediaTwitter"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:contentDescription="@string/logo_description"
+        android:contentDescription="@string/icon_twitter_description"
         android:paddingBottom="8dp"
         android:background="#dfdfe0"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/ic_twitter" />
     
     <ImageView
-        android:id="@+id/ivSocialMedia3"
+        android:id="@+id/ivSocialMediaYoutube"
         android:layout_width="fill_parent"
-        android:layout_height="75dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-		android:layout_toRightOf="@+id/ivSocialMedia2"
-        android:contentDescription="@string/logo_description"
+		android:layout_toRightOf="@+id/ivSocialMediaTwitter"
+        android:contentDescription="@string/icon_youtube_description"
         android:paddingBottom="8dp"
         android:background="#dfdfe0"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/ic_youtube" />
 
 </RelativeLayout>

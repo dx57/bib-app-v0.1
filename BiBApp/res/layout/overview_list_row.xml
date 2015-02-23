@@ -5,9 +5,11 @@
 
 	<ImageView
         android:id="@+id/entry_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:paddingRight="5dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="3dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:contentDescription="@string/hello_world"

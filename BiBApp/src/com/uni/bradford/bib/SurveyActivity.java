@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.webkit.WebView;
 
 public class SurveyActivity extends Activity
@@ -22,11 +20,13 @@ public class SurveyActivity extends Activity
 		// Change ActionBar color and icon
 		ActionBar bar = getActionBar();
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
-		bar.setIcon(R.drawable.ic_action_share);
+		bar.setIcon(R.drawable.ic_survey_white);
 		
 		// Connect to GUI views
 		wvSurvey = (WebView)findViewById(R.id.wvSurvey);
-//		wvSurvey.getSettings().setJavaScriptEnabled(true);
+		
+		// Must-Have for SurveyMonkey
+		wvSurvey.getSettings().setJavaScriptEnabled(true);
 		
 		// TODO: Ask David how to connect to a survey
 		wvSurvey.loadUrl("https://www.surveymonkey.com/r/?sm=d9yyh03hx%2fRxh26ptsvay03MP0ZkErSidp5ni5TkqGw%3d");

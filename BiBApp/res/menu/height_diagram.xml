@@ -3,9 +3,9 @@
     tools:context="com.uni.bradford.bib.HeightDiagramActivity" >
 
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never"
+        android:id="@+id/action_share_diagram"
+        android:icon="@drawable/ic_action_share"
+        android:showAsAction="always"
         android:title="@string/action_settings"/>
 
 </menu>
