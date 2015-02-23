@@ -20,9 +20,9 @@ public class OverviewActivity extends Activity
 {
 	// GUI
 	private ListView lvOverview;
-	private ImageView ivSocialMedia1;
-	private ImageView ivSocialMedia2;
-	private ImageView ivSocialMedia3;
+	private ImageView ivSocialMediaFacebook;
+	private ImageView ivSocialMediaTwitter;
+	private ImageView ivSocialMediaYoutube;
 	
 	// Model
 	private ArrayList<OverviewEntry> overviewList;
@@ -40,23 +40,22 @@ public class OverviewActivity extends Activity
 		
 		// Init local data-model
 		overviewList = new ArrayList<OverviewEntry>();
-		overviewList.add(new OverviewEntry(getResources().getString(R.string.height), getResources().getString(R.string.height_detail1), R.drawable.ic_launcher)); // TODO: Build that entries know which intent to call.. saves code
-		overviewList.add(new OverviewEntry(getResources().getString(R.string.height), getResources().getString(R.string.height_detail2), R.drawable.ic_launcher));
-		overviewList.add(new OverviewEntry(getResources().getString(R.string.survey), getResources().getString(R.string.survey_detail), R.drawable.ic_launcher));
-		overviewList.add(new OverviewEntry(getResources().getString(R.string.location), getResources().getString(R.string.location_detail), R.drawable.ic_launcher));
-		overviewList.add(new OverviewEntry(getResources().getString(R.string.about), getResources().getString(R.string.about_detail), R.drawable.ic_launcher));
-		overviewList.add(new OverviewEntry(getResources().getString(R.string.about), getResources().getString(R.string.about_detail), R.drawable.ic_launcher));
-		overviewList.add(new OverviewEntry(getResources().getString(R.string.about), getResources().getString(R.string.about_detail), R.drawable.ic_launcher));
-		overviewList.add(new OverviewEntry(getResources().getString(R.string.about), getResources().getString(R.string.about_detail), R.drawable.ic_launcher));
+		overviewList.add(new OverviewEntry(getResources().getString(R.string.height), getResources().getString(R.string.height_detail1), R.drawable.ic_ruler_green)); // TODO: Build that entries know which intent to call.. saves code
+		overviewList.add(new OverviewEntry(getResources().getString(R.string.height), getResources().getString(R.string.height_detail2), R.drawable.ic_ruler_green));
+		overviewList.add(new OverviewEntry(getResources().getString(R.string.survey), getResources().getString(R.string.survey_detail), R.drawable.ic_survey_green));
+		overviewList.add(new OverviewEntry(getResources().getString(R.string.about), getResources().getString(R.string.about_detail), R.drawable.ic_about_green));
+		overviewList.add(new OverviewEntry(getResources().getString(R.string.about), getResources().getString(R.string.about_detail), R.drawable.ic_about_green));
+		overviewList.add(new OverviewEntry(getResources().getString(R.string.about), getResources().getString(R.string.about_detail), R.drawable.ic_about_green));
+		overviewList.add(new OverviewEntry(getResources().getString(R.string.about), getResources().getString(R.string.about_detail), R.drawable.ic_about_green));
 		
 		// Connect to GUI views and setup
-		ivSocialMedia1 = (ImageView)findViewById(R.id.ivSocialMedia1);
-		ivSocialMedia2 = (ImageView)findViewById(R.id.ivSocialMedia2);
-		ivSocialMedia3 = (ImageView)findViewById(R.id.ivSocialMedia3);
+		ivSocialMediaFacebook = (ImageView)findViewById(R.id.ivSocialMediaFacebook);
+		ivSocialMediaTwitter = (ImageView)findViewById(R.id.ivSocialMediaTwitter);
+		ivSocialMediaYoutube = (ImageView)findViewById(R.id.ivSocialMediaYoutube);
 		IvSocialMediaOnClickListener ivSocialMediaOnClickListener = new IvSocialMediaOnClickListener();
-		ivSocialMedia1.setOnClickListener(ivSocialMediaOnClickListener);
-		ivSocialMedia2.setOnClickListener(ivSocialMediaOnClickListener);
-		ivSocialMedia3.setOnClickListener(ivSocialMediaOnClickListener);
+		ivSocialMediaFacebook.setOnClickListener(ivSocialMediaOnClickListener);
+		ivSocialMediaTwitter.setOnClickListener(ivSocialMediaOnClickListener);
+		ivSocialMediaYoutube.setOnClickListener(ivSocialMediaOnClickListener);
 		
 		OverviewListViewAdapter listAdapter = new OverviewListViewAdapter(overviewList);
 		lvOverview = (ListView)findViewById(R.id.lvOverview);
@@ -101,15 +100,15 @@ public class OverviewActivity extends Activity
 				}
 				case 3: 
 				{
+					// Change to About activity 
+					Intent changeToAbout = new Intent(OverviewActivity.this, AboutActivity.class);
+					startActivity(changeToAbout);
 					
 					break; 
 				}
 				case 4: 
 				{
-					// Change to About activity 
-					Intent changeToAbout = new Intent(OverviewActivity.this, AboutActivity.class);
-					startActivity(changeToAbout);
-					
+									
 					break;
 				}
 				default:
@@ -130,7 +129,7 @@ public class OverviewActivity extends Activity
 			
 			switch(view.getId())
 			{
-				case R.id.ivSocialMedia1: 
+				case R.id.ivSocialMediaFacebook: 
 				{
 					System.out.println("Clicked social media 1");
 					
@@ -140,7 +139,7 @@ public class OverviewActivity extends Activity
 					
 					break;
 				}
-				case R.id.ivSocialMedia2: 
+				case R.id.ivSocialMediaTwitter: 
 				{
 					System.out.println("Clicked social media 2");
 					
@@ -150,7 +149,7 @@ public class OverviewActivity extends Activity
 					
 					break;
 				}
-				case R.id.ivSocialMedia3: 
+				case R.id.ivSocialMediaYoutube: 
 				{
 					// Start browser with BiB Youtube page
 					Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/user/BorninBradford2011"));

@@ -39,7 +39,7 @@ public class HeightVisualActivity extends Activity
 		// Change ActionBar color and icon
 		ActionBar bar = getActionBar();
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
-		bar.setIcon(R.drawable.ic_action_share);
+		bar.setIcon(R.drawable.ic_ruler_white);
 		
 		// Connect to GUI views
 		ivOwnChildMiddleScale = (ImageView)findViewById(R.id.ivOwnChildMiddleScale);
@@ -145,7 +145,7 @@ public class HeightVisualActivity extends Activity
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_share)
+		if (id == R.id.action_share_visual)
 		{
 			System.out.println("Clicked share");
 			

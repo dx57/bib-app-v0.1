@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -40,7 +41,7 @@ public class HeightDiagramActivity extends Activity
 		// Change ActionBar color and icon
 		ActionBar bar = getActionBar(); 
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
-		bar.setIcon(R.drawable.ic_launcher); 
+		bar.setIcon(R.drawable.ic_ruler_white); 
 		
 		// Connect to GUI views and setup		
 		lcHeight = (LineChart)findViewById(R.id.lcHeight);
@@ -106,8 +107,17 @@ public class HeightDiagramActivity extends Activity
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings)
+		if (id == R.id.action_share_diagram)
 		{
+			System.out.println("Clicked share");
+			
+			// TODO: Just basic approach to get going.. not full functional
+			Intent sendIntent = new Intent();
+			sendIntent.setAction(Intent.ACTION_SEND);
+			sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+			sendIntent.setType("text/plain");
+			startActivity(sendIntent);
+			
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -119,9 +129,10 @@ public class HeightDiagramActivity extends Activity
         ArrayList<String> xVals = new ArrayList<String>();
         for (int i = 0; i < count; i++) 
         {
+        	// TODO: Maybe instead of years, by months?
         	xVals.add((i) + " yr");
         }
-        
+                
         ArrayList<Entry> yVals1 = new ArrayList<Entry>();
 
         yVals1.add(new Entry((float) 50, 0));
@@ -177,8 +188,9 @@ public class HeightDiagramActivity extends Activity
         set1.setFillAlpha(65);
         set1.setFillColor(ColorTemplate.getHoloBlue());
         set1.setHighLightColor(Color.rgb(244, 117, 117));
-        set1.setDrawFilled(true);
-        set1.setDrawCircles(false);
+        // set1.setDrawFilled(true);
+        set1.setDrawCircles(true);
+        set1.setDrawCubic(true);
 
         // create a dataset and give it a type
         LineDataSet set2 = new LineDataSet(yVals1, "Child 2007");

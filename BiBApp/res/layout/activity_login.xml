@@ -7,14 +7,14 @@
 
     <ImageView
         android:id="@+id/ivLogo"
-        android:layout_width="fill_parent"
-        android:layout_height="200dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/logo_description"
-        android:paddingBottom="40dp"
-        android:paddingTop="10dp"
-        android:src="@drawable/ic_launcher" />
+        android:paddingBottom="35dp"
+        android:paddingTop="30dp"
+        android:src="@drawable/logo" />
 
     <TextView
         android:id="@+id/tvLogin"
@@ -22,19 +22,19 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivLogo"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginLeft="42dp"
+        android:layout_marginRight="42dp"
         android:textColor="#7e7e7f"
         android:text="@string/login_text" />
 
     <EditText
         android:id="@+id/etLogin"
         android:layout_width="match_parent"
-        android:layout_height="38dp"
+        android:layout_height="33dp"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/tvLogin"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginLeft="42dp"
+        android:layout_marginRight="42dp"
         android:background="#ffffff"
         android:ems="10"
         android:hint="@string/login_hint"
@@ -44,12 +44,12 @@
         android:id="@+id/btnLogin"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="35dp"
         android:layout_below="@+id/etLogin"
-        android:layout_marginBottom="25dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
         android:layout_marginTop="5dp"
+        android:layout_marginLeft="42dp"
+        android:layout_marginRight="42dp"
+        android:layout_marginBottom="20dp"
         android:background="#0171bd"
         android:textColor="#ffffff"
         android:textStyle="bold"
@@ -86,11 +86,9 @@
     <ImageView
         android:id="@+id/ivBottom"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:contentDescription="@string/bottom_description"
-        android:src="@drawable/ic_launcher" />
-
-    
+        android:src="@drawable/login_bg" />
 
 </RelativeLayout>
