@@ -1,35 +1,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:background="#eceded" >
+    android:layout_height="match_parent" >
 
-	<ImageView
-        android:id="@+id/entry_image"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:paddingRight="5dp"
-        android:paddingLeft="5dp"
-        android:paddingTop="3dp"
+    <Button
+        android:id="@+id/btnEntry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:contentDescription="@string/hello_world"
-        android:src="@drawable/ic_launcher" />
-
-    <TextView
-        android:id="@+id/entry_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/entry_image"
-        android:text="@string/hello_world" 
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/entry_details"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/entry_name"
-        android:layout_toRightOf="@id/entry_image"
-        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:gravity="center_vertical|left"
+        android:drawableLeft="@drawable/ic_ruler_green"
+        android:drawablePadding="10dp"
         android:text="@string/hello_world" />
 
 </RelativeLayout>

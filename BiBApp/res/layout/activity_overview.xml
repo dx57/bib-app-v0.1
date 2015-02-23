@@ -12,14 +12,13 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/logo_description"
-        android:paddingBottom="5dp"
         android:src="@drawable/overview_slider" />
     
     <ListView android:id="@+id/lvOverview"
         android:layout_below="@+id/ivPictureLogo"
         android:layout_above="@+id/tvSocialMedia"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
     
@@ -27,7 +26,6 @@
         android:id="@+id/tvSocialMedia"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:layout_centerHorizontal="true"
