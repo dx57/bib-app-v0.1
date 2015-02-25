@@ -1,12 +1,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlHeightVisual"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.bibtestdump.MainActivity" >
 
     <Spinner
         android:id="@+id/sSelectChild"
-        android:layout_width="140dp"
+        android:layout_width="145dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -14,7 +15,7 @@
     
     <Spinner
         android:id="@+id/sSelectCriterion"
-        android:layout_width="140dp"
+        android:layout_width="145dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
@@ -22,7 +23,7 @@
     
     <TextView
         android:id="@+id/tvOwnChildHeight"
-        android:layout_width="140dp" 
+        android:layout_width="145dp" 
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/sSelectChild"
@@ -31,7 +32,7 @@
     
     <TextView
         android:id="@+id/tvCompareChildHeight"
-        android:layout_width="140dp" 
+        android:layout_width="145dp" 
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@id/sSelectCriterion"
@@ -40,7 +41,7 @@
     
     <ImageView
         android:id="@+id/ivScale"
-        android:layout_width="140dp"
+        android:layout_width="145dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/tvOwnChildHeight"
@@ -59,8 +60,8 @@
     
     <ImageView
         android:id="@+id/ivOwnChild"
-        android:layout_width="140dp"
-        android:layout_height="300dp"
+        android:layout_width="145dp"
+        android:layout_height="320dp"
         android:layout_alignParentLeft="true"
         android:layout_above="@+id/sbTimeLine"
         android:contentDescription="@string/image_description"
@@ -68,8 +69,8 @@
     
     <ImageView
         android:id="@+id/ivCompareChild"
-        android:layout_width="wrap_content"
-        android:layout_height="300dp"
+        android:layout_width="145dp"
+        android:layout_height="100dp"
         android:layout_alignParentRight="true"
         android:layout_above="@id/sbTimeLine"
         android:contentDescription="@string/image_description"

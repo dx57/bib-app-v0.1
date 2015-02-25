@@ -1,6 +1,5 @@
 package com.uni.bradford.bib;
 
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -10,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -28,11 +28,15 @@ public class HeightVisualActivity extends Activity
 	private Spinner sSelectCriterion;
 	private TextView tvOwnChildHeight;
 	private TextView tvCompareChildHeight;
+	private TextView tvCurrent;
+	
+	private int maxHeight;
+	private int minHeight;
 	
 		
 	private SeekBar sbTimeLine;
 
-	@Override
+	@Override 
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -50,6 +54,7 @@ public class HeightVisualActivity extends Activity
 		sSelectCriterion = (Spinner)findViewById(R.id.sSelectCriterion);
 		tvOwnChildHeight = (TextView)findViewById(R.id.tvOwnChildHeight);
 		tvCompareChildHeight = (TextView)findViewById(R.id.tvCompareChildHeight);
+		tvCurrent = (TextView)findViewById(R.id.tvCurrent);
 		
 		// TODO: Just basic approach to get going.. not full functional
 		String[] childs = new String[] {"Child 2007", "Child 2009", "Child 2010"};
@@ -61,10 +66,17 @@ public class HeightVisualActivity extends Activity
 		adapterCriterion.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		sSelectCriterion.setAdapter(adapterCriterion);
 		
+		// Init timeline
 		sbTimeLine = (SeekBar)findViewById(R.id.sbTimeLine);
 		sbTimeLine.setMax(100);
 		
+		// Init measurement borders
+		maxHeight = ivOwnChild.getHeight();
+		minHeight = ivCompareChild.getHeight();
+		
 		// Add listener
+		ivOwnChild.getViewTreeObserver().addOnGlobalLayoutListener(new OnIvOwnChildGlobalLayoutListener() );
+		ivCompareChild.getViewTreeObserver().addOnGlobalLayoutListener(new OnIvCompareChildGlobalLayoutListener() );
 		sbTimeLine.setOnSeekBarChangeListener(new OnSeekBarTimeLineChangeListener());
 		sSelectChild.setOnItemSelectedListener(new OnSpinnerSelectChildSelectedListener());
 		sSelectCriterion.setOnItemSelectedListener(new OnSpinnerSelectCriterionSelectedListener());
@@ -80,14 +92,20 @@ public class HeightVisualActivity extends Activity
 			// Idea: Visualisation of time with timelapse of season/earth images fading in the background or rotation
 			// Idea: Visualisation of time with calender leaves which fall off (fading out) in the background
 			// Idea: On the right side a group of children (shortest, tallest, average).. 
-					
-			// Dummy behaviour
-			ivOwnChild.getLayoutParams().height = (int)((sbTimeLine.getProgress( )+100) *(float)2);
-			ivOwnChild.requestLayout();
-
+			// Idea: Use Android animation to "draw line" on StopTrackingTouch with imageView of a pen		
 			
-			ivCompareChild.getLayoutParams().height= (int)((sbTimeLine.getProgress( )+100) *(float)2.5);
+			// Dummy behaviour
+			float onePercent = (maxHeight - minHeight) / (float)sbTimeLine.getMax();
+			
+			ivOwnChild.getLayoutParams().height = (int)(minHeight + progress*((float)onePercent/2));
+			ivOwnChild.requestLayout();
+			tvOwnChildHeight.setText(ivOwnChild.getLayoutParams().height + " " + getResources().getString(R.string.cm));
+			
+			ivCompareChild.getLayoutParams().height = (int)(minHeight + progress*(float)onePercent);
 			ivCompareChild.requestLayout();
+			tvCompareChildHeight.setText(ivCompareChild.getLayoutParams().height + " " + getResources().getString(R.string.cm));
+			
+			tvCurrent.setText(progress + "");
 		}
 
 		@Override
@@ -158,5 +176,31 @@ public class HeightVisualActivity extends Activity
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	private class OnIvOwnChildGlobalLayoutListener implements OnGlobalLayoutListener
+	{		
+		@Override
+		public void onGlobalLayout()
+		{			
+			// Now the size of the image view is fix
+			maxHeight = ivOwnChild.getHeight();
+			
+			// Get rid of listener
+			ivOwnChild.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+		} 
+	}
+	
+	private class OnIvCompareChildGlobalLayoutListener implements OnGlobalLayoutListener
+	{		
+		@Override
+		public void onGlobalLayout()
+		{			
+			// Now the size of the image view is fix
+			minHeight = ivCompareChild.getHeight();
+			
+			// Get rid of listener
+			ivCompareChild.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+		} 
 	}
 }
