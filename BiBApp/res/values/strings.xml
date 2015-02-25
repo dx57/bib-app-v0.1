@@ -36,6 +36,18 @@
     <string name="current_date">YYYY-MM-TT</string>
     <string name="title_activity_survey">Survey XY</string>
     <string name="title_activity_height_diagram">Children Height Diagram</string>
+    <string name="fogot_id_mail_subject">Born in Bradford App - Forgot login ID request</string>
+    <string name="fogot_id_mail_text">Please resend login ID to deposited email address for user with Smartphone ID: </string>
+    <string name="mail_button">Send Mail</string>
+    <string name="cancel">Cancel</string>
+    <string name="forgot_login_id">Forgot Login ID?</string>
+    <string name="forgot_login_id_text">
+        If you forgot your Login ID you can send a request to the Born in Bradford organisation.\n\nThe
+        requested Login ID is send to you to the mail address registered with this device.
+	</string>
+    <string name="try_again">Try again!</string>
+    <string name="wrong_password">Wrong password</string>
+    <string name="wrong_password_text">You entered the wrong Login ID.</string>
     <string name="about_text"><b>What is Born in Bradford?</b>\n\nBorn 
         in Bradford is a long term study of a cohort of 13,500 children, born at Bradford Royal 
 		Infirmary between March 2007 and December 2010, whose health is being tracked from pregnancy 
@@ -52,5 +64,6 @@
 	    where they come from and all the other things that help make us stay healthy or that can make 
 	    us sick work with families, community groups, health professionals and all those others whose 
 	    actions can help to make Bradford a healthier place	</string>
+	
 
 </resources>
