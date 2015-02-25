@@ -17,16 +17,18 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class HeightVisualActivity extends Activity
 {
 	// GUI
-	private ImageView ivOwnChildMiddleScale;
-	private ImageView ivOwnChildBottomScale;
-	private ImageView ivAverageChildMiddleScale;
-	private ImageView ivAverageChildBottomScale;
+	private ImageView ivOwnChild;
+	private ImageView ivCompareChild;
 	private Spinner sSelectChild;
 	private Spinner sSelectCriterion;
+	private TextView tvOwnChildHeight;
+	private TextView tvCompareChildHeight;
+	
 		
 	private SeekBar sbTimeLine;
 
@@ -42,12 +44,12 @@ public class HeightVisualActivity extends Activity
 		bar.setIcon(R.drawable.ic_ruler_white);
 		
 		// Connect to GUI views
-		ivOwnChildMiddleScale = (ImageView)findViewById(R.id.ivOwnChildMiddleScale);
-		ivOwnChildBottomScale = (ImageView)findViewById(R.id.ivOwnChildBottomScale);
-		ivAverageChildMiddleScale = (ImageView)findViewById(R.id.ivAverageChildMiddleScale);
-		ivAverageChildBottomScale = (ImageView)findViewById(R.id.ivAverageChildBottomScale);
+		ivOwnChild = (ImageView)findViewById(R.id.ivOwnChild);
+		ivCompareChild = (ImageView)findViewById(R.id.ivCompareChild);
 		sSelectChild = (Spinner)findViewById(R.id.sSelectChild);
 		sSelectCriterion = (Spinner)findViewById(R.id.sSelectCriterion);
+		tvOwnChildHeight = (TextView)findViewById(R.id.tvOwnChildHeight);
+		tvCompareChildHeight = (TextView)findViewById(R.id.tvCompareChildHeight);
 		
 		// TODO: Just basic approach to get going.. not full functional
 		String[] childs = new String[] {"Child 2007", "Child 2009", "Child 2010"};
@@ -80,15 +82,12 @@ public class HeightVisualActivity extends Activity
 			// Idea: On the right side a group of children (shortest, tallest, average).. 
 					
 			// Dummy behaviour
-			ivOwnChildMiddleScale.getLayoutParams().height= (int)(sbTimeLine.getProgress( )*(float)1.001);
-			ivOwnChildMiddleScale.requestLayout();
-			ivOwnChildBottomScale.getLayoutParams().height= (int)(sbTimeLine.getProgress( )*(float)1.003);
-			ivOwnChildBottomScale.requestLayout();
+			ivOwnChild.getLayoutParams().height = (int)((sbTimeLine.getProgress( )+100) *(float)2);
+			ivOwnChild.requestLayout();
+
 			
-			ivAverageChildMiddleScale.getLayoutParams().height= (int)(sbTimeLine.getProgress( )*(float)1.005);
-			ivAverageChildMiddleScale.requestLayout();
-			ivAverageChildBottomScale.getLayoutParams().height= (int)(sbTimeLine.getProgress( )*(float)1.008);
-			ivAverageChildBottomScale.requestLayout();
+			ivCompareChild.getLayoutParams().height= (int)((sbTimeLine.getProgress( )+100) *(float)2.5);
+			ivCompareChild.requestLayout();
 		}
 
 		@Override
