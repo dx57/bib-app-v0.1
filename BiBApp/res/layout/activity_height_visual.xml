@@ -4,184 +4,126 @@
     android:layout_height="match_parent"
     tools:context="com.example.bibtestdump.MainActivity" >
 
-    <View
-        android:id="@+id/vBackground"
-        android:layout_width="fill_parent" 
-        android:layout_height="120dp"
-        android:background="#dcd9da"
-        android:layout_alignParentBottom="true" />
-    
-    <SeekBar
-        android:id="@+id/sbTimeLine"
-        android:layout_width="fill_parent"
+    <Spinner
+        android:id="@+id/sSelectChild"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_above="@+id/tvCurrentDate"
-        android:layout_toLeftOf="@+id/tvEndDate"
-        android:layout_toRightOf="@+id/tvStartDate" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <Spinner
+        android:id="@+id/sSelectCriterion"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
     
     <TextView
-        android:id="@+id/tvCurrentDate"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvOwnChildHeight"
+        android:layout_width="140dp" 
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/current_date"
-        android:contentDescription="@string/image_description" />
-        
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/sSelectChild"
+        android:gravity="center_horizontal"
+        android:text="@string/cm" />
+    
+    <TextView
+        android:id="@+id/tvCompareChildHeight"
+        android:layout_width="140dp" 
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/sSelectCriterion"
+        android:gravity="center_horizontal"
+        android:text="@string/cm" />
+    
+    <ImageView
+        android:id="@+id/ivScale"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/tvOwnChildHeight"
+        android:layout_above="@+id/vBackground"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:contentDescription="@string/image_description"
+        android:src="@drawable/wall_lines" />
+    
+    <View
+        android:id="@id/vBackground"
+        android:layout_width="fill_parent" 
+        android:layout_height="120dp"
+        android:layout_alignParentBottom="true" 
+        android:background="#dcd9da" />
+    
+    <ImageView
+        android:id="@+id/ivOwnChild"
+        android:layout_width="140dp"
+        android:layout_height="300dp"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/sbTimeLine"
+        android:contentDescription="@string/image_description"
+        android:src="@drawable/boy_blue" />
+    
+    <ImageView
+        android:id="@+id/ivCompareChild"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:layout_alignParentRight="true"
+        android:layout_above="@id/sbTimeLine"
+        android:contentDescription="@string/image_description"
+        android:src="@drawable/boy_blue" />
+    
     <TextView
         android:id="@+id/tvStartDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/tvCurrentDate"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/tvCurrent"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:paddingTop="10dp"
-        android:text="@string/start_date"
         android:gravity="center"
+        android:contentDescription="@string/image_description" 
         android:background="@drawable/ic_calendar"
-        android:contentDescription="@string/image_description" />
+        android:text="@string/start_date" />
     
     <TextView
         android:id="@+id/tvEndDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/tvCurrentDate"
         android:layout_alignParentRight="true"
+        android:layout_above="@id/tvCurrent"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp" 
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:paddingTop="10dp"
-        android:text="@string/end_date"
         android:gravity="center"
-        android:clickable="false"
+        android:contentDescription="@string/image_description" 
         android:background="@drawable/ic_calendar"
-        android:contentDescription="@string/image_description" />
+        android:text="@string/end_date" />
     
-    <ImageView
-        android:id="@+id/ivRuler"
-        android:layout_width="25dp"
-        android:layout_height="300dp"
-        android:layout_above="@+id/sbTimeLine"
-        android:layout_alignParentLeft="true"
-        android:scaleType="fitXY"
-        android:contentDescription="@string/image_description"
-        android:src="@drawable/wall_lines" />
-
-    <ImageView
-        android:id="@+id/ivOwnChildHead"
-        android:layout_width="100dp"
-        android:layout_height="140dp"
-        android:layout_above="@+id/ivOwnChildMiddleScale"
-        android:scaleType="fitXY"
-        android:contentDescription="@string/image_description"
-        android:src="@drawable/boy_top" />
-
-    <ImageView
-        android:id="@+id/ivOwnChildMiddleScale"
-        android:layout_width="100dp"
-        android:layout_height="1dp"
-        android:layout_above="@+id/ivOwnChildHip"
-        android:scaleType="fitXY"
-        android:contentDescription="@string/image_description"
-        android:src="@drawable/boy_top_scale" />
+    <SeekBar
+        android:id="@id/sbTimeLine"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tvCurrent"
+        android:layout_toLeftOf="@id/tvEndDate"
+        android:layout_toRightOf="@id/tvStartDate" 
+        android:layout_marginTop="10dp"/>
     
-    <ImageView
-        android:id="@+id/ivOwnChildHip"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_above="@+id/ivOwnChildBottomScale"
-        android:scaleType="fitXY"
-        android:contentDescription="@string/image_description"
-        android:src="@drawable/boy_middle" />
-    
-    <ImageView
-        android:id="@+id/ivOwnChildBottomScale"
-        android:layout_width="100dp"
-        android:layout_height="1dp"
-        android:layout_above="@+id/ivOwnChildFeet"
-        android:scaleType="fitXY"
-        android:contentDescription="@string/image_description"
-        android:src="@drawable/boy_middle_scale" />
-    
-    <ImageView
-        android:id="@+id/ivOwnChildFeet"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_above="@+id/sbTimeLine"
-        android:layout_alignParentLeft="true"
-        android:scaleType="fitXY"
-        android:contentDescription="@string/image_description"
-        android:src="@drawable/boy_bottom" />
-    
-	<Spinner
-        android:id="@+id/sSelectChild"
+    <TextView
+        android:id="@id/tvCurrent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-    
-    <Spinner
-        android:id="@+id/sSelectCriterion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <ImageView
-        android:id="@+id/ivAverageChildHead"
-        android:layout_width="100dp"
-        android:layout_height="140dp"
-        android:layout_above="@+id/ivAverageChildMiddleScale"
-        android:layout_alignLeft="@+id/ivAverageChildMiddleScale"
-        android:scaleType="fitXY"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        android:layout_centerHorizontal="true"
         android:contentDescription="@string/image_description"
-        android:src="@drawable/boy_top2" />
-    
-    <ImageView
-        android:id="@+id/ivAverageChildMiddleScale"
-        android:layout_width="100dp"
-        android:layout_height="1dp"
-        android:layout_above="@+id/ivAverageChildHip"
-        android:layout_alignLeft="@+id/ivAverageChildHip"
-        android:scaleType="fitXY"
-        android:contentDescription="@string/image_description"
-        android:src="@drawable/boy_top_scale2" />
-    
-    <ImageView
-        android:id="@+id/ivAverageChildHip"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_above="@+id/ivAverageChildBottomScale"
-        android:layout_alignLeft="@+id/ivAverageChildBottomScale"
-        android:scaleType="fitXY"
-        android:contentDescription="@string/image_description"
-        android:src="@drawable/boy_middle2" />
-    
-    <ImageView
-        android:id="@+id/ivAverageChildBottomScale"
-        android:layout_width="100dp"
-        android:layout_height="1dp"
-        android:layout_above="@+id/ivAverageChildFeet"
-        android:layout_alignLeft="@+id/ivAverageChildFeet"
-        android:scaleType="fitXY"
-        android:contentDescription="@string/image_description"
-        android:src="@drawable/boy_middle_scale2" />
-    
-    <ImageView
-        android:id="@+id/ivAverageChildFeet"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_above="@+id/sbTimeLine"
-        android:layout_alignParentRight="true"
-        android:scaleType="fitXY"
-        android:contentDescription="@string/image_description"
-        android:src="@drawable/boy_bottom2" />
+        android:text="@string/current_date" />    
 
 </RelativeLayout>
