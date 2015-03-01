@@ -42,16 +42,12 @@ public class HeightVisualActivity extends Activity
 	private int maxHeight;
 	private int minHeight;
 	
-	int counter;
-	
 	@Override 
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_height_visual);	
-		
-		counter = 1;
-		
+			
 		// Change ActionBar color and icon
 		ActionBar bar = getActionBar();
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
@@ -131,7 +127,7 @@ public class HeightVisualActivity extends Activity
 		public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
 		{
 			// TODO: Add behaviour
-			System.out.println("Selected child: " + position);
+			System.out.println("Selected child: " + position + " " + parent.getItemAtPosition(position).toString());
 		}
 
 		@Override
@@ -147,7 +143,7 @@ public class HeightVisualActivity extends Activity
 		public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
 		{
 			// TODO: Add behaviour
-			System.out.println("Selected criteria: " + position);
+			System.out.println("Selected criteria: " + position + " " + parent.getItemAtPosition(position).toString());
 		}
 
 		@Override
@@ -192,9 +188,9 @@ public class HeightVisualActivity extends Activity
 			sendIntent.setType("image/jpeg");
 			
 			// Set text
-			sendIntent.putExtra(Intent.EXTRA_TEXT, "Hello, take a look at my latest personal 'Born in Bradford' infographic. For more information visit: www.borninbradford.nhs.uk");
-			sendIntent.putExtra(Intent.EXTRA_SUBJECT, "My latest personal 'Born in Bradford' infographic.");
-			sendIntent.putExtra(Intent.EXTRA_TITLE, "Born in Bradford Infographic");
+			sendIntent.putExtra(Intent.EXTRA_TEXT, getResources().getText(R.string.share_mail_text));
+			sendIntent.putExtra(Intent.EXTRA_SUBJECT, getResources().getText(R.string.share_mail_subject));
+			sendIntent.putExtra(Intent.EXTRA_TITLE, getResources().getText(R.string.share_mail_title));
 			
 			// Convert
 			ByteArrayOutputStream bytes = new ByteArrayOutputStream();

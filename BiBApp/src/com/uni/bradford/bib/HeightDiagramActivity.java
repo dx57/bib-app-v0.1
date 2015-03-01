@@ -97,6 +97,42 @@ public class HeightDiagramActivity extends Activity
 		ArrayAdapter<String> adapterCriterion = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, criterion);
 		adapterCriterion.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		sDiagramSelectCriterion.setAdapter(adapterCriterion);
+		
+		// Add listener
+		sDiagramSelectChild.setOnItemSelectedListener(new OnSpinnerSelectChildSelectedListener());
+		sDiagramSelectCriterion.setOnItemSelectedListener(new OnSpinnerSelectCriterionSelectedListener());
+	}
+	
+	private class OnSpinnerSelectChildSelectedListener implements OnItemSelectedListener
+	{
+		@Override
+		public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+		{
+			// TODO: Add behaviour
+			System.out.println("Selected child: " + position + " " + parent.getItemAtPosition(position).toString());
+		}
+
+		@Override
+		public void onNothingSelected(AdapterView<?> parent)
+		{
+			// TODO: Select the first		
+		}
+	}
+	
+	private class OnSpinnerSelectCriterionSelectedListener implements OnItemSelectedListener
+	{
+		@Override
+		public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+		{
+			// TODO: Add behaviour
+			System.out.println("Selected criteria: " + position + " " + parent.getItemAtPosition(position).toString());
+		}
+
+		@Override
+		public void onNothingSelected(AdapterView<?> parent)
+		{
+			// TODO: Select the first		
+		}
 	}
 
 	@Override
