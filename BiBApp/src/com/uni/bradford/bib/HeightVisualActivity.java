@@ -1,11 +1,19 @@
 package com.uni.bradford.bib;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,18 +37,20 @@ public class HeightVisualActivity extends Activity
 	private TextView tvOwnChildHeight;
 	private TextView tvCompareChildHeight;
 	private TextView tvCurrent;
+	private SeekBar sbTimeLine;
 	
 	private int maxHeight;
 	private int minHeight;
 	
-		
-	private SeekBar sbTimeLine;
-
+	int counter;
+	
 	@Override 
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_height_visual);	
+		
+		counter = 1;
 		
 		// Change ActionBar color and icon
 		ActionBar bar = getActionBar();
@@ -104,7 +114,7 @@ public class HeightVisualActivity extends Activity
 			ivCompareChild.getLayoutParams().height = (int)(minHeight + progress*(float)onePercent);
 			ivCompareChild.requestLayout();
 			tvCompareChildHeight.setText(ivCompareChild.getLayoutParams().height + " " + getResources().getString(R.string.cm));
-			
+						
 			tvCurrent.setText(progress + "");
 		}
 
@@ -166,18 +176,57 @@ public class HeightVisualActivity extends Activity
 		{
 			System.out.println("Clicked share");
 			
-			// TODO: Just basic approach to get going.. not full functional
-			Intent sendIntent = new Intent();
+			// Capture relevant view 
+			View viewForCapture = findViewById(R.id.rlHeightVisual);
+			
+			// Workaround to get always the new screen capture
+			viewForCapture.setDrawingCacheEnabled(false);
+            viewForCapture.setDrawingCacheEnabled(true);
+            
+            // TODO: It might be possible to add info text INTO the picture (deal with Facebook)
+            Bitmap bitmapOfCapture = viewForCapture.getDrawingCache();
+		     
+            // Setup intent for sharing
+            Intent sendIntent = new Intent();
 			sendIntent.setAction(Intent.ACTION_SEND);
-			sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
-			sendIntent.setType("text/plain");
-			startActivity(sendIntent);
+			sendIntent.setType("image/jpeg");
+			
+			// Set text
+			sendIntent.putExtra(Intent.EXTRA_TEXT, "Hello, take a look at my latest personal 'Born in Bradford' infographic. For more information visit: www.borninbradford.nhs.uk");
+			sendIntent.putExtra(Intent.EXTRA_SUBJECT, "My latest personal 'Born in Bradford' infographic.");
+			sendIntent.putExtra(Intent.EXTRA_TITLE, "Born in Bradford Infographic");
+			
+			// Convert
+			ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+			bitmapOfCapture.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+			
+			// Use temorary file for share intent
+			File file = new File (Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
+			
+			try 
+			{
+				// Save
+				file.setWritable(true);
+			    file.createNewFile();
+			    FileOutputStream fo = new FileOutputStream(file);
+			    fo.write(bytes.toByteArray());
+			    fo.close();
+			} 
+			catch (IOException e) 
+			{                       
+			    e.printStackTrace();
+			}
+			
+			// Append
+			sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + Environment.getExternalStorageDirectory().getPath() + "/temporary_file.jpg"));
+			
+			startActivity(Intent.createChooser(sendIntent, "Share Infographic:"));
 			
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+		
 	private class OnIvOwnChildGlobalLayoutListener implements OnGlobalLayoutListener
 	{		
 		@Override
