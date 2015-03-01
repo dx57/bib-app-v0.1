@@ -15,31 +15,33 @@
     <string name="action_settings">Settings</string>
     <string name="action_share">Share</string>
     <string name="title_activity_overview">Overview</string>
-    <string name="title_activity_Height">Children Height</string>
+    <string name="title_activity_height_visual">Children Height Visual</string>
+    <string name="title_activity_height_diagram">Children Height Diagram</string>
+    <string name="title_activity_about">About Born in Bradford</string>
     <string name="hello_world">Hello world!</string>
     <string name="social_media">Social Media</string>
-    <string name="height">Children Height</string>
-    <string name="height_detail1">Compare childs height visual</string>
-    <string name="height_detail2">Compare childs height diagram</string>
-    <string name="survey">Survey</string>
-    <string name="survey_detail">Complete Survey Tour</string>
-    <string name="location">Location</string>
-    <string name="location_detail">Compare locations</string>
-    <string name="about">About Born in Bradford</string>
-    <string name="about_detail">Get more information</string>
-    <string name="image_description">Image description</string>
+    <string name="image_description">Image description</string> 
     <string name="own_child">Own child</string>
     <string name="average_child">Average child</string>
     <string name="start_date">XXXX</string>
     <string name="end_date">YYYY</string>
     <string name="cm">cm</string>
     <string name="current_date">YYYY-MM-TT</string>
-    <string name="title_activity_survey">Survey XY</string>
-    <string name="title_activity_height_diagram">Children Height Diagram</string>
+    <string name="title_activity_survey">Survey</string>
     <string name="fogot_id_mail_subject">Born in Bradford App - Forgot login ID request</string>
     <string name="fogot_id_mail_text">Please resend login ID to deposited email address for user with Smartphone ID: </string>
     <string name="mail_button">Send Mail</string>
     <string name="cancel">Cancel</string>
+    <string name="share_mail_text">
+        Hello, take a look at my latest personal Born in Bradford infographic. 
+        For more information visit: www.borninbradford.nhs.uk
+    </string>
+    <string name="share_mail_subject">
+    	My latest personal Born in Bradford infographic
+    </string>
+    <string name="share_mail_title">
+    	Born in Bradford Infographic
+    </string>
     <string name="forgot_login_id">Forgot Login ID?</string>
     <string name="forgot_login_id_text">
         If you forgot your Login ID you can send a request to the Born in Bradford organisation.\n\nThe

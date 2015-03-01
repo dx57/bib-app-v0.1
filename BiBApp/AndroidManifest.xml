@@ -38,12 +38,12 @@
         </activity>
         <activity
             android:name=".HeightVisualActivity"
-            android:label="@string/title_activity_Height"
+            android:label="@string/title_activity_height_visual"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".AboutActivity"
-            android:label="@string/about"
+            android:label="@string/title_activity_about"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -53,7 +53,8 @@
         </activity>
         <activity
             android:name=".HeightDiagramActivity"
-            android:label="@string/title_activity_height_diagram" >
+            android:label="@string/title_activity_height_diagram" 
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 
