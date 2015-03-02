@@ -32,6 +32,8 @@
     <string name="fogot_id_mail_text">Please resend login ID to deposited email address for user with Smartphone ID: </string>
     <string name="mail_button">Send Mail</string>
     <string name="cancel">Cancel</string>
+    <string name="load_website">Survey generation is almost done.</string>
+    <string name="survey_thanks">Thank you for taking the survey.</string>
     <string name="share_mail_text">
         Hello, take a look at my latest personal Born in Bradford infographic. 
         For more information visit: www.borninbradford.nhs.uk
