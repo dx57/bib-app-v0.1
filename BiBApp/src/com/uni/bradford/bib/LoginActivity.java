@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -24,11 +25,17 @@ public class LoginActivity extends Activity
 	private TextView tvForgotId;
 	private EditText etLogin;
 	
+	// Logic
+	private boolean rememberUser;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		
+		// Init activity logic
+		rememberUser = false;
 		
 		// Connect to GUI views
 		btnLogin = (Button)findViewById(R.id.btnLogin);
@@ -87,6 +94,7 @@ public class LoginActivity extends Activity
 			this.setTitle(getResources().getString(R.string.forgot_login_id));
 			this.setMessage(getResources().getString(R.string.forgot_login_id_text));
 			
+			// Setup buttons and add listener
 			this.setPositiveButton(R.string.mail_button, new OnSendLoginIdRequestClickListener());
 			this.setNegativeButton(R.string.cancel, new OnCancelClickListener());
 		}
@@ -107,10 +115,15 @@ public class LoginActivity extends Activity
 			    intent.setData(Uri.parse("mailto:")); 
 			    intent.putExtra(Intent.EXTRA_EMAIL, reciverList);
 			    
-			    // TODO: Add getPhoneID or something like this.. in case ask stella.
-			    intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.fogot_id_mail_subject));
-			    intent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.fogot_id_mail_text) + 1234 + ".");
+			    // Get phoneId to attend in message
+			    TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+				String phoneId = telephonyManager.getDeviceId(); 
 			    
+				// Define mail content
+			    intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.fogot_id_mail_subject));
+			    intent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.fogot_id_mail_text) + " " + phoneId + ".");
+			    
+			    // Only start intent if there is an App to handle it 
 			    if (intent.resolveActivity(getPackageManager()) != null) 
 			    {
 			        startActivity(intent);
@@ -144,8 +157,9 @@ public class LoginActivity extends Activity
 			
 			// Configure dialog		
 			this.setTitle(getResources().getString(R.string.wrong_password));
-			
 			this.setMessage(getResources().getString(R.string.wrong_password_text));
+			
+			// Setup buttons and add listener
 			this.setNegativeButton(R.string.try_again, new OnCancelClickListener());
 		}
 		
@@ -173,9 +187,9 @@ public class LoginActivity extends Activity
 		@Override
 		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
 		{
-			// TODO: Add behaviour
 			System.out.println("Checker RememberMe clicked state: " + isChecked);
+			
+			rememberUser = isChecked;
 		}	
 	}
-
 }

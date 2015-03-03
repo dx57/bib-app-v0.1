@@ -2,6 +2,7 @@ package com.uni.bradford.bib;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -20,12 +21,16 @@ public class SurveyActivity extends Activity
 	
 	// Logic
 	private static final String SURVEY_COMPLETE = "survey-thanks";
+	private boolean tookSurvey;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_survey);
+		
+		// Init logic
+		tookSurvey = false;
 		
 		// Change ActionBar color and icon
 		ActionBar bar = getActionBar();
@@ -40,13 +45,14 @@ public class SurveyActivity extends Activity
 		// Must-Have for SurveyMonkey.. but might allow cross-side-scripting
 		wvSurvey.getSettings().setJavaScriptEnabled(true);
 		
-		// TODO: Get survey via intent parameter to receive recent survey
 		// TODO: Use start activity for result to disable button if user took survey
 		// Use SurveyMonkey to deal with survey options 
-		wvSurvey.loadUrl("https://www.surveymonkey.com/s/HMP398J");
+		wvSurvey.loadUrl(getIntent().getStringExtra(OverviewListViewAdapter.SURVEY_URL));
 		
 		// Add listener
 		wvSurvey.setWebViewClient(new SurveyWebViewClient());
+		
+		// TODO: Check for Internet connection and aleart user if no connection
 	}
 	
 	private class SurveyWebViewClient extends WebViewClient
@@ -76,7 +82,31 @@ public class SurveyActivity extends Activity
 				wvSurvey.setVisibility(WebView.INVISIBLE);
 				tvInfoToSurvey.setText(R.string.survey_thanks);
 				tvInfoToSurvey.setVisibility(TextView.VISIBLE);
+				
+				tookSurvey = true;
 			}
 	    }
+	}
+	
+	@Override
+	public void onBackPressed() 
+	{
+		System.out.println("Back button pressed.");
+
+		Intent returnToOverview = new Intent();
+		
+		// Check if user took the survey
+		if (tookSurvey)
+		{
+			System.out.println("RESULT_OK");
+			setResult(RESULT_OK, returnToOverview);
+		}
+		else
+		{
+			System.out.println("RESULT_CANCELED");
+			setResult(RESULT_CANCELED, returnToOverview);
+		}
+		
+		finish();
 	}
 } 
