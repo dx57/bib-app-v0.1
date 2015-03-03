@@ -15,6 +15,8 @@ public class OverviewListViewAdapter extends BaseAdapter
 {
 	private ArrayList<OverviewEntry> arrayList;
 	private OverviewActivity overviewActivity;
+	
+	public static final String SURVEY_URL = "survey-url";
 
 	public OverviewListViewAdapter(ArrayList<OverviewEntry> overviewList, OverviewActivity overviewActivity)
 	{
@@ -93,7 +95,8 @@ public class OverviewListViewAdapter extends BaseAdapter
 				{
 					// Change to Survey activity 
 					Intent changeToSurvey = new Intent(overviewActivity, SurveyActivity.class);
-					overviewActivity.startActivity(changeToSurvey);
+					changeToSurvey.putExtra(SURVEY_URL, overviewActivity.getSurveyUrl());
+					overviewActivity.startActivityForResult(changeToSurvey, OverviewActivity.SURVEY_REQUEST);
 	
 					break; 
 				}
