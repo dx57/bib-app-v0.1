@@ -11,7 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -30,7 +30,6 @@ public class OverviewActivity extends Activity
 	
 	// Model
 	private ArrayList<OverviewEntry> overviewList;
-	private String surveyUrl;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -42,17 +41,25 @@ public class OverviewActivity extends Activity
 		ActionBar bar = getActionBar();
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
 		bar.setIcon(R.drawable.ic_launcher);
-		
+				
 		// Init local data-model
 		overviewList = new ArrayList<OverviewEntry>();
-		overviewList.add(new OverviewEntry(getResources().getString(R.string.title_activity_height_visual), R.drawable.ic_ruler_green)); // TODO: Build that entries know which intent to call.. saves code
-		overviewList.add(new OverviewEntry(getResources().getString(R.string.title_activity_height_diagram), R.drawable.ic_ruler_green));
-		overviewList.add(new OverviewEntry(getResources().getString(R.string.title_activity_survey), R.drawable.ic_survey_green));
-		overviewList.add(new OverviewEntry(getResources().getString(R.string.title_activity_about), R.drawable.ic_about_green));
-		overviewList.add(new OverviewEntry(getResources().getString(R.string.my_profile), R.drawable.ic_about_green));
 		
-		// TODO: Load from data model
-		surveyUrl = "https://www.surveymonkey.com/s/HMP398J";
+		Intent intent = new Intent(OverviewActivity.this, HeightVisualActivity.class);
+		overviewList.add(new OverviewEntry(getResources().getString(R.string.title_activity_height_visual), R.drawable.ic_ruler_green, intent)); 
+		
+		intent = new Intent(OverviewActivity.this, HeightDiagramActivity.class);
+		overviewList.add(new OverviewEntry(getResources().getString(R.string.title_activity_height_diagram), R.drawable.ic_ruler_green, intent));
+		
+		intent = new Intent(OverviewActivity.this, SurveyActivity.class);	
+		intent.putExtra("survey-url", "https://www.surveymonkey.com/s/HMP398J"); // TODO: Load from data model
+		overviewList.add(new OverviewEntry(getResources().getString(R.string.title_activity_survey), R.drawable.ic_survey_green, intent, SURVEY_REQUEST));
+		
+		intent = new Intent(OverviewActivity.this, AboutActivity.class);
+		overviewList.add(new OverviewEntry(getResources().getString(R.string.title_activity_about), R.drawable.ic_about_green, intent));
+		
+		intent = new Intent(OverviewActivity.this, AboutActivity.class); // TODO: Change
+		overviewList.add(new OverviewEntry(getResources().getString(R.string.my_profile), R.drawable.ic_about_green, intent));
 		
 		// Connect to GUI views and setup
 		ivSocialMediaFacebook = (ImageView)findViewById(R.id.ivSocialMediaFacebook);
@@ -68,7 +75,7 @@ public class OverviewActivity extends Activity
 		lvOverview.setDivider(null);
 		lvOverview.setAdapter(listAdapter);
 	}
-
+	
 	private class IvSocialMediaOnClickListener implements OnClickListener
 	{
 		private String socialMediaUrl;
@@ -89,22 +96,17 @@ public class OverviewActivity extends Activity
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
 	{
-	    if (requestCode == 1) 
+	    if (requestCode == SURVEY_REQUEST) 
 	    {
 	        if(resultCode == RESULT_OK)
 	        {
-	        	// TODO: Disable survey button
-	        	// Do when listview is rearanged
-	        	
-	        	
 	        	System.out.println("OverviewActivity: RESULT_OK");
+	        	
+	        	
+	        	// TODO: Get correct list entry position automatically
+	        	Button btnEntry = (Button)lvOverview.getChildAt(2).findViewById(R.id.btnEntry);
+	        	btnEntry.setEnabled(false);
 	        }
 	    }
-	}
-	
-	public String getSurveyUrl()
-	{
-		return surveyUrl;
-	}
-	
+	}	
 }
