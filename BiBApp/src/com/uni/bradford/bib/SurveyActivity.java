@@ -2,8 +2,10 @@ package com.uni.bradford.bib;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
@@ -27,8 +29,10 @@ public class SurveyActivity extends Activity
 	// Logic
 	private static final String SURVEY_COMPLETE = "survey-thanks";
 	private boolean tookSurvey;
+	private boolean connected;
 	private String surveyUrl;
 	private BroadcastReceiver networkStateBroadcastReceiver;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -38,6 +42,7 @@ public class SurveyActivity extends Activity
 		
 		// Init logic
 		tookSurvey = false;
+		connected = false;
 		networkStateBroadcastReceiver = new NetworkStateBroadcastReceiver();
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
@@ -62,8 +67,6 @@ public class SurveyActivity extends Activity
 		
 		// Add listener
 		wvSurvey.setWebViewClient(new SurveyWebViewClient());
-		
-		// TODO: Check for Internet connection and aleart user if no connection
 	}
 	
 	@Override
@@ -72,6 +75,44 @@ public class SurveyActivity extends Activity
 		super.onDestroy();
 		
 		unregisterReceiver(networkStateBroadcastReceiver);
+	}
+	
+	private class NoInternetConnectionDialogBuilder extends AlertDialog.Builder
+	{	
+		public NoInternetConnectionDialogBuilder(Context context)
+		{
+			super(context);
+			
+			// Configure dialog		
+			this.setTitle(getResources().getString(R.string.no_internet_connection));
+			this.setMessage(getResources().getString(R.string.no_internet_connection_text));
+			
+			// Setup buttons and add listener
+			this.setNegativeButton(R.string.ok, new OnCancelClickListener());
+		}
+		
+		private class OnCancelClickListener implements DialogInterface.OnClickListener
+		{
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				// Leave online survey
+				Intent changeToOverview = new Intent(SurveyActivity.this, OverviewActivity.class);
+				changeToOverview.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(changeToOverview);
+
+				// Prevent user to go back to survey screen by clicking back
+				SurveyActivity.this.finish();
+			}
+		} 
+	}
+	
+	private void showNoConnectionDialog()
+	{	
+		// Create and show dialog
+		final NoInternetConnectionDialogBuilder noConnectionDialogBuilder = new NoInternetConnectionDialogBuilder(this);
+		final AlertDialog alert = noConnectionDialogBuilder.create( );
+		alert.show( );
 	}
 	
 	private class SurveyWebViewClient extends WebViewClient
@@ -99,7 +140,10 @@ public class SurveyActivity extends Activity
 				// Hide progress bar and show loaded survey
 				tvInfoToSurvey.setVisibility(TextView.INVISIBLE);
 				pbLoadSurvey.setVisibility(ProgressBar.INVISIBLE);
-				wvSurvey.setVisibility(WebView.VISIBLE);
+				if (connected)
+				{
+					wvSurvey.setVisibility(WebView.VISIBLE);
+				}
 			}
 		}
 		
@@ -120,7 +164,6 @@ public class SurveyActivity extends Activity
 	    }
 	}
 	
-	// TODO: Extract class to own file, because I will need it at least also for the login screen
 	public class NetworkStateBroadcastReceiver extends BroadcastReceiver  
 	{
 		@Override
@@ -131,14 +174,16 @@ public class SurveyActivity extends Activity
 			
 			if (networkInfo != null && networkInfo.isConnected())
 			{
+				System.out.println("Internet connection.");
 				
-				System.out.println("CONNECTED!!!!");
+				wvSurvey.setVisibility(WebView.VISIBLE);
 			}
 			else
 			{
-				// TODO: Add Alert dialog here
+				System.out.println("No Internet connection.");
 				
-				System.out.println("DIS-CONNECTED!!!!");
+				wvSurvey.setVisibility(WebView.INVISIBLE);
+				showNoConnectionDialog();
 			}
 			
 		}
