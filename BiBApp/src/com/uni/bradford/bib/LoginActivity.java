@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.view.View;
@@ -16,9 +17,21 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.StreamCorruptedException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
 
 public class LoginActivity extends Activity
 {
@@ -29,7 +42,9 @@ public class LoginActivity extends Activity
 	private EditText etLogin;
 	
 	// Logic
+	private static final String FILE_NAME = "datamodel.dat";
 	private boolean rememberUser;
+	private DataModel dataModel;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -40,6 +55,11 @@ public class LoginActivity extends Activity
 		// Init activity logic
 		rememberUser = false;
 		
+		LoadDataModeFromFilelAsyncTask loadTask = new LoadDataModeFromFilelAsyncTask();
+		loadTask.execute();
+		
+		// TODO: Make loadDataModelFromFile event-based
+				
 		// Connect to GUI views
 		btnLogin = (Button)findViewById(R.id.btnLogin);
 		cbRememberMe = (CheckBox)findViewById(R.id.cbRememberMe);
@@ -229,8 +249,114 @@ public class LoginActivity extends Activity
 			rememberUser = isChecked;
 		}	
 	}
+			
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
 	
+		// Save all changes the activity did to the data model
+		SaveDataModeToFilelAsyncTask saveTask = new SaveDataModeToFilelAsyncTask(dataModel);
+		saveTask.execute();
+	}
 	
+	private class LoadDataModeFromFilelAsyncTask extends AsyncTask<Void, Void, Void>
+	{
+		private DataModel dataModel;
+
+		@Override
+		protected Void doInBackground(Void... params)
+		{
+			dataModel = null;
+			InputStream fileInputStream = null;
+			
+			File file = new File(LoginActivity.this.getFilesDir(), FILE_NAME);
+			if (file.exists())
+			{
+				try
+				{
+					fileInputStream = new FileInputStream(file);
+					ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+					dataModel = (DataModel)objectInputStream.readObject();
+					fileInputStream.close();
+				} 
+				catch(FileNotFoundException e)
+				{
+					e.printStackTrace();
+				}
+				catch(StreamCorruptedException e)
+				{
+					e.printStackTrace();
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				} 
+				catch (ClassNotFoundException e)
+				{
+					e.printStackTrace();
+				}			
+			}
+			
+			if (dataModel == null)
+			{
+				// No local data model instance.. request model from WebService
+				// TODO: Request Model form WebService
+				dataModel = new DataModel();
+				dataModel.setSurveyUrl("www.google.de");
+			}
+					
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result)
+		{
+			 // Debug: Show in GUI
+			 LoginActivity.this.dataModel = this.dataModel;
+			 Toast toast = Toast.makeText(LoginActivity.this, "..loaded", Toast.LENGTH_SHORT);
+			 toast.show();
+		}
+	}
 	
-	
+	private class SaveDataModeToFilelAsyncTask extends AsyncTask<Void, Void, Void>
+	{
+		private DataModel dataModel;
+		
+		public SaveDataModeToFilelAsyncTask(DataModel dataModel)
+		{
+			this.dataModel = dataModel;
+		}
+		
+		@Override
+		protected Void doInBackground(Void... params)
+		{
+			OutputStream fileOutputStream = null;
+			
+			File file = new File(LoginActivity.this.getFilesDir(), FILE_NAME);
+			
+			try
+			{
+				file.createNewFile();
+				fileOutputStream = new FileOutputStream(file);
+				ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+				objectOutputStream.writeObject(dataModel);
+				fileOutputStream.close();		
+			} 
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result)
+		{
+			 // Debug: Show in GUI
+			 Toast toast = Toast.makeText(LoginActivity.this, "..saved", Toast.LENGTH_SHORT);
+			 toast.show();
+		}
+	}
 }
