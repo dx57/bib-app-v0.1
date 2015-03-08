@@ -17,6 +17,9 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class LoginActivity extends Activity
 {
 	// GUI elements
@@ -47,7 +50,7 @@ public class LoginActivity extends Activity
 		btnLogin.setOnClickListener(new OnBtnLoginClickListener());
 		cbRememberMe.setOnCheckedChangeListener(new OnCbRememberMeChangeListener());
 		tvForgotId.setOnClickListener(new OnTvForgotIdClickListener());
-	}
+	} 
 	
 	private class OnBtnLoginClickListener implements OnClickListener
 	{
@@ -57,7 +60,7 @@ public class LoginActivity extends Activity
 			// TODO: Add behaviour
 			System.out.println("Button Login clicked");	
 			
-			boolean passwordCorrect = true;
+			boolean passwordCorrect = checkLoginId(etLogin.getText().toString());
 			if (passwordCorrect)
 			{
 				// Change to overview activity 
@@ -73,6 +76,40 @@ public class LoginActivity extends Activity
 				showWrongPasswordDialog();
 			}
 		}	
+	}
+	
+	private boolean checkLoginId(String loginId)
+	{
+		try
+		{
+			// TODO: Load from file or receive from WebService
+			String storedLoginId = "88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589";
+
+			MessageDigest md = MessageDigest.getInstance("SHA-256");
+			md.update(loginId.getBytes());
+			byte byteData[] = md.digest();
+			
+			//convert the byte to hex format method 1
+	        StringBuffer sb = new StringBuffer();
+	        for (int i = 0; i < byteData.length; i++) 
+	        {
+	        	sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+	        }
+	        
+	        System.out.println("Strored hash: " + sb.toString());
+	        
+	        if(storedLoginId.equals(sb.toString()))
+	        {
+	        	return true;
+	        }
+		} 
+		catch (NoSuchAlgorithmException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 	
 	private class OnTvForgotIdClickListener implements OnClickListener
@@ -192,4 +229,8 @@ public class LoginActivity extends Activity
 			rememberUser = isChecked;
 		}	
 	}
+	
+	
+	
+	
 }
