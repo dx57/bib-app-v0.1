@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
@@ -75,9 +74,8 @@ public class LoginActivity extends Activity
 	private class OnBtnLoginClickListener implements OnClickListener
 	{
 		@Override
-		public void onClick(View v)
+		public void onClick(View view)
 		{
-			// TODO: Add behaviour
 			System.out.println("Button Login clicked");	
 			
 			boolean passwordCorrect = checkLoginId(etLogin.getText().toString());
@@ -125,7 +123,6 @@ public class LoginActivity extends Activity
 		} 
 		catch (NoSuchAlgorithmException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -161,30 +158,19 @@ public class LoginActivity extends Activity
 			@Override
 			public void onClick(DialogInterface dialog, int which)
 			{
-				// TODO: Try OmaGotchi approach for automated mail
-				// TODO: Change to BiB address!
-				String[] reciverList = new String[]{ "mjwalda@bradford.ac.uk" }; 
-				
-				Intent intent = new Intent(Intent.ACTION_SENDTO);
-				intent.setType("plain/text");
-				
-				// Only email Apps should handle this
-			    intent.setData(Uri.parse("mailto:")); 
-			    intent.putExtra(Intent.EXTRA_EMAIL, reciverList);
-			    
-			    // Get phoneId to attend in message
+				// Get phoneId to attend in message
 			    TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
 				String phoneId = telephonyManager.getDeviceId(); 
 			    
-				// Define mail content
-			    intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.fogot_id_mail_subject));
-			    intent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.fogot_id_mail_text) + " " + phoneId + ".");
-			    
-			    // Only start intent if there is an App to handle it 
-			    if (intent.resolveActivity(getPackageManager()) != null) 
-			    {
-			        startActivity(intent);
-			    }
+				// Send mail without blocking the GUI
+				// TODO: Get sender, password and receiver from data model.. data model gets information from WebService
+			    // TODO: Maybe also check for Internet connection?
+				SendEmail sendEmail = new SendEmail("stellaleeuss@gmail.com", 
+			    									"AskMeAgain", 
+			    									"mjwalda@bradford.ac.uk",
+			    									getResources().getString(R.string.fogot_id_mail_subject),
+			    									getResources().getString(R.string.fogot_id_mail_text) + " " + phoneId + ".");
+			    sendEmail.execute();
 			}
 		} 
 		
@@ -356,6 +342,48 @@ public class LoginActivity extends Activity
 		{
 			 // Debug: Show in GUI
 			 Toast toast = Toast.makeText(LoginActivity.this, "..saved", Toast.LENGTH_SHORT);
+			 toast.show();
+		}
+	}
+	
+	private class SendEmail extends AsyncTask<Void, Void, Void> 
+	{
+		private String sender;
+		private String senderPassword;
+		private String receiver;
+		private String subject;
+		private String text;
+	
+		public SendEmail(String sender, String senderPassword, String receiver, String subject, String text)
+		{
+			this.sender = sender;
+			this.senderPassword = senderPassword;
+			this.receiver = receiver;
+			this.subject = subject;
+			this.text = text;
+		}
+		
+		@Override
+		protected Void doInBackground(Void... params) 
+		{
+			try 
+			{   
+				// Pass on mail arguments
+				GMailSender gMailSender = new GMailSender(sender, senderPassword);
+				gMailSender.sendMail(receiver, subject, text);
+			} 
+			catch (Exception e) 
+			{   
+				e.printStackTrace();
+			} 
+
+			return null;
+		}
+		
+		protected void onPostExecute(Void result) 
+		{
+			// Debug: Show in GUI
+			 Toast toast = Toast.makeText(LoginActivity.this, "..sent mail", Toast.LENGTH_SHORT);
 			 toast.show();
 		}
 	}
