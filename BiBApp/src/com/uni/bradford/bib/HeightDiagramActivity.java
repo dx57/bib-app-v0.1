@@ -170,6 +170,7 @@ public class HeightDiagramActivity extends Activity
 			sendIntent.setType("image/jpeg");
 			
 			// Set text
+			// TODO: Get texts from strings file
 			sendIntent.putExtra(Intent.EXTRA_TEXT, "Hello, take a look at my latest personal 'Born in Bradford' infographic. For more information visit: www.borninbradford.nhs.uk");
 			sendIntent.putExtra(Intent.EXTRA_SUBJECT, "My latest personal 'Born in Bradford' infographic.");
 			sendIntent.putExtra(Intent.EXTRA_TITLE, "Born in Bradford Infographic");
@@ -200,6 +201,7 @@ public class HeightDiagramActivity extends Activity
 			
 			startActivity(Intent.createChooser(sendIntent, "Share Infographic:"));
 			
+			// Consume event
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
