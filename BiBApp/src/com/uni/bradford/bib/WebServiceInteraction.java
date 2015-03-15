@@ -20,7 +20,8 @@ public class WebServiceInteraction
 	private static final String GET_MOTHER_BY_ID_RESPONSE = "GetMotherByIDResponse";
 	private static final String GET_CHILD_ID_BY_MOTHER_ID = "getChildIDbyMotherID"; // TODO: Stella.. big "G" please
 	private static final String GET_CHILD_ID_BY_MOTHER_ID_RESPONSE = "getChildIDbyMotherIDResponse"; // TODO: Stella.. big "G" please
-	
+	private static final String GET_CHILD_GROWTH_DATA_BY_ID = "childgrowthdata"; // TODO: Stella.. same var chemata please
+	private static final String GET_CHILD_GROWTH_DATA_BY_ID_RESPONSE = "childgrowthdataResponse"; // TODO: Stella.. same var chemata please
 	
 	public boolean getMotherById(String loginId, String phoneId)
 	{
@@ -39,7 +40,7 @@ public class WebServiceInteraction
 		return sendReceiveSoapMessage(GET_MOTHER_BY_ID, propertyInfos);
 	}
 	
-	public boolean getChildIDbyMotherID(String loginId)
+	public boolean getChildIdByMotherId(String loginId)
 	{
 		ArrayList<PropertyInfo> propertyInfos = new ArrayList<PropertyInfo>();		
 		
@@ -49,6 +50,18 @@ public class WebServiceInteraction
 		propertyInfos.add(tempPropertyInfo);
 		
 		return sendReceiveSoapMessage(GET_CHILD_ID_BY_MOTHER_ID, propertyInfos);
+	}
+	
+	public boolean getChildGrowthById(String childId)
+	{
+		ArrayList<PropertyInfo> propertyInfos = new ArrayList<PropertyInfo>();
+		
+		PropertyInfo tempPropertyInfo = new PropertyInfo();
+		tempPropertyInfo.setName("arg0");
+		tempPropertyInfo.setValue(childId);
+		propertyInfos.add(tempPropertyInfo);
+		
+		return sendReceiveSoapMessage(GET_CHILD_GROWTH_DATA_BY_ID, propertyInfos);
 	}
 	
 	private boolean sendReceiveSoapMessage(String requestType, ArrayList<PropertyInfo> propertyInfos)
@@ -91,9 +104,6 @@ public class WebServiceInteraction
 		{
 			e.printStackTrace();
 		} 
-
-		
-
 
 		// Received valid response?
 		if (response == null)
@@ -141,6 +151,24 @@ public class WebServiceInteraction
 					System.out.println("Dateofbirth: " + soapObject.getProperty("dateofbirth").toString()); // TODO: Stella: Why twice?
 					System.out.println("-------------------");
 				}
+				break;
+			}
+			case GET_CHILD_GROWTH_DATA_BY_ID_RESPONSE:
+			{
+				for (int index = 0; index < response.getPropertyCount(); index++)
+				{
+					SoapObject soapObject =  (SoapObject)response.getProperty(index);
+				
+					// TODO: Just for debug.. 
+					System.out.println("childID: " + soapObject.getProperty("childID").toString());
+					System.out.println("source: " + soapObject.getProperty("source").toString());
+					System.out.println("AgeDays: " + soapObject.getProperty("ageDays").toString());
+					System.out.println("Weight: " + soapObject.getProperty("weight").toString());
+					System.out.println("Height: " + soapObject.getProperty("height").toString());
+					System.out.println("BMI: " + soapObject.getProperty("BMI").toString());
+					System.out.println("-------------------");
+				}
+				
 				break;
 			}
 			default:
