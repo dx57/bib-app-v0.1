@@ -409,9 +409,11 @@ public class LoginActivity extends Activity
 			
 			WebServiceInteraction wsi = new WebServiceInteraction();
 //			wsi.getMotherById("B100001", deviceId);
+//			
+//			wsi.getChildIdByMotherId("B100006");
 			
-			wsi.getChildIDbyMotherID("B100006");
-						
+			wsi.getChildGrowthById("B101001");
+			
 			return null;
 		}
 		
