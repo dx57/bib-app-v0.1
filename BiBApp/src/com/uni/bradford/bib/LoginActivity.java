@@ -85,7 +85,7 @@ public class LoginActivity extends Activity
 			System.out.println("Button Login clicked");	
 			
 			// TODO: Just for debug testing take out after soap is working basically
-			WebServiceInteraction webServiceInteraction = new WebServiceInteraction();
+			WebServiceInteractionOld webServiceInteraction = new WebServiceInteractionOld();
 			webServiceInteraction.execute();
 			
 			boolean passwordCorrect = checkLoginId(etLogin.getText().toString());
@@ -398,7 +398,7 @@ public class LoginActivity extends Activity
 		}
 	}
 	
-	private class WebServiceInteraction extends AsyncTask<Void, Void, Void> 
+	private class WebServiceInteractionOld extends AsyncTask<Void, Void, Void> 
 	{		
 		@Override
 		protected Void doInBackground(Void... params) 
@@ -407,75 +407,11 @@ public class LoginActivity extends Activity
 			TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
 			String deviceId = telephonyManager.getDeviceId(); 
 			
-			// Construct soap message for request
-			SoapObject request = new SoapObject("http://bib.service.code/", "GetMotherByID");
+			WebServiceInteraction wsi = new WebServiceInteraction();
+//			wsi.getMotherById("B100001", deviceId);
 			
-			// Pass arguments to request.. to get data for the right mother		
-			request.addProperty("arg0", "B100001"); // TODO: Stella, please use some better name for this & what is the B100001 for?
-			request.addProperty("arg1", deviceId); // TODO: Stella, please use some better name for this
-			
-			SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11); // TODO: Which version Stella?
-			envelope.setOutputSoapObject(request);
+			wsi.getChildIDbyMotherID("B100006");
 						
-			HttpTransportSE httpTransportSE = new HttpTransportSE("http://medicalxtra.cloudapp.net/BIBService/BIBWebService?wsdl");
-			
-			// Allow to see constructed soap messages (with httpTransportSE.requestDump)
-			httpTransportSE.debug=true; 
-			
-			SoapObject response = null;
-			try  
-			{
-				// This is will call the WebService
-				httpTransportSE.call(request.getNamespace() + request.getName(), envelope);
-				
-				// Prepare soap message for response
-				response = (SoapObject)envelope.getResponse();
-			} 
-			catch (XmlPullParserException | IOException e) 
-			{
-				e.printStackTrace();
-			} 
-			
-			// Debug output
-			System.out.println("Request " + request);
-			System.out.println("envelope " + envelope);
-			System.out.println("httpTransportSE " + httpTransportSE);
-			System.out.println("Soap action " + request.getNamespace() + request.getName());
-			System.out.println("RequestDump is :"+httpTransportSE.requestDump);
-			System.out.println("ResponseDump is :"+httpTransportSE.responseDump);
-				
-			
-			// Received valid response?
-			if (response == null)
-			{
-				System.out.println("No valid response!");
-				
-				return null;
-			}
-			
-			// Check for particular response type
-			switch (((SoapObject)envelope.bodyIn).getName())
-			{
-				case "GetMotherByIDResponse":
-				{
-					// TODO: Just for debug.. 
-					System.out.println("ID: " + response.getProperty("ID").toString());
-					System.out.println("PhoneID: " + response.getProperty("phoneID").toString());
-					System.out.println("PrimaryCare: " + response.getProperty("primaryCare").toString());
-					
-					break;
-				}
-				default:
-				{
-					System.out.println("Unknown SOAP response");
-					
-					break;
-				}
-			}  
-									
-			// TODO:
-			// Check new methods Stella provided and announced via mail
-			
 			return null;
 		}
 		
