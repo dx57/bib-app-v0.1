@@ -3,6 +3,7 @@ package com.uni.bradford.bib;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.ksoap2.HeaderProperty;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
@@ -13,6 +14,8 @@ import org.xmlpull.v1.XmlPullParserException;
 
 public class WebServiceInteraction
 {
+	private DataModel dataModel;
+	
 	private static final String NAME_SPACE = "http://bib.service.code/";
 	private static final String URL = "http://medicalxtra.cloudapp.net/BIBService/BIBWebService?wsdl";
 	
@@ -22,6 +25,11 @@ public class WebServiceInteraction
 	private static final String GET_CHILD_ID_BY_MOTHER_ID_RESPONSE = "getChildIDbyMotherIDResponse"; // TODO: Stella.. big "G" please
 	private static final String GET_CHILD_GROWTH_DATA_BY_ID = "childgrowthdata"; // TODO: Stella.. same var chemata please
 	private static final String GET_CHILD_GROWTH_DATA_BY_ID_RESPONSE = "childgrowthdataResponse"; // TODO: Stella.. same var chemata please
+	
+	public WebServiceInteraction(DataModel dataModel)
+	{
+		this.dataModel = dataModel;
+	}
 	
 	public boolean getMotherById(String loginId, String phoneId)
 	{
@@ -79,29 +87,35 @@ public class WebServiceInteraction
 		envelope.setOutputSoapObject(request);
 
 		HttpTransportSE httpTransportSE = new HttpTransportSE(URL);
-
+		
+		
 		// Allow to see constructed soap messages (with httpTransportSE.requestDump)
 		httpTransportSE.debug=true; 
 
 		SoapObject response = null;
 		try  
 		{
+			// Workaround to deal with the EOFException problem.. might disappear in new version of ksoap2-android lib
+			ArrayList<HeaderProperty> headerPropertyArrayList = new ArrayList<HeaderProperty>();
+			headerPropertyArrayList.add(new HeaderProperty("Connection", "close"));
+			
 			// This is will call the WebService
-			httpTransportSE.call(request.getNamespace() + request.getName(), envelope);
+			httpTransportSE.call (request.getNamespace() + request.getName(), envelope, headerPropertyArrayList);
 
 			// Debug output
-			System.out.println("Request " + request);
-			System.out.println("Envelope " + envelope);
-			System.out.println("httpTransportSE " + httpTransportSE);
-			System.out.println("Soap action " + request.getNamespace() + request.getName());
-			System.out.println("RequestDump is :"+httpTransportSE.requestDump);
-			System.out.println("ResponseDump is :"+httpTransportSE.responseDump);
+//			System.out.println("Request " + request);
+//			System.out.println("Envelope " + envelope);
+//			System.out.println("httpTransportSE " + httpTransportSE);
+//			System.out.println("Soap action " + request.getNamespace() + request.getName());
+//			System.out.println("RequestDump is :"+httpTransportSE.requestDump);
+//			System.out.println("ResponseDump is :"+httpTransportSE.responseDump);
 			
 			// Prepare soap message for response
-			response = (SoapObject)envelope.bodyIn;
+			response = (SoapObject)envelope.bodyIn; 
 		} 
 		catch (XmlPullParserException | IOException e) 
 		{
+			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); // TODO: Debug
 			e.printStackTrace();
 		} 
 
@@ -125,6 +139,11 @@ public class WebServiceInteraction
 				System.out.println("PhoneID: " + soapObject.getProperty("phoneID").toString()); // TODO: Stella.. why emty?
 				System.out.println("PrimaryCare: " + soapObject.getProperty("primaryCare").toString());
 
+				dataModel.setMother(new Mother(soapObject.getProperty("ID").toString(), 
+											   "?empty?", 
+											   soapObject.getProperty("phoneID").toString(),
+											   Boolean.parseBoolean(soapObject.getProperty("primaryCare").toString())));
+				
 				break;
 			}
 			case GET_CHILD_ID_BY_MOTHER_ID_RESPONSE:
@@ -150,6 +169,20 @@ public class WebServiceInteraction
 					System.out.println("ALL_IN: " + soapObject.getProperty("ALL_IN").toString());
 					System.out.println("Dateofbirth: " + soapObject.getProperty("dateofbirth").toString()); // TODO: Stella: Why twice?
 					System.out.println("-------------------");
+					
+					dataModel.getMother().addChild(new Child(soapObject.getProperty("childID").toString(), 
+															 soapObject.getProperty("pregnancy").toString(), 
+															 Short.parseShort(soapObject.getProperty("birthOrder").toString()), 
+															 Short.parseShort(soapObject.getProperty("genderID").toString()), 
+															 Integer.parseInt(soapObject.getProperty("monthOfBirth").toString()), 
+															 Integer.parseInt(soapObject.getProperty("yearOfBirth").toString()), 
+															 Integer.parseInt(soapObject.getProperty("maternalBaseQ").toString()), 
+															 Integer.parseInt(soapObject.getProperty("eclipse").toString()), 
+															 Integer.parseInt(soapObject.getProperty("primaryCare").toString()), 
+															 Integer.parseInt(soapObject.getProperty("education").toString()),
+															 Integer.parseInt(soapObject.getProperty("BIB1000").toString()), 
+															 Integer.parseInt(soapObject.getProperty("meDALL").toString()), 
+															 Integer.parseInt(soapObject.getProperty("ALL_IN").toString())));
 				}
 				break;
 			}
@@ -167,6 +200,14 @@ public class WebServiceInteraction
 					System.out.println("Height: " + soapObject.getProperty("height").toString());
 					System.out.println("BMI: " + soapObject.getProperty("BMI").toString());
 					System.out.println("-------------------");
+					
+					int pos = dataModel.getMother().getChildPos(soapObject.getProperty("childID").toString());
+					
+					dataModel.getMother().getChild(pos).addChildData(new ChildData(soapObject.getProperty("source").toString(), 
+																				   Integer.parseInt(soapObject.getProperty("ageDays").toString()), 
+																				   Double.parseDouble(soapObject.getProperty("weight").toString()),
+																				   Double.parseDouble(soapObject.getProperty("height").toString()),
+																				   Double.parseDouble(soapObject.getProperty("BMI").toString())));
 				}
 				
 				break;

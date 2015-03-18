@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class DataModel implements Serializable
 {
-
 	private static final long serialVersionUID = -2250550860698843034L;
 
 	private double lastUpdate;
@@ -12,6 +11,8 @@ public class DataModel implements Serializable
 	private boolean rememberUser;
 	private String hashedLoginId;
 	private String surveyUrl;
+	
+	private Mother mother;
 	
 	public double getLastUpdate()
 	{
@@ -61,5 +62,15 @@ public class DataModel implements Serializable
 	public void setSurveyUrl(String surveyUrl)
 	{
 		this.surveyUrl = surveyUrl;
+	}
+
+	public Mother getMother()
+	{
+		return mother;
+	}
+
+	public void setMother(Mother mother)
+	{
+		this.mother = mother;
 	}
 }

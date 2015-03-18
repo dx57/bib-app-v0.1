@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,13 +32,6 @@ import java.io.StreamCorruptedException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.ksoap2.SoapEnvelope;
-import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapSerializationEnvelope;
-import org.ksoap2.transport.HttpTransportSE;
-import org.xmlpull.v1.XmlPullParserException;
-
-
 public class LoginActivity extends Activity
 {
 	// GUI elements
@@ -60,7 +54,7 @@ public class LoginActivity extends Activity
 		// Init activity logic
 		rememberUser = false;
 		
-		LoadDataModeFromFilelAsyncTask loadTask = new LoadDataModeFromFilelAsyncTask();
+		LoadDataModelAsyncTask loadTask = new LoadDataModelAsyncTask();
 		loadTask.execute();
 		
 		// TODO: Make loadDataModelFromFile event-based
@@ -85,8 +79,8 @@ public class LoginActivity extends Activity
 			System.out.println("Button Login clicked");	
 			
 			// TODO: Just for debug testing take out after soap is working basically
-			WebServiceInteractionOld webServiceInteraction = new WebServiceInteractionOld();
-			webServiceInteraction.execute();
+//			WebServiceInteractionOld webServiceInteraction = new WebServiceInteractionOld();
+//			webServiceInteraction.execute();
 			
 			boolean passwordCorrect = checkLoginId(etLogin.getText().toString());
 			if (passwordCorrect)
@@ -256,7 +250,7 @@ public class LoginActivity extends Activity
 		saveTask.execute();
 	}
 	
-	private class LoadDataModeFromFilelAsyncTask extends AsyncTask<Void, Void, Void>
+	private class LoadDataModelAsyncTask extends AsyncTask<Void, Void, Void>
 	{
 		private DataModel dataModel;
 
@@ -267,8 +261,9 @@ public class LoginActivity extends Activity
 			InputStream fileInputStream = null;
 			
 			File file = new File(LoginActivity.this.getFilesDir(), FILE_NAME);
-			if (file.exists())
+			if (file.exists()) 
 			{
+				// Load from file
 				try
 				{
 					fileInputStream = new FileInputStream(file);
@@ -293,16 +288,39 @@ public class LoginActivity extends Activity
 					e.printStackTrace();
 				}			
 			}
-			
-			if (dataModel == null)
+			else
 			{
-				// No local data model instance.. request model from WebService
-				// TODO: Request Model form WebService
+				// No local data model instance.. Load from WebService (first App start with Internet connection)
+				
+				// Debug: Measure time to init datamodel through WebService
+				long start = SystemClock.uptimeMillis();
+				
 				dataModel = new DataModel();
 				dataModel.setSurveyUrl("www.google.de");
+				
+				// Get phoneId
+				TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+				String deviceId = telephonyManager.getDeviceId(); 
+							
+				// TODO: Write everything into the datamodel
+				// TODO: Then pass model to next Activity or load in the next activity again
+				// TODO: Data model gets stored after activity gets closed anyway
+				WebServiceInteraction wsi = new WebServiceInteraction(dataModel);
+				
+				// TODO: Change to dynamic content
+				wsi.getMotherById("B100001", deviceId);
+				wsi.getChildIdByMotherId("B100006"); 
+
+				for (int i = 0; i < dataModel.getMother().getChildCount(); i++)
+				{
+					wsi.getChildGrowthById(dataModel.getMother().getChild(i).getChildId());
+				}
+				
+				// Debug: Measure time to init datamodel through WebService
+				System.out.println("Initialisation with WebService took: " + (SystemClock.uptimeMillis() - start));
 			}
-					
-			return null;
+			
+			return null; 
 		}
 		
 		@Override
@@ -407,7 +425,7 @@ public class LoginActivity extends Activity
 			TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
 			String deviceId = telephonyManager.getDeviceId(); 
 			
-			WebServiceInteraction wsi = new WebServiceInteraction();
+			WebServiceInteraction wsi = new WebServiceInteraction(null);
 //			wsi.getMotherById("B100001", deviceId);
 //			
 //			wsi.getChildIdByMotherId("B100006");
