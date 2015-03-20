@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,15 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.StreamCorruptedException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -41,8 +35,6 @@ public class LoginActivity extends Activity
 	private EditText etLogin;
 	
 	// Logic
-	private static final String FILE_NAME = "datamodel.dat";
-	private boolean rememberUser;
 	private DataModel dataModel;
 	
 	@Override
@@ -51,14 +43,9 @@ public class LoginActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		
-		// Init activity logic
-		rememberUser = false;
+		LoadDataModelFromFileAsyncTask loadLocalTask = new LoadDataModelFromFileAsyncTask();
+		loadLocalTask.execute();
 		
-		LoadDataModelAsyncTask loadTask = new LoadDataModelAsyncTask();
-		loadTask.execute();
-		
-		// TODO: Make loadDataModelFromFile event-based
-				
 		// Connect to GUI views
 		btnLogin = (Button)findViewById(R.id.btnLogin);
 		cbRememberMe = (CheckBox)findViewById(R.id.cbRememberMe);
@@ -77,13 +64,13 @@ public class LoginActivity extends Activity
 		public void onClick(View view)
 		{
 			System.out.println("Button Login clicked");	
+									
+			// TODO: To make it secure, WebService has to be able to send messages without asking for the motherID!!!
+			// boolean passwordCorrect = checkLoginId(etLogin.getText().toString());
 			
-			// TODO: Just for debug testing take out after soap is working basically
-//			WebServiceInteractionOld webServiceInteraction = new WebServiceInteractionOld();
-//			webServiceInteraction.execute();
-			
-			boolean passwordCorrect = checkLoginId(etLogin.getText().toString());
-			if (passwordCorrect)
+			// TODO: If dataModel is null, we need a quick soap request to ask, if the loginID is correct (which is blocking)
+			// TODO: If the check results in an ok response then we load the other data
+			if ( (dataModel.getMother().getMotherId().equals(etLogin.getText().toString())) /* || (blockingLogincheckFunctionCall) */ )
 			{
 				// Change to overview activity 
 				Intent changeToOverview = new Intent(LoginActivity.this, OverviewActivity.class);
@@ -236,7 +223,7 @@ public class LoginActivity extends Activity
 		{
 			System.out.println("Checker RememberMe clicked state: " + isChecked);
 			
-			rememberUser = isChecked;
+			dataModel.setRememberUser(isChecked);
 		}	
 	}
 			
@@ -246,78 +233,21 @@ public class LoginActivity extends Activity
 		super.onPause();
 	
 		// Save all changes the activity did to the data model
-		SaveDataModeToFilelAsyncTask saveTask = new SaveDataModeToFilelAsyncTask(dataModel);
+		SaveDataModeToFilelAsyncTask saveTask = new SaveDataModeToFilelAsyncTask();
 		saveTask.execute();
 	}
 	
-	private class LoadDataModelAsyncTask extends AsyncTask<Void, Void, Void>
+	private class LoadDataModelFromFileAsyncTask extends AsyncTask<Void, Void, Void>
 	{
-		private DataModel dataModel;
-
 		@Override
 		protected Void doInBackground(Void... params)
-		{
-			dataModel = null;
-			InputStream fileInputStream = null;
+		{		
+			dataModel = DataModel.loadFromFile(LoginActivity.this.getFilesDir());
 			
-			File file = new File(LoginActivity.this.getFilesDir(), FILE_NAME);
-			if (file.exists()) 
+			if (dataModel == null)
 			{
-				// Load from file
-				try
-				{
-					fileInputStream = new FileInputStream(file);
-					ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-					dataModel = (DataModel)objectInputStream.readObject();
-					fileInputStream.close();
-				} 
-				catch(FileNotFoundException e)
-				{
-					e.printStackTrace();
-				}
-				catch(StreamCorruptedException e)
-				{
-					e.printStackTrace();
-				}
-				catch(IOException e)
-				{
-					e.printStackTrace();
-				} 
-				catch (ClassNotFoundException e)
-				{
-					e.printStackTrace();
-				}			
-			}
-			else
-			{
-				// No local data model instance.. Load from WebService (first App start with Internet connection)
-				
-				// Debug: Measure time to init datamodel through WebService
-				long start = SystemClock.uptimeMillis();
-				
-				dataModel = new DataModel();
-				dataModel.setSurveyUrl("www.google.de");
-				
-				// Get phoneId
-				TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-				String deviceId = telephonyManager.getDeviceId(); 
-							
-				// TODO: Write everything into the datamodel
-				// TODO: Then pass model to next Activity or load in the next activity again
-				// TODO: Data model gets stored after activity gets closed anyway
-				WebServiceInteraction wsi = new WebServiceInteraction(dataModel);
-				
-				// TODO: Change to dynamic content
-				wsi.getMotherById("B100001", deviceId);
-				wsi.getChildIdByMotherId("B100006"); 
-
-				for (int i = 0; i < dataModel.getMother().getChildCount(); i++)
-				{
-					wsi.getChildGrowthById(dataModel.getMother().getChild(i).getChildId());
-				}
-				
-				// Debug: Measure time to init datamodel through WebService
-				System.out.println("Initialisation with WebService took: " + (SystemClock.uptimeMillis() - start));
+				LoadDataModelFromWebServiceAsyncTask loadRemoteTask = new LoadDataModelFromWebServiceAsyncTask();
+				loadRemoteTask.execute();
 			}
 			
 			return null; 
@@ -325,42 +255,52 @@ public class LoginActivity extends Activity
 		
 		@Override
 		protected void onPostExecute(Void result)
+		{	
+			// TODO: Only try to load dataModel from file.. because we do not know the loginId at this point
+			if (dataModel != null)
+			{
+				// Update GUI
+				cbRememberMe.setChecked(dataModel.isRememberUser());
+	
+				Toast toast = Toast.makeText(LoginActivity.this, "..loaded from file", Toast.LENGTH_SHORT);
+				toast.show();
+			}
+		}
+	}
+
+	private class LoadDataModelFromWebServiceAsyncTask extends AsyncTask<Void, Void, Void>
+	{
+		@Override
+		protected Void doInBackground(Void... params)
+		{		
+			// Get phoneId
+			TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+			String deviceId = telephonyManager.getDeviceId(); 	
+			
+			dataModel = DataModel.loadFromWebService(deviceId, "B100001");
+
+			return null; 
+		}
+
+		@Override
+		protected void onPostExecute(Void result)
 		{
-			 // Debug: Show in GUI
-			 LoginActivity.this.dataModel = this.dataModel;
-			 Toast toast = Toast.makeText(LoginActivity.this, "..loaded", Toast.LENGTH_SHORT);
-			 toast.show();
+			if (dataModel != null)
+			{
+				// Update GUI
+				cbRememberMe.setChecked(dataModel.isRememberUser());
+			}
+			Toast toast = Toast.makeText(LoginActivity.this, "..loaded from WebService", Toast.LENGTH_SHORT);
+			toast.show();
 		}
 	}
 	
 	private class SaveDataModeToFilelAsyncTask extends AsyncTask<Void, Void, Void>
-	{
-		private DataModel dataModel;
-		
-		public SaveDataModeToFilelAsyncTask(DataModel dataModel)
-		{
-			this.dataModel = dataModel;
-		}
-		
+	{			
 		@Override
 		protected Void doInBackground(Void... params)
-		{
-			OutputStream fileOutputStream = null;
-			
-			File file = new File(LoginActivity.this.getFilesDir(), FILE_NAME);
-			
-			try
-			{
-				file.createNewFile();
-				fileOutputStream = new FileOutputStream(file);
-				ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-				objectOutputStream.writeObject(dataModel);
-				fileOutputStream.close();		
-			} 
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
+		{	
+			dataModel.saveToFile(dataModel, LoginActivity.this.getFilesDir());
 			
 			return null;
 		}
@@ -369,7 +309,7 @@ public class LoginActivity extends Activity
 		protected void onPostExecute(Void result)
 		{
 			 // Debug: Show in GUI
-			 Toast toast = Toast.makeText(LoginActivity.this, "..saved", Toast.LENGTH_SHORT);
+			 Toast toast = Toast.makeText(LoginActivity.this, "..saved to file", Toast.LENGTH_SHORT);
 			 toast.show();
 		}
 	}
@@ -412,33 +352,6 @@ public class LoginActivity extends Activity
 		{
 			// Debug: Show in GUI
 			 Toast toast = Toast.makeText(LoginActivity.this, "..sent mail", Toast.LENGTH_SHORT);
-			 toast.show();
-		}
-	}
-	
-	private class WebServiceInteractionOld extends AsyncTask<Void, Void, Void> 
-	{		
-		@Override
-		protected Void doInBackground(Void... params) 
-		{
-			// Get phoneId
-			TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-			String deviceId = telephonyManager.getDeviceId(); 
-			
-			WebServiceInteraction wsi = new WebServiceInteraction(null);
-//			wsi.getMotherById("B100001", deviceId);
-//			
-//			wsi.getChildIdByMotherId("B100006");
-			
-			wsi.getChildGrowthById("B101001");
-			
-			return null;
-		}
-		
-		protected void onPostExecute(Void result) 
-		{
-			// Debug: Show in GUI
-			 Toast toast = Toast.makeText(LoginActivity.this, "..WebServiceInteraction", Toast.LENGTH_SHORT);
 			 toast.show();
 		}
 	}

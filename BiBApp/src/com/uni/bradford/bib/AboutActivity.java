@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class AboutActivity extends Activity
+public class AboutActivity extends Activity 
 {
 
 	@Override
