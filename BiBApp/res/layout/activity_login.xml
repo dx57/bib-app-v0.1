@@ -37,6 +37,7 @@
         android:layout_marginRight="42dp"
         android:background="#ffffff"
         android:ems="10"
+        android:text="B100001"
         android:hint="@string/login_hint"
         android:inputType="text" />
 

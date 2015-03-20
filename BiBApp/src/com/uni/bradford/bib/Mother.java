@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public class Mother implements Serializable
 {
-
 	private static final long serialVersionUID = -221146359928224861L;
 
 	private String motherId, description, phoneId;
