@@ -2,9 +2,12 @@ package com.uni.bradford.bib;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
@@ -18,11 +21,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -36,6 +34,7 @@ public class LoginActivity extends Activity
 	
 	// Logic
 	private DataModel dataModel;
+	private boolean internetConnection;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -43,8 +42,11 @@ public class LoginActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		
+		// Init logic
 		LoadDataModelFromFileAsyncTask loadLocalTask = new LoadDataModelFromFileAsyncTask();
 		loadLocalTask.execute();
+		
+		internetConnection = false;
 		
 		// Connect to GUI views
 		btnLogin = (Button)findViewById(R.id.btnLogin);
@@ -64,13 +66,20 @@ public class LoginActivity extends Activity
 		public void onClick(View view)
 		{
 			System.out.println("Button Login clicked");	
-									
-			// TODO: To make it secure, WebService has to be able to send messages without asking for the motherID!!!
-			// boolean passwordCorrect = checkLoginId(etLogin.getText().toString());
-			
-			// TODO: If dataModel is null, we need a quick soap request to ask, if the loginID is correct (which is blocking)
-			// TODO: If the check results in an ok response then we load the other data
-			if ( (dataModel.getMother().getMotherId().equals(etLogin.getText().toString())) /* || (blockingLogincheckFunctionCall) */ )
+															
+			if (dataModel == null)
+			{
+				if (!internetConnection)
+				{
+					showNoConnectionDialog();
+					return;
+				}	
+				
+				// Load datamodel from WebService
+				LoadDataModelFromWebServiceAsyncTask loadRemoteTask = new LoadDataModelFromWebServiceAsyncTask();
+				loadRemoteTask.execute();
+			}
+			else if ( dataModel.getMother().getMotherId().equals(etLogin.getText().toString()) )
 			{
 				// Change to overview activity 
 				Intent changeToOverview = new Intent(LoginActivity.this, OverviewActivity.class);
@@ -87,11 +96,11 @@ public class LoginActivity extends Activity
 		}	
 	}
 	
+	// TODO: Think about how to use.. WebService has to be changed
 	private boolean checkLoginId(String loginId)
 	{
 		try
 		{
-			// TODO: Load from file or receive from WebService
 			String storedLoginId = "88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589";
 
 			MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -149,12 +158,18 @@ public class LoginActivity extends Activity
 			@Override
 			public void onClick(DialogInterface dialog, int which)
 			{
+				if (!internetConnection)
+				{
+					showNoConnectionDialog();
+					return;
+				}	
+				
 				// Get phoneId to attend in message
 			    TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
 				String phoneId = telephonyManager.getDeviceId(); 
 			    
 				// Send mail without blocking the GUI
-				// TODO: Get sender, password and receiver from data model.. data model gets information from WebService
+				// TODO: Get receiver-address within askForLastUpdateDate request message
 			    // TODO: Maybe also check for Internet connection?
 				SendEmail sendEmail = new SendEmail("stellaleeuss@gmail.com", 
 			    									"AskMeAgain", 
@@ -243,24 +258,22 @@ public class LoginActivity extends Activity
 		protected Void doInBackground(Void... params)
 		{		
 			dataModel = DataModel.loadFromFile(LoginActivity.this.getFilesDir());
-			
-			if (dataModel == null)
-			{
-				LoadDataModelFromWebServiceAsyncTask loadRemoteTask = new LoadDataModelFromWebServiceAsyncTask();
-				loadRemoteTask.execute();
-			}
-			
+						
 			return null; 
 		}
 		
 		@Override
 		protected void onPostExecute(Void result)
 		{	
-			// TODO: Only try to load dataModel from file.. because we do not know the loginId at this point
 			if (dataModel != null)
 			{
 				// Update GUI
 				cbRememberMe.setChecked(dataModel.isRememberUser());
+				
+				if (dataModel.isRememberUser())
+				{
+					etLogin.setText(dataModel.getMother().getMotherId());
+				}
 	
 				Toast toast = Toast.makeText(LoginActivity.this, "..loaded from file", Toast.LENGTH_SHORT);
 				toast.show();
@@ -277,7 +290,10 @@ public class LoginActivity extends Activity
 			TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
 			String deviceId = telephonyManager.getDeviceId(); 	
 			
-			dataModel = DataModel.loadFromWebService(deviceId, "B100001");
+			// Get loginId
+			String loginId = etLogin.getText().toString();
+			
+			dataModel = DataModel.loadFromWebService(deviceId, loginId);
 
 			return null; 
 		}
@@ -285,11 +301,15 @@ public class LoginActivity extends Activity
 		@Override
 		protected void onPostExecute(Void result)
 		{
-			if (dataModel != null)
+			if (dataModel == null)
 			{
-				// Update GUI
-				cbRememberMe.setChecked(dataModel.isRememberUser());
+				showWrongPasswordDialog(); 
 			}
+			else
+			{
+				btnLogin.performClick();
+			}
+			
 			Toast toast = Toast.makeText(LoginActivity.this, "..loaded from WebService", Toast.LENGTH_SHORT);
 			toast.show();
 		}
@@ -300,7 +320,10 @@ public class LoginActivity extends Activity
 		@Override
 		protected Void doInBackground(Void... params)
 		{	
-			dataModel.saveToFile(dataModel, LoginActivity.this.getFilesDir());
+			if (dataModel != null)
+			{
+				dataModel.saveToFile(dataModel, LoginActivity.this.getFilesDir());
+			}
 			
 			return null;
 		}
@@ -354,5 +377,62 @@ public class LoginActivity extends Activity
 			 Toast toast = Toast.makeText(LoginActivity.this, "..sent mail", Toast.LENGTH_SHORT);
 			 toast.show();
 		}
+	}
+	
+	public class NetworkStateBroadcastReceiver extends BroadcastReceiver  
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+			NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+			
+			if (networkInfo != null && networkInfo.isConnected())
+			{
+				System.out.println("Internet connection.");
+				
+				internetConnection = true;
+			}
+			else
+			{
+				System.out.println("No Internet connection.");
+				
+				internetConnection = false;
+			}
+		}
+	}
+	
+	// TODO: We need this class in several activities.. maybe put in external class.. but problem is that we have to
+	//       react in different ways
+	private class NoInternetConnectionDialogBuilder extends AlertDialog.Builder
+	{	
+		public NoInternetConnectionDialogBuilder(Context context)
+		{
+			super(context);
+			
+			// Configure dialog		
+			this.setTitle(getResources().getString(R.string.no_internet_connection));
+			this.setMessage(getResources().getString(R.string.no_internet_connection_text));
+			
+			// Setup buttons and add listener
+			this.setNegativeButton(R.string.ok, new OnCancelClickListener());
+		}
+		
+		private class OnCancelClickListener implements DialogInterface.OnClickListener
+		{
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				// Nothing to do
+			}
+		} 
+	}
+	
+	private void showNoConnectionDialog()
+	{	
+		// Create and show dialog
+		final NoInternetConnectionDialogBuilder noConnectionDialogBuilder = new NoInternetConnectionDialogBuilder(this);
+		final AlertDialog alert = noConnectionDialogBuilder.create( );
+		alert.show( );
 	}
 }

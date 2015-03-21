@@ -104,13 +104,23 @@ public class DataModel implements Serializable
 		// TODO: Data model gets stored after activity gets closed anyway
 		WebServiceInteraction wsi = new WebServiceInteraction(dataModel);
 		
-		// TODO: Change to dynamic content
-		wsi.getMotherById("B100001", deviceId);
-		wsi.getChildIdByMotherId("B100006"); 
 
-		for (int i = 0; i < dataModel.getMother().getChildCount(); i++)
+		if (wsi.getMotherById(loginId, deviceId))
 		{
-			wsi.getChildGrowthById(dataModel.getMother().getChild(i).getChildId());
+			// Correct loginId and phoneId pair
+			if (wsi.getChildIdByMotherId(loginId))
+			{
+				// Mother with children
+				for (int i = 0; i < dataModel.getMother().getChildCount(); i++)
+				{
+					wsi.getChildGrowthById(dataModel.getMother().getChild(i).getChildId());
+				}
+			}
+		}
+		else
+		{
+			// Wrong loginId or phoneId
+			return null;
 		}
 		
 		// Debug: Measure time to init datamodel through WebService

@@ -132,6 +132,12 @@ public class WebServiceInteraction
 		{
 			case GET_MOTHER_BY_ID_RESPONSE:
 			{
+				if (response.getPropertyCount() == 0)
+				{
+					// Wrong loginId phoneId constellation
+					return false;
+				}
+				
 				SoapObject soapObject =  (SoapObject)response.getProperty(0);
 				
 				// TODO: Just for debug.. 
@@ -148,6 +154,12 @@ public class WebServiceInteraction
 			}
 			case GET_CHILD_ID_BY_MOTHER_ID_RESPONSE:
 			{
+				if (response.getPropertyCount() == 0)
+				{
+					// Something went wrong
+					return false;
+				}
+				
 				for (int index = 0; index < response.getPropertyCount(); index++)
 				{
 					SoapObject soapObject =  (SoapObject)response.getProperty(index);
@@ -188,6 +200,12 @@ public class WebServiceInteraction
 			}
 			case GET_CHILD_GROWTH_DATA_BY_ID_RESPONSE:
 			{
+				if (response.getPropertyCount() == 0)
+				{
+					// Something went wrong
+					return false;
+				}
+				
 				for (int index = 0; index < response.getPropertyCount(); index++)
 				{
 					SoapObject soapObject =  (SoapObject)response.getProperty(index);

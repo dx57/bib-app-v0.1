@@ -185,9 +185,7 @@ public class SurveyActivity extends Activity
 				wvSurvey.setVisibility(WebView.INVISIBLE);
 				showNoConnectionDialog();
 			}
-			
 		}
-		
 	}
 	
 	@Override
