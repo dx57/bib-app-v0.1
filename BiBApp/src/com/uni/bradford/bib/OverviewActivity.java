@@ -8,12 +8,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class OverviewActivity extends Activity
 {
@@ -25,6 +27,7 @@ public class OverviewActivity extends Activity
 	
 	// Logic	
 	public static final int SURVEY_REQUEST = 1;
+	private DataModel dataModel;
 	
 	private OverviewListViewAdapter listAdapter;
 	
@@ -42,6 +45,10 @@ public class OverviewActivity extends Activity
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
 		bar.setIcon(R.drawable.ic_launcher);
 				
+		// Init logic
+		LoadDataModelFromFileAsyncTask loadLocalTask = new LoadDataModelFromFileAsyncTask();
+		loadLocalTask.execute();
+		
 		// Init local data-model
 		overviewList = new ArrayList<OverviewEntry>();
 		
@@ -76,6 +83,16 @@ public class OverviewActivity extends Activity
 		lvOverview.setAdapter(listAdapter);
 	}
 	
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+
+		// Save all changes the activity did to the data model
+		SaveDataModeToFilelAsyncTask saveTask = new SaveDataModeToFilelAsyncTask();
+		saveTask.execute();
+	}
+	
 	private class IvSocialMediaOnClickListener implements OnClickListener
 	{
 		private String socialMediaUrl;
@@ -101,12 +118,64 @@ public class OverviewActivity extends Activity
 	        if(resultCode == RESULT_OK)
 	        {
 	        	System.out.println("OverviewActivity: RESULT_OK");
+	 
+	        	dataModel.setTookSurvey(true);
 	        	
-	        	
-	        	// TODO: Get correct list entry position automatically
-	        	Button btnEntry = (Button)lvOverview.getChildAt(2).findViewById(R.id.btnEntry);
-	        	btnEntry.setEnabled(false);
+	        	updateGui();
 	        }
 	    }
-	}	
+	}
+	
+	public void updateGui()
+	{
+		// TODO: Get correct list entry position automatically
+		Button btnEntry = (Button)lvOverview.getChildAt(2).findViewById(R.id.btnEntry);
+    	btnEntry.setEnabled(!dataModel.isTookSurvey());
+	}
+	
+	private class LoadDataModelFromFileAsyncTask extends AsyncTask<Void, Void, Void>
+	{
+		@Override
+		protected Void doInBackground(Void... params)
+		{		
+			dataModel = DataModel.loadFromFile(OverviewActivity.this.getFilesDir());
+						
+			return null; 
+		}
+		
+		@Override
+		protected void onPostExecute(Void result)
+		{	
+			if (dataModel != null)
+			{
+				// Update GUI
+				updateGui();
+				
+				Toast toast = Toast.makeText(OverviewActivity.this, "..loaded from file", Toast.LENGTH_SHORT);
+				toast.show();
+			}
+		}
+	}
+	
+	private class SaveDataModeToFilelAsyncTask extends AsyncTask<Void, Void, Void>
+	{			
+		@Override
+		protected Void doInBackground(Void... params)
+		{	
+			if (dataModel != null)
+			{
+				dataModel.saveToFile(dataModel, OverviewActivity.this.getFilesDir());
+			}
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result)
+		{
+			 // Debug: Show in GUI
+			 Toast toast = Toast.makeText(OverviewActivity.this, "..saved to file", Toast.LENGTH_SHORT);
+			 toast.show();
+		}
+	}
 }
