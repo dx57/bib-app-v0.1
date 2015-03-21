@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -24,6 +25,8 @@ import android.widget.Toast;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import com.uni.bradford.bib.SurveyActivity.NetworkStateBroadcastReceiver;
+
 public class LoginActivity extends Activity
 {
 	// GUI elements
@@ -35,6 +38,7 @@ public class LoginActivity extends Activity
 	// Logic
 	private DataModel dataModel;
 	private boolean internetConnection;
+	private BroadcastReceiver networkStateBroadcastReceiver;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -47,6 +51,10 @@ public class LoginActivity extends Activity
 		loadLocalTask.execute();
 		
 		internetConnection = false;
+		networkStateBroadcastReceiver = new NetworkStateBroadcastReceiver();
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+		registerReceiver(networkStateBroadcastReceiver, intentFilter);
 		
 		// Connect to GUI views
 		btnLogin = (Button)findViewById(R.id.btnLogin);
@@ -69,7 +77,7 @@ public class LoginActivity extends Activity
 															
 			if (dataModel == null)
 			{
-				if (!internetConnection)
+				if (!internetConnection) 
 				{
 					showNoConnectionDialog();
 					return;
@@ -246,10 +254,17 @@ public class LoginActivity extends Activity
 	protected void onPause()
 	{
 		super.onPause();
-	
+
 		// Save all changes the activity did to the data model
 		SaveDataModeToFilelAsyncTask saveTask = new SaveDataModeToFilelAsyncTask();
 		saveTask.execute();
+	}
+	
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		
+		unregisterReceiver(networkStateBroadcastReceiver);
 	}
 	
 	private class LoadDataModelFromFileAsyncTask extends AsyncTask<Void, Void, Void>

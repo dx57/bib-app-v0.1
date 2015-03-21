@@ -12,9 +12,7 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.io.StreamCorruptedException;
 
-import android.content.Context;
 import android.os.SystemClock;
-import android.telephony.TelephonyManager;
 
 public class DataModel implements Serializable
 {
@@ -99,12 +97,8 @@ public class DataModel implements Serializable
 		DataModel dataModel = new DataModel();
 		dataModel.setSurveyUrl("www.google.de");
 							
-		// TODO: Write everything into the datamodel
-		// TODO: Then pass model to next Activity or load in the next activity again
-		// TODO: Data model gets stored after activity gets closed anyway
 		WebServiceInteraction wsi = new WebServiceInteraction(dataModel);
 		
-
 		if (wsi.getMotherById(loginId, deviceId))
 		{
 			// Correct loginId and phoneId pair
