@@ -65,8 +65,7 @@
         android:layout_height="320dp"
         android:layout_alignParentLeft="true"
         android:layout_above="@+id/sbTimeLine"
-        android:contentDescription="@string/image_description"
-        android:src="@drawable/boy_blue" />
+        android:contentDescription="@string/image_description" />
     
     <ImageView
         android:id="@+id/ivCompareChild"

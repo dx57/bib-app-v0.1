@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
@@ -26,6 +27,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class HeightVisualActivity extends Activity
 {
@@ -37,10 +39,14 @@ public class HeightVisualActivity extends Activity
 	private TextView tvOwnChildHeight;
 	private TextView tvCompareChildHeight;
 	private TextView tvCurrent;
+	private TextView tvStartDate;
 	private SeekBar sbTimeLine;
 	
+	// Logic
 	private int maxHeight;
 	private int minHeight;
+	
+	private DataModel dataModel;
 	
 	@Override 
 	protected void onCreate(Bundle savedInstanceState)
@@ -53,6 +59,10 @@ public class HeightVisualActivity extends Activity
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
 		bar.setIcon(R.drawable.ic_ruler_white);
 		
+		// Init logic
+		LoadDataModelFromFileAsyncTask loadLocalTask = new LoadDataModelFromFileAsyncTask();
+		loadLocalTask.execute();
+		
 		// Connect to GUI views
 		ivOwnChild = (ImageView)findViewById(R.id.ivOwnChild);
 		ivCompareChild = (ImageView)findViewById(R.id.ivCompareChild);
@@ -61,17 +71,8 @@ public class HeightVisualActivity extends Activity
 		tvOwnChildHeight = (TextView)findViewById(R.id.tvOwnChildHeight);
 		tvCompareChildHeight = (TextView)findViewById(R.id.tvCompareChildHeight);
 		tvCurrent = (TextView)findViewById(R.id.tvCurrent);
-		
-		// TODO: Just basic approach to get going.. not full functional
-		String[] childs = new String[] {"Child 2007", "Child 2009", "Child 2010"};
-		ArrayAdapter<String> adapterChilds = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, childs);
-		adapterChilds.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		sSelectChild.setAdapter(adapterChilds);
-		String[] criterion = new String[] {"Average", "Tallest", "Smallest"};
-		ArrayAdapter<String> adapterCriterion = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, criterion);
-		adapterCriterion.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		sSelectCriterion.setAdapter(adapterCriterion);
-		
+		tvStartDate = (TextView)findViewById(R.id.tvStartDate);
+				
 		// Init timeline
 		sbTimeLine = (SeekBar)findViewById(R.id.sbTimeLine);
 		sbTimeLine.setMax(100);
@@ -126,15 +127,29 @@ public class HeightVisualActivity extends Activity
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
 		{
-			// TODO: Add behaviour
 			System.out.println("Selected child: " + position + " " + parent.getItemAtPosition(position).toString());
+			
+			// Adjust slider info
+			if (dataModel.getMother().getChildCount() > 0)
+			{
+				tvStartDate.setText(dataModel.getMother().getChild(position).getYearOfBirth() + "");
+				
+				// Init child representation
+				if (dataModel.getMother().getChild(0).getGenderId() != 0)
+				{
+					ivOwnChild.setImageResource(R.drawable.boy_blue);
+				}
+				else
+				{
+					ivOwnChild.setImageResource(R.drawable.girl_red);
+				}
+			}
+			
+			// TODO: Change dataset for visualisation
 		}
 
 		@Override
-		public void onNothingSelected(AdapterView<?> parent)
-		{
-			// TODO: Select the first		
-		}
+		public void onNothingSelected(AdapterView<?> parent) { }
 	}
 	
 	private class OnSpinnerSelectCriterionSelectedListener implements OnItemSelectedListener
@@ -142,15 +157,11 @@ public class HeightVisualActivity extends Activity
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
 		{
-			// TODO: Add behaviour
 			System.out.println("Selected criteria: " + position + " " + parent.getItemAtPosition(position).toString());
 		}
 
 		@Override
-		public void onNothingSelected(AdapterView<?> parent)
-		{
-			// TODO: Select the first		
-		}
+		public void onNothingSelected(AdapterView<?> parent) { }
 	}
 	
 	@Override
@@ -247,5 +258,65 @@ public class HeightVisualActivity extends Activity
 			// Get rid of listener
 			ivCompareChild.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 		} 
+	}
+	
+	public void updateGui()
+	{		
+		// Init selection menu 
+		String[] children = new String[dataModel.getMother().getChildCount()];
+		for (int i = 0; i < dataModel.getMother().getChildCount(); i++)
+		{
+			children[i] = "Child " + dataModel.getMother().getChild(i).getYearOfBirth() + 
+					      "-" + dataModel.getMother().getChild(i).getMonthOfBirth();
+		}
+		
+		ArrayAdapter<String> adapterChilds = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, children);
+		adapterChilds.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		sSelectChild.setAdapter(adapterChilds);
+		
+		String[] criterion = new String[] {"Average"};
+		ArrayAdapter<String> adapterCriterion = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, criterion);
+		adapterCriterion.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		sSelectCriterion.setAdapter(adapterCriterion);
+		
+		// Init slider info
+		if (dataModel.getMother().getChildCount() > 0)
+		{
+			tvStartDate.setText(dataModel.getMother().getChild(0).getYearOfBirth() + "");
+			
+			// Init child representation
+			if (dataModel.getMother().getChild(0).getGenderId() == 0)
+			{
+				ivOwnChild.setImageResource(R.drawable.boy_blue);
+			}
+			else
+			{
+				ivOwnChild.setImageResource(R.drawable.girl_red);
+			}
+		}
+	}
+	
+	private class LoadDataModelFromFileAsyncTask extends AsyncTask<Void, Void, Void>
+	{
+		@Override
+		protected Void doInBackground(Void... params)
+		{		
+			dataModel = DataModel.loadFromFile(HeightVisualActivity.this.getFilesDir());
+						
+			return null; 
+		}
+		
+		@Override
+		protected void onPostExecute(Void result)
+		{	
+			if (dataModel != null)
+			{
+				// Update GUI
+				updateGui();
+				
+				Toast toast = Toast.makeText(HeightVisualActivity.this, "..loaded from file", Toast.LENGTH_SHORT);
+				toast.show();
+			}
+		}
 	}
 }

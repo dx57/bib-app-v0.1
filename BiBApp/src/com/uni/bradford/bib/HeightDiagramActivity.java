@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
@@ -22,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
@@ -36,6 +38,9 @@ public class HeightDiagramActivity extends Activity
 	private LineChart lcHeight;
 	private Spinner sDiagramSelectChild;
 	private Spinner sDiagramSelectCriterion;
+	
+	// Logic
+	private DataModel dataModel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -43,12 +48,14 @@ public class HeightDiagramActivity extends Activity
 		super.onCreate(savedInstanceState); 
 		setContentView(R.layout.activity_height_diagram);
 
-		// TODO: Receive diagram content by intent parameters
-
 		// Change ActionBar color and icon
 		ActionBar bar = getActionBar(); 
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
 		bar.setIcon(R.drawable.ic_ruler_white); 
+		
+		// Init logic
+		LoadDataModelFromFileAsyncTask loadLocalTask = new LoadDataModelFromFileAsyncTask();
+		loadLocalTask.execute();
 
 		// Connect to GUI views and setup		
 		lcHeight = (LineChart)findViewById(R.id.lcHeight);
@@ -82,21 +89,8 @@ public class HeightDiagramActivity extends Activity
 		// set the marker to the chart
 		lcHeight.setMarkerView(mvMarker);
 
-		//lcHeight.getChartBitmap(); // TODO: Use for share option
-
-
 		// TODO: Just basic approach to get going.. not full functional
 		setData(19);
-
-		// TODO: Just basic approach to get going.. not full functional
-		String[] childs = new String[] {"Child 2007", "Child 2009", "Child 2010"};
-		ArrayAdapter<String> adapterChilds = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, childs);
-		adapterChilds.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		sDiagramSelectChild.setAdapter(adapterChilds);
-		String[] criterion = new String[] {"Average", "Tallest", "Smallest"};
-		ArrayAdapter<String> adapterCriterion = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, criterion);
-		adapterCriterion.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		sDiagramSelectCriterion.setAdapter(adapterCriterion);
 		
 		// Add listener
 		sDiagramSelectChild.setOnItemSelectedListener(new OnSpinnerSelectChildSelectedListener());
@@ -113,10 +107,7 @@ public class HeightDiagramActivity extends Activity
 		}
 
 		@Override
-		public void onNothingSelected(AdapterView<?> parent)
-		{
-			// TODO: Select the first		
-		}
+		public void onNothingSelected(AdapterView<?> parent) { }
 	}
 	
 	private class OnSpinnerSelectCriterionSelectedListener implements OnItemSelectedListener
@@ -124,15 +115,11 @@ public class HeightDiagramActivity extends Activity
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
 		{
-			// TODO: Add behaviour
 			System.out.println("Selected criteria: " + position + " " + parent.getItemAtPosition(position).toString());
 		}
 
 		@Override
-		public void onNothingSelected(AdapterView<?> parent)
-		{
-			// TODO: Select the first		
-		}
+		public void onNothingSelected(AdapterView<?> parent) { }
 	}
 
 	@Override
@@ -153,16 +140,9 @@ public class HeightDiagramActivity extends Activity
 		if (id == R.id.action_share_diagram)
 		{
 			System.out.println("Clicked share");
-			
-			// Capture relevant view 
-			View viewForCapture = findViewById(R.id.rlHeightDiagram);
-			
-			// Workaround to get always the new screen capture
-			viewForCapture.setDrawingCacheEnabled(false);
-            viewForCapture.setDrawingCacheEnabled(true);
-            
+						            
             // TODO: It might be possible to add info text INTO the picture (deal with Facebook)
-            Bitmap bitmapOfCapture = viewForCapture.getDrawingCache();
+            Bitmap bitmapOfCapture = lcHeight.getChartBitmap();
 		     
             // Setup intent for sharing
             Intent sendIntent = new Intent();
@@ -170,10 +150,9 @@ public class HeightDiagramActivity extends Activity
 			sendIntent.setType("image/jpeg");
 			
 			// Set text
-			// TODO: Get texts from strings file
-			sendIntent.putExtra(Intent.EXTRA_TEXT, "Hello, take a look at my latest personal 'Born in Bradford' infographic. For more information visit: www.borninbradford.nhs.uk");
-			sendIntent.putExtra(Intent.EXTRA_SUBJECT, "My latest personal 'Born in Bradford' infographic.");
-			sendIntent.putExtra(Intent.EXTRA_TITLE, "Born in Bradford Infographic");
+			sendIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_mail_text));
+			sendIntent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.share_mail_subject));
+			sendIntent.putExtra(Intent.EXTRA_TITLE, getResources().getString(R.string.share_mail_title));
 			
 			// Convert
 			ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -311,10 +290,7 @@ public class HeightDiagramActivity extends Activity
 		}
 
 		@Override
-		public void onNothingSelected(AdapterView<?> parent)
-		{
-			// TODO: Select the first		
-		}
+		public void onNothingSelected(AdapterView<?> parent) { }
 	}
 
 	private class OnSpinnerDiagramSelectCriterionSelectedListener implements OnItemSelectedListener
@@ -322,14 +298,54 @@ public class HeightDiagramActivity extends Activity
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
 		{
-			// TODO: Add behaviour
 			System.out.println("Selected criteria: " + position);
 		}
 
 		@Override
-		public void onNothingSelected(AdapterView<?> parent)
+		public void onNothingSelected(AdapterView<?> parent) { }
+	}
+	
+	public void updateGui()
+	{
+		// Init selection menu
+		String[] children = new String[dataModel.getMother().getChildCount()];
+		for (int i = 0; i < dataModel.getMother().getChildCount(); i++)
 		{
-			// TODO: Select the first		
+			children[i] = "Child " + dataModel.getMother().getChild(i).getYearOfBirth() + 
+					      "-" + dataModel.getMother().getChild(i).getMonthOfBirth();
+		}
+		
+		ArrayAdapter<String> adapterChilds = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, children);
+		adapterChilds.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		sDiagramSelectChild.setAdapter(adapterChilds);
+		
+		String[] criterion = new String[] {"Average"};
+		ArrayAdapter<String> adapterCriterion = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, criterion);
+		adapterCriterion.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		sDiagramSelectCriterion.setAdapter(adapterCriterion);
+	}
+	
+	private class LoadDataModelFromFileAsyncTask extends AsyncTask<Void, Void, Void>
+	{
+		@Override
+		protected Void doInBackground(Void... params)
+		{		
+			dataModel = DataModel.loadFromFile(HeightDiagramActivity.this.getFilesDir());
+						
+			return null; 
+		}
+		
+		@Override
+		protected void onPostExecute(Void result)
+		{	
+			if (dataModel != null)
+			{
+				// Update GUI
+				updateGui();
+				
+				Toast toast = Toast.makeText(HeightDiagramActivity.this, "..loaded from file", Toast.LENGTH_SHORT);
+				toast.show();
+			}
 		}
 	}
 }
