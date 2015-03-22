@@ -38,7 +38,7 @@ public class Child implements Serializable
 		this.primaryCare = primaryCare; 
 		this.education = education;
 		this.bib1000 = bib1000;
-		this.meDall = meDall;
+		this.meDall = meDall; 
 		this.all_in = all_in;
 		
 		this.childData = new ArrayList<ChildData>();
