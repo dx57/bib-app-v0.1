@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/survey_bg"
     tools:context="com.uni.bradford.bib.SurveyActivity" >
 
     <WebView
@@ -23,7 +24,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/pbLoadSurvey"
+        android:paddingTop="60dp"
+        android:paddingBottom="60dp"
         android:layout_centerHorizontal="true"
+		android:textAppearance="?android:attr/textAppearanceLarge" 
         android:text="@string/load_website" />
+    
+    <TextView
+        android:id="@+id/tvWait"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pbLoadSurvey"
+        android:paddingTop="80dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/please_wait" />
+    
+    <ImageView
+        android:id="@+id/ivSurveyCompleted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/logo_description"
+        android:paddingTop="100dp"
+        android:visibility="invisible"
+        android:src="@drawable/survey_completed" />
 
 </RelativeLayout>

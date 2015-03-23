@@ -31,7 +31,7 @@ public class OverviewActivity extends Activity
 	
 	private OverviewListViewAdapter listAdapter;
 	
-	// Model
+	// Model 
 	private ArrayList<OverviewEntry> overviewList;
 	
 	@Override
@@ -41,11 +41,11 @@ public class OverviewActivity extends Activity
 		setContentView(R.layout.activity_overview);
 		
 		// Change ActionBar color and icon
-		ActionBar bar = getActionBar();
+		ActionBar bar = getActionBar(); 
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
 		bar.setIcon(R.drawable.ic_launcher);
-				
-		// Init logic
+				 
+		// Init logic 
 		LoadDataModelFromFileAsyncTask loadLocalTask = new LoadDataModelFromFileAsyncTask();
 		loadLocalTask.execute();
 		
@@ -66,7 +66,7 @@ public class OverviewActivity extends Activity
 		overviewList.add(new OverviewEntry(getResources().getString(R.string.title_activity_about), R.drawable.ic_about_green, intent));
 		
 		intent = new Intent(OverviewActivity.this, AboutActivity.class); // TODO: Change
-		overviewList.add(new OverviewEntry(getResources().getString(R.string.my_profile), R.drawable.ic_about_green, intent));
+		overviewList.add(new OverviewEntry(getResources().getString(R.string.my_profile), R.drawable.ic_profile_green, intent));
 		
 		// Connect to GUI views and setup
 		ivSocialMediaFacebook = (ImageView)findViewById(R.id.ivSocialMediaFacebook);
