@@ -16,6 +16,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,6 +26,8 @@ public class SurveyActivity extends Activity
 	private WebView wvSurvey;
 	private ProgressBar pbLoadSurvey;
 	private TextView tvInfoToSurvey;
+	private TextView tvWait;
+	private ImageView ivSurveyCompleted;
 	
 	// Logic
 	private static final String SURVEY_COMPLETE = "survey-thanks";
@@ -57,20 +60,22 @@ public class SurveyActivity extends Activity
 		wvSurvey = (WebView)findViewById(R.id.wvSurvey);
 		pbLoadSurvey = (ProgressBar)findViewById(R.id.pbLoadSurvey);
 		tvInfoToSurvey = (TextView)findViewById(R.id.tvInfoToSurvey);
+		tvWait = (TextView)findViewById(R.id.tvWait);
+		ivSurveyCompleted = (ImageView)findViewById(R.id.ivSurveyCompleted);
 		
 		// Must-Have for SurveyMonkey.. but might allow cross-side-scripting
 		wvSurvey.getSettings().setJavaScriptEnabled(true);
 		
 		// Use SurveyMonkey to deal with survey options 
 		surveyUrl = getIntent().getStringExtra(OverviewListViewAdapter.SURVEY_URL);
-		wvSurvey.loadUrl(surveyUrl);
+		wvSurvey.loadUrl(surveyUrl); 
 		
 		// Add listener
 		wvSurvey.setWebViewClient(new SurveyWebViewClient());
 	}
 	
 	@Override
-	protected void onDestroy()
+	protected void onDestroy()    
 	{
 		super.onDestroy();
 		
@@ -139,6 +144,7 @@ public class SurveyActivity extends Activity
 			{
 				// Hide progress bar and show loaded survey
 				tvInfoToSurvey.setVisibility(TextView.INVISIBLE);
+				tvWait.setVisibility(TextView.INVISIBLE);
 				pbLoadSurvey.setVisibility(ProgressBar.INVISIBLE);
 				if (connected)
 				{
@@ -156,8 +162,7 @@ public class SurveyActivity extends Activity
 			{
 				// Thank user and hide unimportant views
 				wvSurvey.setVisibility(WebView.INVISIBLE);
-				tvInfoToSurvey.setText(R.string.survey_thanks);
-				tvInfoToSurvey.setVisibility(TextView.VISIBLE);
+				ivSurveyCompleted.setVisibility(ImageView.VISIBLE);
 				
 				tookSurvey = true;
 			}			
