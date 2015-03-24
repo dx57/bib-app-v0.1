@@ -112,7 +112,7 @@ public class HeightVisualActivity extends Activity
 			ivCompareChild.requestLayout();
 			tvCompareChildHeight.setText(ivCompareChild.getLayoutParams().height + " " + getResources().getString(R.string.cm));
 						
-			tvCurrent.setText(progress + "");
+			tvCurrent.setText(progress + " month");
 		}
 
 		@Override
@@ -272,9 +272,9 @@ public class HeightVisualActivity extends Activity
 		
 		ArrayAdapter<String> adapterChilds = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, children);
 		adapterChilds.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		sSelectChild.setAdapter(adapterChilds);
+		sSelectChild.setAdapter(adapterChilds);   
 		
-		String[] criterion = new String[] {"Average"};
+		String[] criterion = new String[] {"Average"}; 
 		ArrayAdapter<String> adapterCriterion = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, criterion);
 		adapterCriterion.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		sSelectCriterion.setAdapter(adapterCriterion);
@@ -314,8 +314,8 @@ public class HeightVisualActivity extends Activity
 				// Update GUI
 				updateGui();
 				
-				Toast toast = Toast.makeText(HeightVisualActivity.this, "..loaded from file", Toast.LENGTH_SHORT);
-				toast.show();
+//				Toast toast = Toast.makeText(HeightVisualActivity.this, "..loaded from file", Toast.LENGTH_SHORT);
+//				toast.show();
 			}
 		}
 	}

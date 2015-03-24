@@ -10,11 +10,9 @@
 
     <!-- WebView requires Internet permission -->
     <uses-permission android:name="android.permission.INTERNET" />
-    
+
     <!-- Do survey only possible with Internet connection -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    
-    
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -56,7 +54,12 @@
         </activity>
         <activity
             android:name=".HeightDiagramActivity"
-            android:label="@string/title_activity_height_diagram" 
+            android:label="@string/title_activity_height_diagram"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/my_profile"
             android:screenOrientation="portrait" >
         </activity>
     </application>
