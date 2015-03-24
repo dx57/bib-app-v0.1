@@ -325,8 +325,8 @@ public class LoginActivity extends Activity
 				btnLogin.performClick();
 			}
 			
-			Toast toast = Toast.makeText(LoginActivity.this, "..loaded from WebService", Toast.LENGTH_SHORT);
-			toast.show();
+//			Toast toast = Toast.makeText(LoginActivity.this, "..loaded from WebService", Toast.LENGTH_SHORT);
+//			toast.show();
 		}
 	}
 	
@@ -347,8 +347,8 @@ public class LoginActivity extends Activity
 		protected void onPostExecute(Void result)
 		{
 			 // Debug: Show in GUI
-			 Toast toast = Toast.makeText(LoginActivity.this, "..saved to file", Toast.LENGTH_SHORT);
-			 toast.show();
+//			 Toast toast = Toast.makeText(LoginActivity.this, "..saved to file", Toast.LENGTH_SHORT);
+//			 toast.show();
 		}
 	}
 	
@@ -389,8 +389,8 @@ public class LoginActivity extends Activity
 		protected void onPostExecute(Void result) 
 		{
 			// Debug: Show in GUI
-			 Toast toast = Toast.makeText(LoginActivity.this, "..sent mail", Toast.LENGTH_SHORT);
-			 toast.show();
+//			 Toast toast = Toast.makeText(LoginActivity.this, "..sent mail", Toast.LENGTH_SHORT);
+//			 toast.show();
 		}
 	}
 	

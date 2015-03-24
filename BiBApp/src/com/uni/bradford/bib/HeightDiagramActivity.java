@@ -343,8 +343,8 @@ public class HeightDiagramActivity extends Activity
 				// Update GUI
 				updateGui();
 				
-				Toast toast = Toast.makeText(HeightDiagramActivity.this, "..loaded from file", Toast.LENGTH_SHORT);
-				toast.show();
+//				Toast toast = Toast.makeText(HeightDiagramActivity.this, "..loaded from file", Toast.LENGTH_SHORT);
+//				toast.show();
 			}
 		}
 	}

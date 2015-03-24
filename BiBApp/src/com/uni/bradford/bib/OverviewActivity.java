@@ -65,7 +65,7 @@ public class OverviewActivity extends Activity
 		intent = new Intent(OverviewActivity.this, AboutActivity.class);
 		overviewList.add(new OverviewEntry(getResources().getString(R.string.title_activity_about), R.drawable.ic_about_green, intent));
 		
-		intent = new Intent(OverviewActivity.this, AboutActivity.class); // TODO: Change
+		intent = new Intent(OverviewActivity.this, ProfileActivity.class); // TODO: Change
 		overviewList.add(new OverviewEntry(getResources().getString(R.string.my_profile), R.drawable.ic_profile_green, intent));
 		
 		// Connect to GUI views and setup
@@ -119,7 +119,8 @@ public class OverviewActivity extends Activity
 	        {
 	        	System.out.println("OverviewActivity: RESULT_OK");
 	 
-	        	dataModel.setTookSurvey(true);
+	        	// TODO: set to true again.. just for user testing session
+	        	dataModel.setTookSurvey(false);
 	        	
 	        	updateGui();
 	        }
@@ -151,8 +152,8 @@ public class OverviewActivity extends Activity
 				// Update GUI
 				updateGui();
 				
-				Toast toast = Toast.makeText(OverviewActivity.this, "..loaded from file", Toast.LENGTH_SHORT);
-				toast.show();
+//				Toast toast = Toast.makeText(OverviewActivity.this, "..loaded from file", Toast.LENGTH_SHORT);
+//				toast.show();
 			}
 		}
 	}
@@ -174,8 +175,8 @@ public class OverviewActivity extends Activity
 		protected void onPostExecute(Void result)
 		{
 			 // Debug: Show in GUI
-			 Toast toast = Toast.makeText(OverviewActivity.this, "..saved to file", Toast.LENGTH_SHORT);
-			 toast.show();
+//			 Toast toast = Toast.makeText(OverviewActivity.this, "..saved to file", Toast.LENGTH_SHORT);
+//			 toast.show();
 		}
 	}
 }
