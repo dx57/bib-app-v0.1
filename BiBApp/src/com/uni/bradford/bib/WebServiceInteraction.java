@@ -21,10 +21,12 @@ public class WebServiceInteraction
 	
 	private static final String GET_MOTHER_BY_ID = "GetMotherByID";
 	private static final String GET_MOTHER_BY_ID_RESPONSE = "GetMotherByIDResponse";
-	private static final String GET_CHILD_ID_BY_MOTHER_ID = "getChildIDbyMotherID"; // TODO: Stella.. big "G" please
-	private static final String GET_CHILD_ID_BY_MOTHER_ID_RESPONSE = "getChildIDbyMotherIDResponse"; // TODO: Stella.. big "G" please
-	private static final String GET_CHILD_GROWTH_DATA_BY_ID = "childgrowthdata"; // TODO: Stella.. same var chemata please
-	private static final String GET_CHILD_GROWTH_DATA_BY_ID_RESPONSE = "childgrowthdataResponse"; // TODO: Stella.. same var chemata please
+	private static final String GET_CHILD_ID_BY_MOTHER_ID = "GetChildIDbyMotherID"; 
+	private static final String GET_CHILD_ID_BY_MOTHER_ID_RESPONSE = "GetChildIDbyMotherIDResponse";
+	private static final String GET_CHILD_GROWTH_DATA_BY_ID = "ChildGrowthData"; // TODO: Stella.. same var chemata please
+	private static final String GET_CHILD_GROWTH_DATA_BY_ID_RESPONSE = "ChildGrowthDataResponse"; // TODO: Stella.. same var chemata please
+	private static final String GET_ALL_INFO_BY_MOTHER_ID = "GetAllInfoByMotherID";
+	private static final String GET_ALL_INFO_BY_MOTHER_ID_RESPONSE = "GetAllInfoByMotherIDResponse";
 	
 	public WebServiceInteraction(DataModel dataModel)
 	{
@@ -36,12 +38,12 @@ public class WebServiceInteraction
 		ArrayList<PropertyInfo> propertyInfos = new ArrayList<PropertyInfo>();		
 		
 		PropertyInfo tempPropertyInfo = new PropertyInfo();
-		tempPropertyInfo.setName("arg0");
+		tempPropertyInfo.setName("Token");
 		tempPropertyInfo.setValue(loginId);
 		propertyInfos.add(tempPropertyInfo);
 		
 		tempPropertyInfo = new PropertyInfo();
-		tempPropertyInfo.setName("arg1");
+		tempPropertyInfo.setName("PhoneID");
 		tempPropertyInfo.setValue(phoneId);
 		propertyInfos.add(tempPropertyInfo);
 		
@@ -53,7 +55,7 @@ public class WebServiceInteraction
 		ArrayList<PropertyInfo> propertyInfos = new ArrayList<PropertyInfo>();		
 		
 		PropertyInfo tempPropertyInfo = new PropertyInfo();
-		tempPropertyInfo.setName("arg0");
+		tempPropertyInfo.setName("MotherID");
 		tempPropertyInfo.setValue(loginId);
 		propertyInfos.add(tempPropertyInfo);
 		
@@ -65,11 +67,40 @@ public class WebServiceInteraction
 		ArrayList<PropertyInfo> propertyInfos = new ArrayList<PropertyInfo>();
 		
 		PropertyInfo tempPropertyInfo = new PropertyInfo();
-		tempPropertyInfo.setName("arg0");
+		tempPropertyInfo.setName("ChildID");
 		tempPropertyInfo.setValue(childId);
 		propertyInfos.add(tempPropertyInfo);
 		
 		return sendReceiveSoapMessage(GET_CHILD_GROWTH_DATA_BY_ID, propertyInfos);
+	}
+	
+	public boolean getAverageChildBySex(String sex)
+	{
+		ArrayList<PropertyInfo> propertyInfos = new ArrayList<PropertyInfo>();		
+		
+		PropertyInfo tempPropertyInfo = new PropertyInfo();
+		tempPropertyInfo.setName("sex");
+		tempPropertyInfo.setValue(sex);
+		propertyInfos.add(tempPropertyInfo);
+		
+		return sendReceiveSoapMessage("GetAverageChildBySex", propertyInfos);
+	}
+	
+	public boolean getAllInfoByMotherID(String loginId, String phoneId)
+	{
+		ArrayList<PropertyInfo> propertyInfos = new ArrayList<PropertyInfo>();		
+		
+		PropertyInfo tempPropertyInfo = new PropertyInfo();
+		tempPropertyInfo.setName("Token");
+		tempPropertyInfo.setValue(loginId);
+		propertyInfos.add(tempPropertyInfo);
+		
+		tempPropertyInfo = new PropertyInfo();
+		tempPropertyInfo.setName("PhoneID");
+		tempPropertyInfo.setValue(phoneId);
+		propertyInfos.add(tempPropertyInfo);
+		
+		return sendReceiveSoapMessage(GET_ALL_INFO_BY_MOTHER_ID, propertyInfos);
 	}
 	
 	private boolean sendReceiveSoapMessage(String requestType, ArrayList<PropertyInfo> propertyInfos)
@@ -103,12 +134,12 @@ public class WebServiceInteraction
 			httpTransportSE.call (request.getNamespace() + request.getName(), envelope, headerPropertyArrayList);
 
 			// Debug output
-//			System.out.println("Request " + request);
-//			System.out.println("Envelope " + envelope);
-//			System.out.println("httpTransportSE " + httpTransportSE);
-//			System.out.println("Soap action " + request.getNamespace() + request.getName());
-//			System.out.println("RequestDump is :"+httpTransportSE.requestDump);
-//			System.out.println("ResponseDump is :"+httpTransportSE.responseDump);
+			System.out.println("Request " + request);
+			System.out.println("Envelope " + envelope);
+			System.out.println("httpTransportSE " + httpTransportSE);
+			System.out.println("Soap action " + request.getNamespace() + request.getName());
+			System.out.println("RequestDump is :"+httpTransportSE.requestDump);
+			System.out.println("ResponseDump is :"+httpTransportSE.responseDump);
 			
 			// Prepare soap message for response
 			response = (SoapObject)envelope.bodyIn; 
@@ -141,11 +172,11 @@ public class WebServiceInteraction
 				SoapObject soapObject =  (SoapObject)response.getProperty(0);
 				
 				// TODO: Just for debug.. 
-				System.out.println("ID: " + soapObject.getProperty("ID").toString());
-				System.out.println("PhoneID: " + soapObject.getProperty("phoneID").toString()); // TODO: Stella.. why emty?
+				System.out.println("id: " + soapObject.getProperty("id").toString());
+				System.out.println("phoneID: " + soapObject.getProperty("phoneID").toString());
 				System.out.println("PrimaryCare: " + soapObject.getProperty("primaryCare").toString());
 
-				dataModel.setMother(new Mother(soapObject.getProperty("ID").toString(), 
+				dataModel.setMother(new Mother(soapObject.getProperty("id").toString(), 
 											   "?empty?", 
 											   soapObject.getProperty("phoneID").toString(),
 											   Boolean.parseBoolean(soapObject.getProperty("primaryCare").toString())));
@@ -179,7 +210,6 @@ public class WebServiceInteraction
 					System.out.println("BIB1000: " + soapObject.getProperty("BIB1000").toString());
 					System.out.println("MeDALL: " + soapObject.getProperty("meDALL").toString());
 					System.out.println("ALL_IN: " + soapObject.getProperty("ALL_IN").toString());
-					System.out.println("Dateofbirth: " + soapObject.getProperty("dateofbirth").toString()); // TODO: Stella: Why twice?
 					System.out.println("-------------------");
 					
 					dataModel.getMother().addChild(new Child(soapObject.getProperty("childID").toString(), 
@@ -227,6 +257,13 @@ public class WebServiceInteraction
 																				   Double.parseDouble(soapObject.getProperty("height").toString()),
 																				   Double.parseDouble(soapObject.getProperty("BMI").toString())));
 				}
+				
+				break;
+			}
+			case GET_ALL_INFO_BY_MOTHER_ID_RESPONSE:
+			{
+				// TODO: 
+				System.out.println("super.. it is working");
 				
 				break;
 			}
