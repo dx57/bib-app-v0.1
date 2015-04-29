@@ -15,7 +15,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class OverviewActivity extends Activity
 {
@@ -50,7 +49,7 @@ public class OverviewActivity extends Activity
 		loadLocalTask.execute();
 		
 		// Init local data-model
-		overviewList = new ArrayList<OverviewEntry>();
+		overviewList = new ArrayList<OverviewEntry>(); 
 		
 		Intent intent = new Intent(OverviewActivity.this, HeightVisualActivity.class);
 		overviewList.add(new OverviewEntry(getResources().getString(R.string.title_activity_height_visual), R.drawable.ic_ruler_green, intent)); 

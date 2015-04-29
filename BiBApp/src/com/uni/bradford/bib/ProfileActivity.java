@@ -1,6 +1,9 @@
 package com.uni.bradford.bib;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +16,11 @@ public class ProfileActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
+		
+		// Change ActionBar color and icon
+		ActionBar bar = getActionBar(); 
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
+		bar.setIcon(R.drawable.ic_profile_white); 
 	}
 
 	@Override
