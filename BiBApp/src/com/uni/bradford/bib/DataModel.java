@@ -95,10 +95,18 @@ public class DataModel implements Serializable
 		long start = SystemClock.uptimeMillis();
 		
 		DataModel dataModel = new DataModel();
-		dataModel.setSurveyUrl("www.google.de");
+		dataModel.setSurveyUrl("www.google.de"); // TODO: 
 							
 		WebServiceInteraction wsi = new WebServiceInteraction(dataModel);
 		
+		// TODO: vs the all in one approach!!!
+//		if (!wsi.getAverageChildBySex("0"))
+//		{
+//			// Wrong loginId or phoneId
+//			return null;
+//		}
+		
+		// TODO: vs the all in one approach!!!
 		if (wsi.getMotherById(loginId, deviceId))
 		{
 			// Correct loginId and phoneId pair

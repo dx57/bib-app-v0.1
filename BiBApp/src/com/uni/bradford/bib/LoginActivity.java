@@ -25,8 +25,6 @@ import android.widget.Toast;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import com.uni.bradford.bib.SurveyActivity.NetworkStateBroadcastReceiver;
-
 public class LoginActivity extends Activity
 {
 	// GUI elements
@@ -74,7 +72,9 @@ public class LoginActivity extends Activity
 		public void onClick(View view)
 		{
 			System.out.println("Button Login clicked");	
-															
+			
+			// TODO: Request WebService if there is new data even if we can load the local data.. to check for updates
+			
 			if (dataModel == null)
 			{
 				if (!internetConnection) 
@@ -325,8 +325,8 @@ public class LoginActivity extends Activity
 				btnLogin.performClick();
 			}
 			
-//			Toast toast = Toast.makeText(LoginActivity.this, "..loaded from WebService", Toast.LENGTH_SHORT);
-//			toast.show();
+			Toast toast = Toast.makeText(LoginActivity.this, "..loaded from WebService", Toast.LENGTH_SHORT);
+			toast.show();
 		}
 	}
 	
@@ -347,8 +347,8 @@ public class LoginActivity extends Activity
 		protected void onPostExecute(Void result)
 		{
 			 // Debug: Show in GUI
-//			 Toast toast = Toast.makeText(LoginActivity.this, "..saved to file", Toast.LENGTH_SHORT);
-//			 toast.show();
+			 Toast toast = Toast.makeText(LoginActivity.this, "..saved to file", Toast.LENGTH_SHORT);
+			 toast.show();
 		}
 	}
 	
@@ -389,8 +389,8 @@ public class LoginActivity extends Activity
 		protected void onPostExecute(Void result) 
 		{
 			// Debug: Show in GUI
-//			 Toast toast = Toast.makeText(LoginActivity.this, "..sent mail", Toast.LENGTH_SHORT);
-//			 toast.show();
+			 Toast toast = Toast.makeText(LoginActivity.this, "..sent mail", Toast.LENGTH_SHORT);
+			 toast.show();
 		}
 	}
 	
