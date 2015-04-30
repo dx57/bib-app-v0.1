@@ -12,8 +12,25 @@
         android:contentDescription="@string/hello_world"
         android:src="@drawable/map" />
     
-    <ListView android:id="@+id/lvOverview"
+    <TextView
+        android:id="@+id/tvSelectChild"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/ivMap"
+        android:paddingTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/select_child" 
+        android:layout_alignParentLeft="true" />
+    
+    <Spinner
+        android:id="@+id/sProfileSelectChild"
+        android:layout_below="@+id/ivMap"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tvSelectChild"/>
+    
+    <ListView android:id="@+id/lvOverview"
+        android:layout_below="@+id/sProfileSelectChild"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:layout_width="fill_parent"

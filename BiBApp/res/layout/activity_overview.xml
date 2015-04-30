@@ -17,8 +17,8 @@
     <ListView android:id="@+id/lvOverview"
         android:layout_below="@+id/ivPictureLogo"
         android:layout_above="@+id/tvSocialMedia"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
     
@@ -37,7 +37,7 @@
     <ImageView
         android:id="@+id/ivSocialMediaFacebook"
         android:layout_width="fill_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_toLeftOf="@+id/ivSocialMediaTwitter"
         android:contentDescription="@string/icon_facebook_description"
@@ -47,8 +47,8 @@
     
     <ImageView
         android:id="@+id/ivSocialMediaTwitter"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/icon_twitter_description"
@@ -59,7 +59,7 @@
     <ImageView
         android:id="@+id/ivSocialMediaYoutube"
         android:layout_width="fill_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
 		android:layout_toRightOf="@+id/ivSocialMediaTwitter"
         android:contentDescription="@string/icon_youtube_description"
