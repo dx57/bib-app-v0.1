@@ -15,8 +15,8 @@
     <string name="action_settings">Settings</string>
     <string name="action_share">Share</string>
     <string name="title_activity_overview">Overview</string>
-    <string name="title_activity_height_visual">My Childs height (visual)</string>
-    <string name="title_activity_height_diagram">My Childs height (diagram)</string>
+    <string name="title_activity_height_visual">My Childs height</string>
+    <string name="title_activity_height_diagram">My Childs height</string>
     <string name="title_activity_about">About Born in Bradford</string>
     <string name="hello_world">Content to be added</string>
     <string name="social_media">Social Media</string>
@@ -26,6 +26,7 @@
     <string name="start_date">XXXX</string>
     <string name="end_date">YYYY</string>
     <string name="cm">cm</string>
+    <string name="select_child">View info for child born in</string>
     <string name="current_date">YYYY-MM-TT</string>
     <string name="title_activity_survey">Survey</string>
     <string name="fogot_id_mail_subject">Born in Bradford App - Forgot login ID request</string>
@@ -65,5 +66,14 @@
 	    where they come from and all the other things that help make us stay healthy or that can make 
 	    us sick work with families, community groups, health professionals and all those others whose 
 	    actions can help to make Bradford a healthier place	</string>
+	
+    <string-array name="programs">
+        <item>Eclipse</item>
+        <item>PrimaryCare</item>
+        <item>Education</item>
+        <item>BIB1000</item>
+        <item>MeDALL</item>
+        <item>ALL-IN</item>
+    </string-array>
 
 </resources>
