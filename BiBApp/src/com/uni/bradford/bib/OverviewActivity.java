@@ -52,10 +52,10 @@ public class OverviewActivity extends Activity
 		overviewList = new ArrayList<OverviewEntry>(); 
 		
 		Intent intent = new Intent(OverviewActivity.this, HeightVisualActivity.class);
-		overviewList.add(new OverviewEntry(getResources().getString(R.string.title_activity_height_visual), R.drawable.ic_ruler_green, intent)); 
+		overviewList.add(new OverviewEntry(getResources().getString(R.string.title_activity_height_visual), R.drawable.ic_height_visual_green, intent)); 
 		
 		intent = new Intent(OverviewActivity.this, HeightDiagramActivity.class);
-		overviewList.add(new OverviewEntry(getResources().getString(R.string.title_activity_height_diagram), R.drawable.ic_ruler_green, intent));
+		overviewList.add(new OverviewEntry(getResources().getString(R.string.title_activity_height_diagram), R.drawable.ic_height_diagram_green, intent));
 		
 		intent = new Intent(OverviewActivity.this, SurveyActivity.class);	
 		intent.putExtra("survey-url", "https://www.surveymonkey.com/s/HMP398J"); // TODO: Load from data model
@@ -64,7 +64,7 @@ public class OverviewActivity extends Activity
 		intent = new Intent(OverviewActivity.this, AboutActivity.class);
 		overviewList.add(new OverviewEntry(getResources().getString(R.string.title_activity_about), R.drawable.ic_about_green, intent));
 		
-		intent = new Intent(OverviewActivity.this, ProfileActivity.class); // TODO: Change
+		intent = new Intent(OverviewActivity.this, ProfileActivity.class);
 		overviewList.add(new OverviewEntry(getResources().getString(R.string.my_profile), R.drawable.ic_profile_green, intent));
 		
 		// Connect to GUI views and setup
