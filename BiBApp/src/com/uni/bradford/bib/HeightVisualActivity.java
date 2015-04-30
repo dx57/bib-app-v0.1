@@ -57,7 +57,7 @@ public class HeightVisualActivity extends Activity
 		// Change ActionBar color and icon
 		ActionBar bar = getActionBar();
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
-		bar.setIcon(R.drawable.ic_ruler_white);
+		bar.setIcon(R.drawable.ic_height_visual_white);
 		
 		// Init logic
 		LoadDataModelFromFileAsyncTask loadLocalTask = new LoadDataModelFromFileAsyncTask();
