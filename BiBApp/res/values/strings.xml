@@ -26,7 +26,7 @@
     <string name="start_date">XXXX</string>
     <string name="end_date">YYYY</string>
     <string name="cm">cm</string>
-    <string name="select_child">View info for child born in</string>
+    <string name="select_child">Select child born in</string>
     <string name="current_date">YYYY-MM-TT</string>
     <string name="title_activity_survey">Survey</string>
     <string name="fogot_id_mail_subject">Born in Bradford App - Forgot login ID request</string>

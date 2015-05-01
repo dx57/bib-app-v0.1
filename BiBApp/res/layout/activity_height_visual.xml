@@ -6,20 +6,25 @@
     android:background="#f5f5f5"
     tools:context="com.example.bibtestdump.MainActivity" >
 
-    <Spinner
-        android:id="@+id/sSelectChild"
-        android:layout_width="145dp"
+    <TextView
+        android:id="@+id/tvSelectChildHint"
+        android:layout_width="wrap_content" 
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:paddingTop="6dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:gravity="center_vertical"
+        android:text="@string/select_child"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
     
     <Spinner
-        android:id="@+id/sSelectCriterion"
-        android:layout_width="145dp"
+        android:id="@+id/sSelectChild"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/tvSelectChildHint"
         android:textAppearance="?android:attr/textAppearanceLarge" />
     
     <TextView
@@ -36,7 +41,7 @@
         android:layout_width="145dp" 
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/sSelectCriterion"
+        android:layout_below="@id/sSelectChild"
         android:gravity="center_horizontal"
         android:text="@string/cm" />
     
@@ -73,8 +78,7 @@
         android:layout_height="100dp"
         android:layout_alignParentRight="true"
         android:layout_above="@id/sbTimeLine"
-        android:contentDescription="@string/image_description"
-        android:src="@drawable/boy_blue" />
+        android:contentDescription="@string/image_description" />
     
     <TextView
         android:id="@+id/tvStartDate"

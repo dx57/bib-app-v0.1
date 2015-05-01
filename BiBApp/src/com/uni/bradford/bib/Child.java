@@ -118,4 +118,9 @@ public class Child implements Serializable
 	{		
 		return this.childData.get(position);
 	}
+	
+	public ChildData getLastChildData()
+	{		
+		return this.childData.get(this.childData.size()-1);
+	}
 }
