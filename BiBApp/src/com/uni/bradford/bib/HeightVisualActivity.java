@@ -27,7 +27,6 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class HeightVisualActivity extends Activity
 {
@@ -35,11 +34,11 @@ public class HeightVisualActivity extends Activity
 	private ImageView ivOwnChild;
 	private ImageView ivCompareChild;
 	private Spinner sSelectChild;
-	private Spinner sSelectCriterion;
 	private TextView tvOwnChildHeight;
 	private TextView tvCompareChildHeight;
 	private TextView tvCurrent;
 	private TextView tvStartDate;
+	private TextView tvEndDate;
 	private SeekBar sbTimeLine;
 	
 	// Logic
@@ -67,11 +66,11 @@ public class HeightVisualActivity extends Activity
 		ivOwnChild = (ImageView)findViewById(R.id.ivOwnChild);
 		ivCompareChild = (ImageView)findViewById(R.id.ivCompareChild);
 		sSelectChild = (Spinner)findViewById(R.id.sSelectChild);
-		sSelectCriterion = (Spinner)findViewById(R.id.sSelectCriterion);
 		tvOwnChildHeight = (TextView)findViewById(R.id.tvOwnChildHeight);
 		tvCompareChildHeight = (TextView)findViewById(R.id.tvCompareChildHeight);
 		tvCurrent = (TextView)findViewById(R.id.tvCurrent);
 		tvStartDate = (TextView)findViewById(R.id.tvStartDate);
+		tvEndDate = (TextView)findViewById(R.id.tvEndDate);
 				
 		// Init timeline
 		sbTimeLine = (SeekBar)findViewById(R.id.sbTimeLine);
@@ -86,7 +85,6 @@ public class HeightVisualActivity extends Activity
 		ivCompareChild.getViewTreeObserver().addOnGlobalLayoutListener(new OnIvCompareChildGlobalLayoutListener() );
 		sbTimeLine.setOnSeekBarChangeListener(new OnSeekBarTimeLineChangeListener());
 		sSelectChild.setOnItemSelectedListener(new OnSpinnerSelectChildSelectedListener());
-		sSelectCriterion.setOnItemSelectedListener(new OnSpinnerSelectCriterionSelectedListener());
 	}
 	
 	private class OnSeekBarTimeLineChangeListener implements OnSeekBarChangeListener
@@ -134,30 +132,15 @@ public class HeightVisualActivity extends Activity
 			{
 				tvStartDate.setText(dataModel.getMother().getChild(position).getYearOfBirth() + "");
 				
+				int yearsOld = (int)(dataModel.getMother().getChild(position).getLastChildData().getAgeDays() / 360);
+				tvEndDate.setText(dataModel.getMother().getChild(position).getYearOfBirth() + yearsOld + "");
+				
 				// Init child representation
-				if (dataModel.getMother().getChild(0).getGenderId() != 0)
-				{
-					ivOwnChild.setImageResource(R.drawable.boy_blue);
-				}
-				else
-				{
-					ivOwnChild.setImageResource(R.drawable.girl_red);
-				}
+				ivOwnChild.setImageResource(R.drawable.own_child);
+				ivCompareChild.setImageResource(R.drawable.average_child);
 			}
 			
 			// TODO: Change dataset for visualisation
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> parent) { }
-	}
-	
-	private class OnSpinnerSelectCriterionSelectedListener implements OnItemSelectedListener
-	{
-		@Override
-		public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-		{
-			System.out.println("Selected criteria: " + position + " " + parent.getItemAtPosition(position).toString());
 		}
 
 		@Override
@@ -266,33 +249,24 @@ public class HeightVisualActivity extends Activity
 		String[] children = new String[dataModel.getMother().getChildCount()];
 		for (int i = 0; i < dataModel.getMother().getChildCount(); i++)
 		{
-			children[i] = "Child " + dataModel.getMother().getChild(i).getYearOfBirth() + 
+			children[i] = dataModel.getMother().getChild(i).getYearOfBirth() + 
 					      "-" + dataModel.getMother().getChild(i).getMonthOfBirth();
 		}
 		
 		ArrayAdapter<String> adapterChilds = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, children);
 		adapterChilds.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		sSelectChild.setAdapter(adapterChilds);   
-		
-		String[] criterion = new String[] {"Average"}; 
-		ArrayAdapter<String> adapterCriterion = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, criterion);
-		adapterCriterion.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		sSelectCriterion.setAdapter(adapterCriterion);
-		
+				
 		// Init slider info
 		if (dataModel.getMother().getChildCount() > 0)
 		{
 			tvStartDate.setText(dataModel.getMother().getChild(0).getYearOfBirth() + "");
 			
+			int yearsOld = (int)(dataModel.getMother().getChild(0).getLastChildData().getAgeDays() / 360);
+			tvEndDate.setText(dataModel.getMother().getChild(0).getYearOfBirth() + yearsOld + "");
+			
 			// Init child representation
-			if (dataModel.getMother().getChild(0).getGenderId() == 0)
-			{
-				ivOwnChild.setImageResource(R.drawable.boy_blue);
-			}
-			else
-			{
-				ivOwnChild.setImageResource(R.drawable.girl_red);
-			}
+			ivOwnChild.setImageResource(R.drawable.own_child);
 		}
 	}
 	

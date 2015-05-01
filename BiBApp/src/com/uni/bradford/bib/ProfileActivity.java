@@ -139,20 +139,20 @@ public class ProfileActivity extends Activity
 		
 		if (1 >= dataModel.getMother().getChild(position).getMeDall())
 		{
-			programList.add(new ProgramEntry(true, programs[4], getResources().getString(R.string.hello_world)));
+			programList.add(new ProgramEntry(true, programs[4], "Mechanisms of the Development of Allergy")); // TODO: No static texts
 		}
 		else
 		{
-			programList.add(new ProgramEntry(false, programs[4], getResources().getString(R.string.hello_world)));
+			programList.add(new ProgramEntry(false, programs[4], "Mechanisms of the Development of Allergy")); // TODO: No static texts
 		}
 		
 		if (1 >= dataModel.getMother().getChild(position).getAll_in())
 		{
-			programList.add(new ProgramEntry(true, programs[5], getResources().getString(R.string.hello_world)));
+			programList.add(new ProgramEntry(true, programs[5], "Prevention of childhood obesity")); // TODO: No static texts
 		}
 		else
 		{
-			programList.add(new ProgramEntry(false, programs[5], getResources().getString(R.string.hello_world)));
+			programList.add(new ProgramEntry(false, programs[5], "Prevention of childhood obesity")); // TODO: No static texts
 		}
 	}
 	
