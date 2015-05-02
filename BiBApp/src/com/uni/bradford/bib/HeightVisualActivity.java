@@ -265,6 +265,8 @@ public class HeightVisualActivity extends Activity
 			int yearsOld = (int)(dataModel.getMother().getChild(0).getLastChildData().getAgeDays() / 360);
 			tvEndDate.setText(dataModel.getMother().getChild(0).getYearOfBirth() + yearsOld + "");
 			
+			tvCurrent.setText( sbTimeLine.getProgress() + " month");
+			
 			// Init child representation
 			ivOwnChild.setImageResource(R.drawable.own_child);
 		}

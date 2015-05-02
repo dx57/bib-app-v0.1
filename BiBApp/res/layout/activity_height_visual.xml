@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:paddingTop="6dp"
-        android:paddingLeft="4dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="4dp"
         android:gravity="center_vertical"
         android:text="@string/select_child"
@@ -21,7 +21,7 @@
     
     <Spinner
         android:id="@+id/sSelectChild"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/tvSelectChildHint"
@@ -67,7 +67,7 @@
     <ImageView
         android:id="@+id/ivOwnChild"
         android:layout_width="145dp"
-        android:layout_height="320dp"
+        android:layout_height="290dp"
         android:layout_alignParentLeft="true"
         android:layout_above="@+id/sbTimeLine"
         android:contentDescription="@string/image_description" />
@@ -125,10 +125,20 @@
         android:id="@id/tvCurrent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/tvSliderHint"
         android:layout_marginBottom="5dp"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/image_description"
         android:text="@string/current_date" />    
+        
+    <TextView
+        android:id="@id/tvSliderHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/image_description"
+        android:text="@string/slider_info" />    
 
 </RelativeLayout>

@@ -25,6 +25,7 @@
     <string name="average_child">Average child</string>
     <string name="start_date">XXXX</string>
     <string name="end_date">YYYY</string>
+    <string name="slider_info">Use slider to compare childs over time</string>
     <string name="cm">cm</string>
     <string name="select_child">Select child born in</string>
     <string name="current_date">YYYY-MM-TT</string>
@@ -65,7 +66,9 @@
 	    getting information from mothers, fathers and babies about how they live, where they live, 
 	    where they come from and all the other things that help make us stay healthy or that can make 
 	    us sick work with families, community groups, health professionals and all those others whose 
-	    actions can help to make Bradford a healthier place	</string>
+	    actions can help to make Bradford a healthier place.\n\n
+ <b>The Born in Bradford App</b>\n\nBorn 
+ 		This app does not provide medical advice. And so on...	</string>
 	
     <string-array name="programs">
         <item>Eclipse</item>
