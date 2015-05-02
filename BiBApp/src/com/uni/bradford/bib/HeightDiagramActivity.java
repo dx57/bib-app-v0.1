@@ -23,7 +23,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
@@ -37,7 +36,6 @@ public class HeightDiagramActivity extends Activity
 	// GUI
 	private LineChart lcHeight;
 	private Spinner sDiagramSelectChild;
-	private Spinner sDiagramSelectCriterion;
 	
 	// Logic
 	private DataModel dataModel;
@@ -60,7 +58,6 @@ public class HeightDiagramActivity extends Activity
 		// Connect to GUI views and setup		
 		lcHeight = (LineChart)findViewById(R.id.lcHeight);
 		sDiagramSelectChild = (Spinner)findViewById(R.id.sDiagramSelectChild);
-		sDiagramSelectCriterion = (Spinner)findViewById(R.id.sDiagramSelectCriterion);
 
 		// Do animate diagram build process within 1 sec
 		lcHeight.animateY(1000);
@@ -94,7 +91,6 @@ public class HeightDiagramActivity extends Activity
 		
 		// Add listener
 		sDiagramSelectChild.setOnItemSelectedListener(new OnSpinnerSelectChildSelectedListener());
-		sDiagramSelectCriterion.setOnItemSelectedListener(new OnSpinnerSelectCriterionSelectedListener());
 	}
 	
 	private class OnSpinnerSelectChildSelectedListener implements OnItemSelectedListener
@@ -104,18 +100,6 @@ public class HeightDiagramActivity extends Activity
 		{
 			// TODO: Add behaviour
 			System.out.println("Selected child: " + position + " " + parent.getItemAtPosition(position).toString());
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> parent) { }
-	}
-	
-	private class OnSpinnerSelectCriterionSelectedListener implements OnItemSelectedListener
-	{
-		@Override
-		public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-		{
-			System.out.println("Selected criteria: " + position + " " + parent.getItemAtPosition(position).toString());
 		}
 
 		@Override
@@ -243,7 +227,7 @@ public class HeightDiagramActivity extends Activity
 
 
 		// create a dataset and give it a type
-		LineDataSet set1 = new LineDataSet(yVals2, "Average");
+		LineDataSet set1 = new LineDataSet(yVals2, "National average");
 		set1.setColor(Color.parseColor("#0171bd"));
 		set1.setCircleColor(Color.parseColor("#0171bd"));
 		set1.setLineWidth(2f);
@@ -256,7 +240,7 @@ public class HeightDiagramActivity extends Activity
 		set1.setDrawCubic(true);
 
 		// create a dataset and give it a type
-		LineDataSet set2 = new LineDataSet(yVals1, "Child 2007");
+		LineDataSet set2 = new LineDataSet(yVals1, "Own child");
 		set2.setColor(Color.parseColor("#009933"));
 		set2.setCircleColor(Color.parseColor("#009933"));
 		set2.setLineWidth(4f);
@@ -277,7 +261,6 @@ public class HeightDiagramActivity extends Activity
 
 		// Add listener
 		sDiagramSelectChild.setOnItemSelectedListener(new OnSpinnerDiagramSelectChildSelectedListener());
-		sDiagramSelectCriterion.setOnItemSelectedListener(new OnSpinnerDiagramSelectCriterionSelectedListener());
 	}
 
 	private class OnSpinnerDiagramSelectChildSelectedListener implements OnItemSelectedListener
@@ -292,18 +275,6 @@ public class HeightDiagramActivity extends Activity
 		@Override
 		public void onNothingSelected(AdapterView<?> parent) { }
 	}
-
-	private class OnSpinnerDiagramSelectCriterionSelectedListener implements OnItemSelectedListener
-	{
-		@Override
-		public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-		{
-			System.out.println("Selected criteria: " + position);
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> parent) { }
-	}
 	
 	public void updateGui()
 	{
@@ -311,18 +282,13 @@ public class HeightDiagramActivity extends Activity
 		String[] children = new String[dataModel.getMother().getChildCount()];
 		for (int i = 0; i < dataModel.getMother().getChildCount(); i++)
 		{
-			children[i] = "Child " + dataModel.getMother().getChild(i).getYearOfBirth() + 
+			children[i] = dataModel.getMother().getChild(i).getYearOfBirth() + 
 					      "-" + dataModel.getMother().getChild(i).getMonthOfBirth();
 		}
 		
 		ArrayAdapter<String> adapterChilds = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, children);
 		adapterChilds.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		sDiagramSelectChild.setAdapter(adapterChilds);
-		
-		String[] criterion = new String[] {"Average"};
-		ArrayAdapter<String> adapterCriterion = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, criterion);
-		adapterCriterion.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		sDiagramSelectCriterion.setAdapter(adapterCriterion);
 	}
 	
 	private class LoadDataModelFromFileAsyncTask extends AsyncTask<Void, Void, Void>

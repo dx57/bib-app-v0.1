@@ -12,12 +12,69 @@
         android:contentDescription="@string/hello_world"
         android:src="@drawable/map" />
     
+    <ImageView
+        android:id="@+id/ivMap01check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:contentDescription="@string/hello_world"
+        android:src="@drawable/map_01_check" />
+    
+    <ImageView
+        android:id="@+id/ivMap02check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:contentDescription="@string/hello_world"
+        android:src="@drawable/map_02_check" />
+    
+    <ImageView
+        android:id="@+id/ivMap03check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:contentDescription="@string/hello_world"
+        android:src="@drawable/map_03_check" />
+    
+    <ImageView
+        android:id="@+id/ivMap04check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:contentDescription="@string/hello_world"
+        android:src="@drawable/map_04_check" />
+    
+    <ImageView
+        android:id="@+id/ivMap05check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:contentDescription="@string/hello_world"
+        android:src="@drawable/map_05_check" />
+    
+    <ImageView
+        android:id="@+id/ivMap06check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:contentDescription="@string/hello_world"
+        android:src="@drawable/map_06_check" />
+    
+    <ImageView
+        android:id="@+id/ivMap07check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:contentDescription="@string/hello_world"
+        android:src="@drawable/map_07_check" />
+    
     <TextView
         android:id="@+id/tvSelectChild"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivMap"
-        android:paddingTop="10dp"
+        android:paddingTop="5dp"
+        android:layout_marginLeft="15dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/select_child" 
         android:layout_alignParentLeft="true" />
@@ -27,12 +84,11 @@
         android:layout_below="@+id/ivMap"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
         android:layout_toRightOf="@+id/tvSelectChild"/>
     
     <ListView android:id="@+id/lvOverview"
         android:layout_below="@+id/sProfileSelectChild"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 
