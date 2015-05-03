@@ -19,9 +19,6 @@ import android.widget.Spinner;
 public class ProfileActivity extends Activity
 {
 	// GUI
-	private Spinner sSelectChild;
-	private ListView lvProgram;
-	private ProgramListViewAdapter listAdapter;
 	private ImageView ivMap01check;
 	private ImageView ivMap02check;
 	private ImageView ivMap03check;
@@ -29,6 +26,11 @@ public class ProfileActivity extends Activity
 	private ImageView ivMap05check;
 	private ImageView ivMap06check;
 	private ImageView ivMap07check;
+	
+	private Spinner sSelectChild;
+	
+	private ListView lvProgram;
+	private ProgramListViewAdapter listAdapter;
 	
 	// Logic
 	private DataModel dataModel;
@@ -75,22 +77,31 @@ public class ProfileActivity extends Activity
 		sSelectChild.setOnItemSelectedListener(new OnSpinnerSelectChildSelectedListener());
 	}
 	
-	public void updateGui()
-	{		
+	/**
+	 * Change GUI according to available data
+	 */
+	private void updateGui()
+	{	
+		// Create array for all children of a mother for spinner
 		String[] children = new String[dataModel.getMother().getChildCount()];
 		for (int i = 0; i < dataModel.getMother().getChildCount(); i++)
 		{
-			children[i] = dataModel.getMother().getChild(i).getYearOfBirth() + 
-					      "-" + dataModel.getMother().getChild(i).getMonthOfBirth();
+			// Add children as YYYY-M format string.
+			children[i] = dataModel.getMother().getChild(i).getIdentifier();
 		}
 		
+		// Link spinner and children array
 		ArrayAdapter<String> adapterChilds = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, children);
 		adapterChilds.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		sSelectChild.setAdapter(adapterChilds);
 		
+		// Init results for preselection
 		changeProgramList(0);
 	}
-	
+
+	/**
+	 * Class to react on child selection
+	 */
 	private class OnSpinnerSelectChildSelectedListener implements OnItemSelectedListener
 	{
 		@Override
@@ -103,84 +114,97 @@ public class ProfileActivity extends Activity
 		public void onNothingSelected(AdapterView<?> parent) { }
 	}
 	
+	/**
+	 * Fill list and draw infographic according to programs the selected child took part in
+	 * 
+	 * @param position Position of the selected child within the selection Spinner
+	 */
 	private void changeProgramList(int position)
 	{
+		// Clear list content for prior child
 		programList.clear();
 		
+		// Make sure dataModel was initialised
 		if (dataModel == null)
 		{
 			return;
 		}
 		
-		String[] programs = getResources().getStringArray(R.array.programs);
+		// Load different program names
+		String[] programNames = getResources().getStringArray(R.array.program_names);
+		String[] programDescription = getResources().getStringArray(R.array.program_descriptions);
 		
+		// Fill list and draw infographic according to programs the selected child took part in
 		if (1 >= dataModel.getMother().getChild(position).getEclipse())
 		{
-			programList.add(new ProgramEntry(true, programs[0], getResources().getString(R.string.hello_world)));
+			programList.add(new ProgramEntry(true, programNames[0], programDescription[0]));
 			ivMap01check.setVisibility(ImageView.VISIBLE);
 		}
 		else
 		{
-			programList.add(new ProgramEntry(false, programs[0], getResources().getString(R.string.hello_world)));
+			programList.add(new ProgramEntry(false, programNames[0], programDescription[0]));
 			ivMap01check.setVisibility(ImageView.INVISIBLE);
 		}
 		
 		if (1 >= dataModel.getMother().getChild(position).getPrimaryCare())
 		{
-			programList.add(new ProgramEntry(true, programs[1], getResources().getString(R.string.hello_world)));
+			programList.add(new ProgramEntry(true, programNames[1], programDescription[1]));
 			ivMap02check.setVisibility(ImageView.VISIBLE);
 		}
 		else
 		{
-			programList.add(new ProgramEntry(false, programs[1], getResources().getString(R.string.hello_world)));
+			programList.add(new ProgramEntry(false, programNames[1], programDescription[1]));
 			ivMap02check.setVisibility(ImageView.INVISIBLE);
 		}
 		
 		if (1 >= dataModel.getMother().getChild(position).getEducation())
 		{
-			programList.add(new ProgramEntry(true, programs[2], getResources().getString(R.string.hello_world)));
+			programList.add(new ProgramEntry(true, programNames[2], programDescription[2]));
 			ivMap03check.setVisibility(ImageView.VISIBLE);
 		}
 		else
 		{
-			programList.add(new ProgramEntry(false, programs[2], getResources().getString(R.string.hello_world)));
+			programList.add(new ProgramEntry(false, programNames[2], programDescription[2]));
 			ivMap03check.setVisibility(ImageView.INVISIBLE);
 		} 
 		
 		if (1 >= dataModel.getMother().getChild(position).getBib1000())
 		{
-			programList.add(new ProgramEntry(true, programs[3], getResources().getString(R.string.hello_world)));
+			programList.add(new ProgramEntry(true, programNames[3], programDescription[3]));
 			ivMap04check.setVisibility(ImageView.VISIBLE);
 		}
 		else
 		{
-			programList.add(new ProgramEntry(false, programs[3], getResources().getString(R.string.hello_world)));
+			programList.add(new ProgramEntry(false, programNames[3], programDescription[3]));
 			ivMap04check.setVisibility(ImageView.INVISIBLE);
 		}
 		
 		if (1 >= dataModel.getMother().getChild(position).getMeDall())
 		{
-			programList.add(new ProgramEntry(true, programs[4], "Mechanisms of the Development of Allergy")); // TODO: No static texts
+			programList.add(new ProgramEntry(true, programNames[4], programDescription[4]));
 			ivMap05check.setVisibility(ImageView.VISIBLE);
 		}
 		else
 		{
-			programList.add(new ProgramEntry(false, programs[4], "Mechanisms of the Development of Allergy")); // TODO: No static texts
+			programList.add(new ProgramEntry(false, programNames[4], programDescription[4]));
 			ivMap05check.setVisibility(ImageView.INVISIBLE);
 		}
 		
 		if (1 >= dataModel.getMother().getChild(position).getAll_in())
 		{
-			programList.add(new ProgramEntry(true, programs[5], "Prevention of childhood obesity")); // TODO: No static texts
+			programList.add(new ProgramEntry(true, programNames[5], programDescription[5]));
 			ivMap07check.setVisibility(ImageView.VISIBLE);
 		}
 		else
 		{
-			programList.add(new ProgramEntry(false, programs[5], "Prevention of childhood obesity")); // TODO: No static texts
+			programList.add(new ProgramEntry(false, programNames[5], programDescription[5]));
 			ivMap07check.setVisibility(ImageView.INVISIBLE);
 		}
 	}
 	
+	/**
+	 * Class to load local data model
+	 */
 	private class LoadDataModelFromFileAsyncTask extends AsyncTask<Void, Void, Void>
 	{
 		@Override
@@ -199,8 +223,8 @@ public class ProfileActivity extends Activity
 				// Update GUI
 				updateGui();
 				
-//				Toast toast = Toast.makeText(HeightDiagramActivity.this, "..loaded from file", Toast.LENGTH_SHORT);
-//				toast.show();
+				// Toast toast = Toast.makeText(HeightDiagramActivity.this, "..loaded from file", Toast.LENGTH_SHORT);
+				// toast.show();
 			}
 		}
 	}

@@ -44,6 +44,19 @@ public class Child implements Serializable
 		this.childData = new ArrayList<ChildData>();
     }
 
+    public String getIdentifier()
+    {
+    	String identifier = yearOfBirth + "-" + monthOfBirth;
+    	
+    	if (birthOrder > 1)
+		{
+			// Add counter to differ twins etc.
+    		identifier += " [" + birthOrder + "]";				
+		}
+    	
+    	return identifier;
+    }
+    
 	public String getChildId()
 	{
 		return childId;

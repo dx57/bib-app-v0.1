@@ -70,13 +70,22 @@
  <b>The Born in Bradford App</b>\n\nBorn 
  		This app does not provide medical advice. And so on...	</string>
 	
-    <string-array name="programs">
+    <string-array name="program_names">
         <item>Eclipse</item>
         <item>PrimaryCare</item>
         <item>Education</item>
         <item>BIB1000</item>
         <item>MeDALL</item>
         <item>ALL-IN</item>
+    </string-array>
+    
+    <string-array name="program_descriptions">
+        <item>Eclipse description</item>
+        <item>PrimaryCare description</item>
+        <item>Education description</item>
+        <item>BIB1000 description</item>
+        <item>MeDALL description</item>
+        <item>ALL-IN description</item>
     </string-array>
 
 </resources>
