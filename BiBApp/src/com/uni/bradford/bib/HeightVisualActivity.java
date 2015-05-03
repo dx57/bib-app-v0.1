@@ -249,8 +249,7 @@ public class HeightVisualActivity extends Activity
 		String[] children = new String[dataModel.getMother().getChildCount()];
 		for (int i = 0; i < dataModel.getMother().getChildCount(); i++)
 		{
-			children[i] = dataModel.getMother().getChild(i).getYearOfBirth() + 
-					      "-" + dataModel.getMother().getChild(i).getMonthOfBirth();
+			children[i] = dataModel.getMother().getChild(i).getIdentifier();
 		}
 		
 		ArrayAdapter<String> adapterChilds = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, children);
