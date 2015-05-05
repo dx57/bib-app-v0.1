@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/survey_bg"
-    tools:context="com.uni.bradford.bib.SurveyActivity" >
+    tools:context="com.uni.bradford.bib.control.SurveyActivity" >
 
     <WebView
         android:id="@+id/wvSurvey"
@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:contentDescription="@string/logo_description"
+        android:contentDescription="@string/survey_complete_batch_description"
         android:paddingTop="100dp"
         android:visibility="invisible"
         android:src="@drawable/survey_completed" />

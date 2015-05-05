@@ -16,7 +16,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/cbPartOf"
-        android:text="@string/hello_world"
+        android:text="@string/place_holder"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -25,6 +25,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvProgramName"
         android:layout_toRightOf="@+id/cbPartOf"
-        android:text="@string/hello_world" />
+        android:text="@string/place_holder" />
 
 </RelativeLayout>

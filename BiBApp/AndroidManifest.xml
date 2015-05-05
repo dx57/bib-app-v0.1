@@ -34,32 +34,38 @@
         </activity>
         <activity
             android:name=".OverviewActivity"
+            android:icon="@drawable/ic_launcher"
             android:label="@string/title_activity_overview"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".HeightVisualActivity"
+            android:icon="@drawable/ic_height_visual_white"
             android:label="@string/title_activity_height_visual"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".AboutActivity"
-            android:label="@string/title_activity_about"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name=".SurveyActivity"
-            android:label="@string/title_activity_survey"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name=".HeightDiagramActivity"
+            android:icon="@drawable/ic_height_diagram_white"
             android:label="@string/title_activity_height_diagram"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".ProfileActivity"
-            android:label="@string/my_profile"
+            android:name="com.uni.bradford.bib.control.ProfileActivity"
+            android:icon="@drawable/ic_profile_white"
+            android:label="@string/title_activity_profile"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.uni.bradford.bib.control.SurveyActivity"
+            android:icon="@drawable/ic_survey_white"
+            android:label="@string/title_activity_survey"
+            android:screenOrientation="portrait" >
+        </activity>    
+        <activity
+            android:name="com.uni.bradford.bib.control.AboutActivity"
+            android:icon="@drawable/ic_about_white"
+            android:label="@string/title_activity_about"
             android:screenOrientation="portrait" >
         </activity>
     </application>

@@ -2,31 +2,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.uni.bradford.bib.AboutActivity" >
+    tools:context="com.uni.bradford.bib.control.AboutActivity" >
 
     <ImageView
-        android:id="@+id/ivPictureLogo"
+        android:id="@+id/ivAboutBanner"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:contentDescription="@string/logo_description"
+        android:contentDescription="@string/about_banner_description"
         android:src="@drawable/about_slider" />
     
     <ScrollView
         android:id="@+id/svText"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/ivPictureLogo" >
+        android:layout_below="@+id/ivAboutBanner" >
 
-        <TextView
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:paddingTop="5dp"
-	        android:paddingLeft="10dp"
-	        android:paddingRight="10dp"
-	        android:paddingBottom="10dp"
-	        android:text="@string/about_text" />
+    	<TextView
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content"
+	    	android:paddingTop="5dp"
+	    	android:paddingLeft="10dp"
+	    	android:paddingRight="10dp"
+	    	android:paddingBottom="10dp"
+	   		android:text="@string/about_text" />
         
     </ScrollView>
 

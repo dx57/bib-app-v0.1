@@ -10,9 +10,9 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        android:drawablePadding="10dp"
         android:gravity="center_vertical|left"
         android:drawableLeft="@drawable/ic_height_visual_green"
-        android:drawablePadding="10dp"
-        android:text="@string/hello_world" />
+        android:text="@string/place_holder" />
 
 </RelativeLayout>

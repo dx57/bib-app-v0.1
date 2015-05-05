@@ -2,6 +2,8 @@ package com.uni.bradford.bib;
 
 import java.util.ArrayList;
 
+import com.uni.bradford.bib.control.ProfileActivity;
+
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
