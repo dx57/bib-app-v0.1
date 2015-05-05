@@ -1,4 +1,4 @@
-package com.uni.bradford.bib;
+package com.uni.bradford.bib.control;
 
 import java.util.ArrayList;
 
@@ -16,6 +16,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.uni.bradford.bib.DataModel;
+import com.uni.bradford.bib.ProgramEntry;
+import com.uni.bradford.bib.ProgramListViewAdapter;
+import com.uni.bradford.bib.R;
+
+/**
+ * Class to deal with user interaction for showing profile information
+ * 
+ * @author Martin
+ */
 public class ProfileActivity extends Activity
 {
 	// GUI
@@ -34,9 +44,8 @@ public class ProfileActivity extends Activity
 	
 	// Logic
 	private DataModel dataModel;
-	
-	// Model 
 	private ArrayList<ProgramEntry> programList;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -44,10 +53,9 @@ public class ProfileActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
 		
-		// Change ActionBar color and icon
+		// Change ActionBar color
 		ActionBar bar = getActionBar(); 
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
-		bar.setIcon(R.drawable.ic_profile_white); 
 		
 		// Init logic
 		LoadDataModelFromFileAsyncTask loadLocalTask = new LoadDataModelFromFileAsyncTask();
@@ -210,6 +218,7 @@ public class ProfileActivity extends Activity
 		@Override
 		protected Void doInBackground(Void... params)
 		{		
+			// Load data model from file
 			dataModel = DataModel.loadFromFile(ProfileActivity.this.getFilesDir());
 						
 			return null; 

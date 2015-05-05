@@ -2,6 +2,10 @@ package com.uni.bradford.bib;
 
 import java.util.ArrayList;
 
+import com.uni.bradford.bib.control.AboutActivity;
+import com.uni.bradford.bib.control.ProfileActivity;
+import com.uni.bradford.bib.control.SurveyActivity;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -16,6 +20,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+/**
+ * Class to deal with in-App navigation
+ * 
+ * @author Martin
+ */
 public class OverviewActivity extends Activity
 {
 	// GUI
@@ -42,7 +51,6 @@ public class OverviewActivity extends Activity
 		// Change ActionBar color and icon
 		ActionBar bar = getActionBar(); 
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
-		bar.setIcon(R.drawable.ic_launcher);
 				 
 		// Init logic 
 		LoadDataModelFromFileAsyncTask loadLocalTask = new LoadDataModelFromFileAsyncTask();
@@ -57,8 +65,8 @@ public class OverviewActivity extends Activity
 		intent = new Intent(OverviewActivity.this, HeightDiagramActivity.class);
 		overviewList.add(new OverviewEntry(getResources().getString(R.string.title_activity_height_diagram), R.drawable.ic_height_diagram_green, intent));
 		
-		intent = new Intent(OverviewActivity.this, ProfileActivity.class);
-		overviewList.add(new OverviewEntry(getResources().getString(R.string.my_profile), R.drawable.ic_profile_green, intent));
+		intent = new Intent(OverviewActivity.this, ProfileActivity.class); 
+		overviewList.add(new OverviewEntry(getResources().getString(R.string.title_activity_profile), R.drawable.ic_profile_green, intent));
 		
 		intent = new Intent(OverviewActivity.this, SurveyActivity.class);	
 		intent.putExtra("survey-url", "https://www.surveymonkey.com/s/HMP398J"); // TODO: Load from data model
@@ -71,9 +79,9 @@ public class OverviewActivity extends Activity
 		ivSocialMediaFacebook = (ImageView)findViewById(R.id.ivSocialMediaFacebook);
 		ivSocialMediaTwitter = (ImageView)findViewById(R.id.ivSocialMediaTwitter);
 		ivSocialMediaYoutube = (ImageView)findViewById(R.id.ivSocialMediaYoutube);
-		ivSocialMediaFacebook.setOnClickListener(new IvSocialMediaOnClickListener("http://www.facebook.com/BornInBradford?fref=ts"));
-		ivSocialMediaTwitter.setOnClickListener(new IvSocialMediaOnClickListener("https://twitter.com/BiBresearch"));
-		ivSocialMediaYoutube.setOnClickListener(new IvSocialMediaOnClickListener("http://www.youtube.com/user/BorninBradford2011"));
+		ivSocialMediaFacebook.setOnClickListener(new IvSocialMediaOnClickListener(getResources().getString(R.string.link_facebook)));
+		ivSocialMediaTwitter.setOnClickListener(new IvSocialMediaOnClickListener(getResources().getString(R.string.link_twitter)));
+		ivSocialMediaYoutube.setOnClickListener(new IvSocialMediaOnClickListener(getResources().getString(R.string.link_youtube)));
 		
 		// Setup navigation list
 		listAdapter = new OverviewListViewAdapter(overviewList, this);
@@ -92,10 +100,16 @@ public class OverviewActivity extends Activity
 		saveTask.execute();
 	}
 	
+	/**
+	 * Class to deal with social media links
+	 */
 	private class IvSocialMediaOnClickListener implements OnClickListener
 	{
 		private String socialMediaUrl;
 		
+		/**
+		 * Initialise each listener with the according link
+		 */
 		public IvSocialMediaOnClickListener(String socialMediaUrl)
 		{
 			this.socialMediaUrl = socialMediaUrl;
@@ -110,34 +124,44 @@ public class OverviewActivity extends Activity
 		}
 	}
 	
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
 	{
+		// Check request code
 	    if (requestCode == SURVEY_REQUEST) 
 	    {
+	    	// Check result code
 	        if(resultCode == RESULT_OK)
 	        {
 	        	System.out.println("OverviewActivity: RESULT_OK");
 	 
-	        	// TODO: set to true again.. just for user testing session
-	        	dataModel.setTookSurvey(false);
+	        	// User completed survey (prohibit to take survey again)
+	        	dataModel.setTookSurvey(false); // TODO: Set to true.. false only for development/test process
 	        	
 	        	updateGui();
 	        }
 	    }
 	}
 	
+	/**
+	 * Change GUI according to data model
+	 */
 	public void updateGui()
 	{
-		// TODO: Get correct list entry position automatically
-		Button btnEntry = (Button)lvOverview.getChildAt(2).findViewById(R.id.btnEntry);
+		// Enable/disable user to take survey (again)
+		Button btnEntry = (Button)lvOverview.getChildAt(3).findViewById(R.id.btnEntry);
     	btnEntry.setEnabled(!dataModel.isTookSurvey());
 	}
 	
+	/**
+	 * Class to load data model from local file
+	 */
 	private class LoadDataModelFromFileAsyncTask extends AsyncTask<Void, Void, Void>
 	{
 		@Override
 		protected Void doInBackground(Void... params)
-		{		
+		{	
+			// Load data model from file
 			dataModel = DataModel.loadFromFile(OverviewActivity.this.getFilesDir());
 						
 			return null; 
@@ -151,19 +175,24 @@ public class OverviewActivity extends Activity
 				// Update GUI
 				updateGui();
 				
-//				Toast toast = Toast.makeText(OverviewActivity.this, "..loaded from file", Toast.LENGTH_SHORT);
-//				toast.show();
+				// Toast toast = Toast.makeText(OverviewActivity.this, "..loaded from file", Toast.LENGTH_SHORT);
+				// toast.show();
 			}
 		}
 	}
 	
+	/**
+	 * Class to save data model to local file
+	 */
 	private class SaveDataModeToFilelAsyncTask extends AsyncTask<Void, Void, Void>
 	{			
 		@Override
 		protected Void doInBackground(Void... params)
 		{	
+			// Only save if data model is initialised
 			if (dataModel != null)
 			{
+				// Save data model to local file
 				dataModel.saveToFile(dataModel, OverviewActivity.this.getFilesDir());
 			}
 			
@@ -174,8 +203,8 @@ public class OverviewActivity extends Activity
 		protected void onPostExecute(Void result)
 		{
 			 // Debug: Show in GUI
-//			 Toast toast = Toast.makeText(OverviewActivity.this, "..saved to file", Toast.LENGTH_SHORT);
-//			 toast.show();
+			 // Toast toast = Toast.makeText(OverviewActivity.this, "..saved to file", Toast.LENGTH_SHORT);
+			 // toast.show();
 		}
 	}
 }

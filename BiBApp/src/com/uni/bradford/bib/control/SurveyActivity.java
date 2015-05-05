@@ -1,5 +1,6 @@
-package com.uni.bradford.bib;
+package com.uni.bradford.bib.control;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,6 +21,15 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.uni.bradford.bib.OverviewActivity;
+import com.uni.bradford.bib.OverviewListViewAdapter;
+import com.uni.bradford.bib.R;
+
+/**
+ * Class to deal with user interaction for filling in the online survey
+ * 
+ * @author Martin
+ */
 public class SurveyActivity extends Activity
 {
 	// GUI
@@ -37,11 +47,16 @@ public class SurveyActivity extends Activity
 	private BroadcastReceiver networkStateBroadcastReceiver;
 
 	
+	@SuppressLint("SetJavaScriptEnabled")
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_survey);
+		
+		// Change ActionBar color
+		ActionBar bar = getActionBar();
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
 		
 		// Init logic
 		tookSurvey = false;
@@ -50,11 +65,6 @@ public class SurveyActivity extends Activity
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 		registerReceiver(networkStateBroadcastReceiver, intentFilter);
-		
-		// Change ActionBar color and icon
-		ActionBar bar = getActionBar();
-		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
-		bar.setIcon(R.drawable.ic_survey_white);
 		
 		// Connect to GUI views and setup	
 		wvSurvey = (WebView)findViewById(R.id.wvSurvey);
@@ -79,11 +89,20 @@ public class SurveyActivity extends Activity
 	{
 		super.onDestroy();
 		
+		// Do not listen for Internet connection changes
 		unregisterReceiver(networkStateBroadcastReceiver);
 	}
 	
+	/**
+	 * Class to warn user when there is no Internet connection (needed for survey)
+	 */
 	private class NoInternetConnectionDialogBuilder extends AlertDialog.Builder
 	{	
+		/**
+		 * Build dialog to warn user about no Internet connection
+		 * 
+		 * @param context Dialog context
+		 */
 		public NoInternetConnectionDialogBuilder(Context context)
 		{
 			super(context);
@@ -96,6 +115,9 @@ public class SurveyActivity extends Activity
 			this.setNegativeButton(R.string.ok, new OnCancelClickListener());
 		}
 		
+		/**
+		 * Class to deal with user input for the dialog
+		 */
 		private class OnCancelClickListener implements DialogInterface.OnClickListener
 		{
 			@Override
@@ -112,6 +134,9 @@ public class SurveyActivity extends Activity
 		} 
 	}
 	
+	/**
+	 * Create an show dialog to warn user about no Internet connection
+	 */
 	private void showNoConnectionDialog()
 	{	
 		// Create and show dialog
@@ -120,6 +145,9 @@ public class SurveyActivity extends Activity
 		alert.show( );
 	}
 	
+	/**
+	 * Class to control the WebView
+	 */
 	private class SurveyWebViewClient extends WebViewClient
 	{
 		@Override
@@ -127,14 +155,15 @@ public class SurveyActivity extends Activity
 		{
 			if (url.contains(surveyUrl) || url.contains(SURVEY_COMPLETE))
 			{
-				// User started or finished survey.. do react
+				// User started or finished survey.. do react (load new page)
 				return false;
 			}
 			
-			// User clicked an unexpected link.. do not react
+			// User clicked an unexpected link.. do not react (do not load new page)
 	        return true;
 	    }
 		
+		@Override
 		public void onPageFinished(WebView view, String url) 
 		{
 			System.out.println("load " + url + " complete.");
@@ -142,7 +171,7 @@ public class SurveyActivity extends Activity
 			// Only if user starts the survey
 			if (!url.contains(SURVEY_COMPLETE))
 			{
-				// Hide progress bar and show loaded survey
+				// Hide progress bar and show loaded survey if Internet accessible
 				tvInfoToSurvey.setVisibility(TextView.INVISIBLE);
 				tvWait.setVisibility(TextView.INVISIBLE);
 				pbLoadSurvey.setVisibility(ProgressBar.INVISIBLE);
@@ -153,6 +182,7 @@ public class SurveyActivity extends Activity
 			}
 		}
 		
+		@Override
 		public void onPageStarted(WebView view, String url, Bitmap favicon) 
 		{
 			System.out.println("started " + url);
@@ -160,23 +190,29 @@ public class SurveyActivity extends Activity
 			// Indicates the end of the survey
 			if (url.contains(SURVEY_COMPLETE))
 			{
-				// Thank user and hide unimportant views
+				// Thank user and hide survey view
 				wvSurvey.setVisibility(WebView.INVISIBLE);
 				ivSurveyCompleted.setVisibility(ImageView.VISIBLE);
 				
+				// Remember that user took survey to prevent user take survey again 
 				tookSurvey = true;
 			}			
 	    }
 	}
 	
+	/**
+	 * Class to receive information on Internet availability changes
+	 */
 	public class NetworkStateBroadcastReceiver extends BroadcastReceiver  
 	{
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
+			// Init class to get infos about Internet availability
 			ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 			NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 			
+			// Check for Internet availability
 			if (networkInfo != null && networkInfo.isConnected())
 			{
 				System.out.println("Internet connection.");
@@ -200,7 +236,7 @@ public class SurveyActivity extends Activity
 
 		Intent returnToOverview = new Intent();
 		
-		// Check if user took the survey
+		// Check if user took the survey to update local data model
 		if (tookSurvey)
 		{
 			System.out.println("RESULT_OK");
