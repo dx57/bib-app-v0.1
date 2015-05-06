@@ -1,25 +1,30 @@
-package com.uni.bradford.bib;
+package com.uni.bradford.bib.control;
 
 import android.content.Intent;
 
+/**
+ * Class to deal with a single row within the ActivityOverview
+ * 
+ * @author Martin
+ */
 public class OverviewEntry
 {
 	private String name;
 	private int drawableRef;
 	private Intent intent;
-	private int requestCode;
 	
-	public OverviewEntry(String name, int drawableRef, Intent intent, int requestCode)
+	/**
+	 * Initialise the the overview list entry
+	 * 
+	 * @param name Title of the linked screen
+	 * @param drawableRef Reference on Drawable resource for screen icon
+	 * @param intent Intent reference for the correlated Activity
+	 */
+	public OverviewEntry(String name, int drawableRef, Intent intent)
 	{
 		this.name = name;
 		this.setDrawableRef(drawableRef);
 		this.setIntent(intent);
-		this.setRequestCode(requestCode);
-	}
-	
-	public OverviewEntry(String name, int drawableRef, Intent intent)
-	{
-		this(name, drawableRef, intent, 0);
 	}
 	
 	public String getName()
@@ -50,15 +55,5 @@ public class OverviewEntry
 	public void setIntent(Intent intent)
 	{
 		this.intent = intent;
-	}
-
-	public int getRequestCode()
-	{
-		return requestCode;
-	}
-
-	public void setRequestCode(int requestCode)
-	{
-		this.requestCode = requestCode;
 	}
 }

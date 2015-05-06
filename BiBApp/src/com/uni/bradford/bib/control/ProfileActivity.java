@@ -108,21 +108,6 @@ public class ProfileActivity extends Activity
 	}
 
 	/**
-	 * Class to react on child selection
-	 */
-	private class OnSpinnerSelectChildSelectedListener implements OnItemSelectedListener
-	{
-		@Override
-		public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-		{
-			changeProgramList(position);
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> parent) { }
-	}
-	
-	/**
 	 * Fill list and draw infographic according to programs the selected child took part in
 	 * 
 	 * @param position Position of the selected child within the selection Spinner
@@ -208,6 +193,21 @@ public class ProfileActivity extends Activity
 			programList.add(new ProgramEntry(false, programNames[5], programDescription[5]));
 			ivMap07check.setVisibility(ImageView.INVISIBLE);
 		}
+	}
+	
+	/**
+	 * Class to react on child selection
+	 */
+	private class OnSpinnerSelectChildSelectedListener implements OnItemSelectedListener
+	{
+		@Override
+		public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+		{
+			changeProgramList(position);
+		}
+
+		@Override
+		public void onNothingSelected(AdapterView<?> parent) { }
 	}
 	
 	/**

@@ -20,12 +20,11 @@
     <string name="action_share">Share</string>
     
     <string name="title_activity_height_visual">My Childs height</string>
-    <string name="title_activity_height_diagram">My Childs height</string>
     
     <string name="hello_world">Content to be added</string>
     
     <string name="image_description">Image description</string>
-    <string name="own_child">Own child</string>
+    
     <string name="average_child">Average child</string>
     <string name="start_date">XXXX</string>
     <string name="end_date">YYYY</string>
@@ -62,6 +61,7 @@
     <!-- Overview Screen ............................................................................................... -->
     <string name="title_activity_overview">Overview</string>
     <string name="logo_description">Born in Bradford Logo</string>
+    <string name="overview_banner_description">Banner for the overview screen</string>
     
     <string name="social_media">Social Media</string>
     
@@ -72,6 +72,13 @@
     <string name="link_facebook">http://www.facebook.com/BornInBradford?fref=ts</string>
     <string name="link_twitter">https://twitter.com/BiBresearch</string>
     <string name="link_youtube">http://www.youtube.com/user/BorninBradford2011</string>
+    
+    
+    <!-- Height Diagram Screen ......................................................................................... -->
+    <string name="title_activity_height_diagram">My Childs height</string>
+    
+    <string name="own_child">Own child</string>
+    <string name="national_average">National average</string>
     
     
     

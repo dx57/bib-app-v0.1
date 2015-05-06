@@ -24,7 +24,7 @@ public class DataModel implements Serializable
 	private boolean tookSurvey;
 	private boolean rememberUser;
 	private String hashedLoginId;
-	private String surveyUrl;
+	private String surveyUrl; 
 	
 	private Mother mother;
 	
@@ -95,7 +95,7 @@ public class DataModel implements Serializable
 		long start = SystemClock.uptimeMillis();
 		
 		DataModel dataModel = new DataModel();
-		dataModel.setSurveyUrl("www.google.de"); // TODO: 
+		dataModel.setSurveyUrl("https://www.surveymonkey.com/s/HMP398J"); // TODO: Load from WebService
 							
 		WebServiceInteraction wsi = new WebServiceInteraction(dataModel);
 		

@@ -31,6 +31,11 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MarkerView;
 
+/**
+ * Class to deal with user interaction for showing child growth information
+ * 
+ * @author Martin
+ */
 public class HeightDiagramActivity extends Activity
 {
 	// GUI
@@ -40,6 +45,7 @@ public class HeightDiagramActivity extends Activity
 	// Logic
 	private DataModel dataModel;
 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -91,19 +97,6 @@ public class HeightDiagramActivity extends Activity
 		// Add listener
 		sDiagramSelectChild.setOnItemSelectedListener(new OnSpinnerSelectChildSelectedListener());
 	}
-	
-	private class OnSpinnerSelectChildSelectedListener implements OnItemSelectedListener
-	{
-		@Override
-		public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-		{
-			// TODO: Add behaviour
-			System.out.println("Selected child: " + position + " " + parent.getItemAtPosition(position).toString());
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> parent) { }
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
@@ -124,8 +117,8 @@ public class HeightDiagramActivity extends Activity
 		{
 			System.out.println("Clicked share");
 						            
-            // TODO: It might be possible to add info text INTO the picture (deal with Facebook)
-            Bitmap bitmapOfCapture = lcHeight.getChartBitmap();
+            // Get diagram as picture
+            Bitmap bitmapOfCapture = lcHeight.getChartBitmap(); // Possible to add info text INTO picture (deal with FB)
 		     
             // Setup intent for sharing
             Intent sendIntent = new Intent();
@@ -141,7 +134,7 @@ public class HeightDiagramActivity extends Activity
 			ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 			bitmapOfCapture.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
 			
-			// Use temorary file for share intent
+			// Use temporary file for share intent
 			File file = new File (Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
 			
 			try 
@@ -167,6 +160,25 @@ public class HeightDiagramActivity extends Activity
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	/**
+	 * Change GUI according to data model
+	 */
+	public void updateGui()
+	{
+		// Create array for all children of a mother for spinner
+		String[] children = new String[dataModel.getMother().getChildCount()];
+		for (int i = 0; i < dataModel.getMother().getChildCount(); i++)
+		{
+			// Add children as YYYY-M format string.
+			children[i] = dataModel.getMother().getChild(i).getIdentifier();
+		}
+		
+		// Link spinner and children array
+		ArrayAdapter<String> adapterChilds = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, children);
+		adapterChilds.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		sDiagramSelectChild.setAdapter(adapterChilds);
 	}
 
 	// TODO: Only to get started
@@ -226,7 +238,7 @@ public class HeightDiagramActivity extends Activity
 
 
 		// create a dataset and give it a type
-		LineDataSet set1 = new LineDataSet(yVals2, "National average");
+		LineDataSet set1 = new LineDataSet(yVals2, getResources().getString(R.string.national_average));
 		set1.setColor(Color.parseColor("#0171bd"));
 		set1.setCircleColor(Color.parseColor("#0171bd"));
 		set1.setLineWidth(2f);
@@ -239,7 +251,7 @@ public class HeightDiagramActivity extends Activity
 		set1.setDrawCubic(true);
 
 		// create a dataset and give it a type
-		LineDataSet set2 = new LineDataSet(yVals1, "Own child");
+		LineDataSet set2 = new LineDataSet(yVals1, getResources().getString(R.string.own_child));
 		set2.setColor(Color.parseColor("#009933"));
 		set2.setCircleColor(Color.parseColor("#009933"));
 		set2.setLineWidth(4f);
@@ -257,43 +269,117 @@ public class HeightDiagramActivity extends Activity
 
 		// set data
 		lcHeight.setData(data);
-
-		// Add listener
-		sDiagramSelectChild.setOnItemSelectedListener(new OnSpinnerDiagramSelectChildSelectedListener());
 	}
 
-	private class OnSpinnerDiagramSelectChildSelectedListener implements OnItemSelectedListener
+	private void showGrowthDataForChild(int position)
+	{
+		// TODO: Evtl. muss ich hier noch mal eine Umrechnung von Tagen auf Jahre machen (Jahre kann man ganz gut für x
+		//       Achse nehmen
+		
+		// x axis is made from full integer values with a String representation.. this is already the workaround!
+		
+		lcHeight.clear();
+		
+		Child selectedChild = dataModel.getMother().getChild(position);
+		
+		ArrayList<String> xVals = new ArrayList<String>();
+		for (int i = 0; i < selectedChild.getLastChildData().getAgeDays()+10; i++) 
+		{
+			String xLabelString = "";
+			
+			// TODO: Hier auf jeden Fall Constanten nehmen, da ich vielleicht Jahr und Monat Dauer noch mal ändere
+			
+			// Use average year
+			if ( (i/360) >= 1)
+			{
+				xLabelString = (i/360) + "yr";
+			}
+			
+			// Use average month
+			if ( ((i % 360)/30) >= 1)
+			{
+				if (xLabelString.length() > 0)
+				{
+					xLabelString += " ";
+				}
+				
+				xLabelString += ((i % 360)/30) + "m";
+			}
+			
+			if ( ((i % 360) % 30) >= 1 )
+			{
+				if (xLabelString.length() > 0)
+				{
+					xLabelString += " ";
+				}
+				
+				xLabelString += ((i % 360) % 30) + "d";
+			}
+						
+			xVals.add(xLabelString);
+		}
+		
+		ArrayList<Entry> yValues = new ArrayList<Entry>();
+		
+		// Take all data of child for diagram
+		for (int i = 0; i < selectedChild.getChildDataAmount(); i++)
+		{
+			System.out.println(selectedChild.getChildData(i).getHeight().floatValue() + " " + selectedChild.getChildData(i).getAgeDays());
+			yValues.add(new Entry(selectedChild.getChildData(i).getHeight().floatValue(), selectedChild.getChildData(i).getAgeDays()));
+		}
+		
+		// create a dataset and give it a type
+		LineDataSet ownChildDataSet = new LineDataSet(yValues, getResources().getString(R.string.own_child));
+		ownChildDataSet.setColor(Color.parseColor("#0171bd"));
+		ownChildDataSet.setCircleColor(Color.parseColor("#0171bd"));
+		ownChildDataSet.setLineWidth(2f);
+		ownChildDataSet.setCircleSize(4f);
+		ownChildDataSet.setFillAlpha(65);
+		ownChildDataSet.setFillColor(ColorTemplate.getHoloBlue());
+		ownChildDataSet.setHighLightColor(Color.rgb(244, 117, 117));
+		// set1.setDrawFilled(true);
+		ownChildDataSet.setDrawCircles(true);
+		ownChildDataSet.setDrawCubic(true);
+		
+		ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
+		dataSets.add(ownChildDataSet);
+
+		// create a data object with the datasets
+		LineData data = new LineData(xVals, dataSets);
+
+		// set data
+		lcHeight.setData(data);
+		
+		
+	}
+	
+	/**
+	 * Class to react on child selection
+	 */
+	private class OnSpinnerSelectChildSelectedListener implements OnItemSelectedListener
 	{
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
 		{
 			// TODO: Add behaviour
-			System.out.println("Selected child: " + position);
+			System.out.println("Selected child: " + position + " " + parent.getItemAtPosition(position).toString());
+			
+			showGrowthDataForChild(position);
 		}
 
 		@Override
 		public void onNothingSelected(AdapterView<?> parent) { }
 	}
 	
-	public void updateGui()
-	{
-		// Init selection menu
-		String[] children = new String[dataModel.getMother().getChildCount()];
-		for (int i = 0; i < dataModel.getMother().getChildCount(); i++)
-		{
-			children[i] = dataModel.getMother().getChild(i).getIdentifier();
-		}
-		
-		ArrayAdapter<String> adapterChilds = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, children);
-		adapterChilds.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		sDiagramSelectChild.setAdapter(adapterChilds);
-	}
-	
+	/**
+	 * Class to load data model from local file
+	 */
 	private class LoadDataModelFromFileAsyncTask extends AsyncTask<Void, Void, Void>
 	{
 		@Override
 		protected Void doInBackground(Void... params)
 		{		
+			// Load data model from file
 			dataModel = DataModel.loadFromFile(HeightDiagramActivity.this.getFilesDir());
 						
 			return null; 
@@ -307,8 +393,8 @@ public class HeightDiagramActivity extends Activity
 				// Update GUI
 				updateGui();
 				
-//				Toast toast = Toast.makeText(HeightDiagramActivity.this, "..loaded from file", Toast.LENGTH_SHORT);
-//				toast.show();
+				// Toast toast = Toast.makeText(HeightDiagramActivity.this, "..loaded from file", Toast.LENGTH_SHORT);
+				// toast.show();
 			}
 		}
 	}
