@@ -25,6 +25,8 @@ import android.widget.Toast;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import com.uni.bradford.bib.control.OverviewActivity;
+
 public class LoginActivity extends Activity
 {
 	// GUI elements
