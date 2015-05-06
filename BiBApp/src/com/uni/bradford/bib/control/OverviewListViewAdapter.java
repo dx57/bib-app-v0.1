@@ -1,4 +1,4 @@
-package com.uni.bradford.bib;
+package com.uni.bradford.bib.control;
 
 import java.util.ArrayList;
 
@@ -10,13 +10,24 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 
+import com.uni.bradford.bib.R;
+
+/**
+ * Class to deal with navigation list within ActivityOverview
+ * 
+ * @author Martin
+ */
 public class OverviewListViewAdapter extends BaseAdapter
 {
 	private ArrayList<OverviewEntry> arrayList;
 	private OverviewActivity overviewActivity;
-	
-	public static final String SURVEY_URL = "survey-url";
 
+	/**
+	 * Initialise the the overview list
+	 * 
+	 * @param overviewList List of list entries
+	 * @param overviewActivity Reference for OverViewActivity
+	 */
 	public OverviewListViewAdapter(ArrayList<OverviewEntry> overviewList, OverviewActivity overviewActivity)
 	{
 		this.arrayList = overviewList;
@@ -58,10 +69,18 @@ public class OverviewListViewAdapter extends BaseAdapter
 		return convertView;
 	}
 
+	/**
+	 * Class to deal with selection of list entries
+	 */
 	private class OnBtnEntryClickListener implements OnClickListener
 	{
 		private int position;
 
+		/**
+		 * Initialise the the overview list
+		 * 
+		 * @param position Position of the list entry within the list
+		 */
 		public OnBtnEntryClickListener(int position)
 		{
 			this.position = position;
@@ -70,9 +89,8 @@ public class OverviewListViewAdapter extends BaseAdapter
 		@Override
 		public void onClick(View view)
 		{
-			System.out.println("Button Entry clicked");	
-					
-			overviewActivity.startActivityForResult(arrayList.get(position).getIntent(), arrayList.get(position).getRequestCode());
+			// Start the correct Activity with the help of the referenced intent					
+			overviewActivity.startActivity(arrayList.get(position).getIntent());
 		}	
 	}
 }

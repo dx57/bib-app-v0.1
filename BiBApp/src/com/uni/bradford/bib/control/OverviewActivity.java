@@ -1,10 +1,6 @@
-package com.uni.bradford.bib;
+package com.uni.bradford.bib.control;
 
 import java.util.ArrayList;
-
-import com.uni.bradford.bib.control.AboutActivity;
-import com.uni.bradford.bib.control.ProfileActivity;
-import com.uni.bradford.bib.control.SurveyActivity;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -20,6 +16,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.uni.bradford.bib.DataModel;
+import com.uni.bradford.bib.HeightDiagramActivity;
+import com.uni.bradford.bib.HeightVisualActivity;
+import com.uni.bradford.bib.R;
+
 /**
  * Class to deal with in-App navigation
  * 
@@ -34,7 +35,6 @@ public class OverviewActivity extends Activity
 	private ImageView ivSocialMediaYoutube;
 	
 	// Logic	
-	public static final int SURVEY_REQUEST = 1;
 	private DataModel dataModel;
 	
 	private OverviewListViewAdapter listAdapter;
@@ -51,10 +51,6 @@ public class OverviewActivity extends Activity
 		// Change ActionBar color and icon
 		ActionBar bar = getActionBar(); 
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
-				 
-		// Init logic 
-		LoadDataModelFromFileAsyncTask loadLocalTask = new LoadDataModelFromFileAsyncTask();
-		loadLocalTask.execute();
 		
 		// Init local data-model
 		overviewList = new ArrayList<OverviewEntry>(); 
@@ -69,8 +65,7 @@ public class OverviewActivity extends Activity
 		overviewList.add(new OverviewEntry(getResources().getString(R.string.title_activity_profile), R.drawable.ic_profile_green, intent));
 		
 		intent = new Intent(OverviewActivity.this, SurveyActivity.class);	
-		intent.putExtra("survey-url", "https://www.surveymonkey.com/s/HMP398J"); // TODO: Load from data model
-		overviewList.add(new OverviewEntry(getResources().getString(R.string.title_activity_survey), R.drawable.ic_survey_green, intent, SURVEY_REQUEST));
+		overviewList.add(new OverviewEntry(getResources().getString(R.string.title_activity_survey), R.drawable.ic_survey_green, intent));
 		
 		intent = new Intent(OverviewActivity.this, AboutActivity.class);
 		overviewList.add(new OverviewEntry(getResources().getString(R.string.title_activity_about), R.drawable.ic_about_green, intent));
@@ -91,6 +86,16 @@ public class OverviewActivity extends Activity
 	}
 	
 	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		
+		// Init logic 
+		LoadDataModelFromFileAsyncTask loadLocalTask = new LoadDataModelFromFileAsyncTask();
+		loadLocalTask.execute();
+	}
+	
+	@Override
 	protected void onPause()
 	{
 		super.onPause();
@@ -98,6 +103,16 @@ public class OverviewActivity extends Activity
 		// Save all changes the activity did to the data model
 		SaveDataModeToFilelAsyncTask saveTask = new SaveDataModeToFilelAsyncTask();
 		saveTask.execute();
+	}
+	
+	/**
+	 * Change GUI according to data model
+	 */
+	public void updateGui()
+	{
+		// Enable/disable user to take survey (again)
+		Button btnEntry = (Button)lvOverview.getChildAt(3).findViewById(R.id.btnEntry);
+    	btnEntry.setEnabled(!dataModel.isTookSurvey());
 	}
 	
 	/**
@@ -124,35 +139,6 @@ public class OverviewActivity extends Activity
 		}
 	}
 	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
-	{
-		// Check request code
-	    if (requestCode == SURVEY_REQUEST) 
-	    {
-	    	// Check result code
-	        if(resultCode == RESULT_OK)
-	        {
-	        	System.out.println("OverviewActivity: RESULT_OK");
-	 
-	        	// User completed survey (prohibit to take survey again)
-	        	dataModel.setTookSurvey(false); // TODO: Set to true.. false only for development/test process
-	        	
-	        	updateGui();
-	        }
-	    }
-	}
-	
-	/**
-	 * Change GUI according to data model
-	 */
-	public void updateGui()
-	{
-		// Enable/disable user to take survey (again)
-		Button btnEntry = (Button)lvOverview.getChildAt(3).findViewById(R.id.btnEntry);
-    	btnEntry.setEnabled(!dataModel.isTookSurvey());
-	}
-	
 	/**
 	 * Class to load data model from local file
 	 */
@@ -175,8 +161,8 @@ public class OverviewActivity extends Activity
 				// Update GUI
 				updateGui();
 				
-				// Toast toast = Toast.makeText(OverviewActivity.this, "..loaded from file", Toast.LENGTH_SHORT);
-				// toast.show();
+				 // Toast toast = Toast.makeText(OverviewActivity.this, "..loaded from file", Toast.LENGTH_SHORT);
+				 // toast.show();
 			}
 		}
 	}

@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -21,8 +22,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.uni.bradford.bib.OverviewActivity;
-import com.uni.bradford.bib.OverviewListViewAdapter;
+import com.uni.bradford.bib.DataModel;
 import com.uni.bradford.bib.R;
 
 /**
@@ -40,10 +40,9 @@ public class SurveyActivity extends Activity
 	private ImageView ivSurveyCompleted;
 	
 	// Logic
+	private DataModel dataModel;
 	private static final String SURVEY_COMPLETE = "survey-thanks";
-	private boolean tookSurvey;
 	private boolean connected;
-	private String surveyUrl;
 	private BroadcastReceiver networkStateBroadcastReceiver;
 
 	
@@ -59,7 +58,10 @@ public class SurveyActivity extends Activity
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
 		
 		// Init logic
-		tookSurvey = false;
+		LoadDataModelFromFileAsyncTask loadLocalTask = new LoadDataModelFromFileAsyncTask();
+		loadLocalTask.execute();
+		
+		// Init logic
 		connected = false;
 		networkStateBroadcastReceiver = new NetworkStateBroadcastReceiver();
 		IntentFilter intentFilter = new IntentFilter();
@@ -76,10 +78,6 @@ public class SurveyActivity extends Activity
 		// Must-Have for SurveyMonkey.. but might allow cross-side-scripting
 		wvSurvey.getSettings().setJavaScriptEnabled(true);
 		
-		// Use SurveyMonkey to deal with survey options 
-		surveyUrl = getIntent().getStringExtra(OverviewListViewAdapter.SURVEY_URL);
-		wvSurvey.loadUrl(surveyUrl); 
-		
 		// Add listener
 		wvSurvey.setWebViewClient(new SurveyWebViewClient());
 	}
@@ -91,6 +89,26 @@ public class SurveyActivity extends Activity
 		
 		// Do not listen for Internet connection changes
 		unregisterReceiver(networkStateBroadcastReceiver);
+	}
+		
+	/**
+	 * Change GUI according to available data
+	 */
+	private void updateGui()
+	{
+		// Use SurveyMonkey to deal with survey options 
+		wvSurvey.loadUrl(dataModel.getSurveyUrl()); 
+	}
+	
+	/**
+	 * Create an show dialog to warn user about no Internet connection
+	 */
+	private void showNoConnectionDialog()
+	{	
+		// Create and show dialog
+		final NoInternetConnectionDialogBuilder noConnectionDialogBuilder = new NoInternetConnectionDialogBuilder(this);
+		final AlertDialog alert = noConnectionDialogBuilder.create( );
+		alert.show( );
 	}
 	
 	/**
@@ -135,17 +153,6 @@ public class SurveyActivity extends Activity
 	}
 	
 	/**
-	 * Create an show dialog to warn user about no Internet connection
-	 */
-	private void showNoConnectionDialog()
-	{	
-		// Create and show dialog
-		final NoInternetConnectionDialogBuilder noConnectionDialogBuilder = new NoInternetConnectionDialogBuilder(this);
-		final AlertDialog alert = noConnectionDialogBuilder.create( );
-		alert.show( );
-	}
-	
-	/**
 	 * Class to control the WebView
 	 */
 	private class SurveyWebViewClient extends WebViewClient
@@ -153,7 +160,7 @@ public class SurveyActivity extends Activity
 		@Override
 	    public boolean shouldOverrideUrlLoading(WebView  view, String  url)
 		{
-			if (url.contains(surveyUrl) || url.contains(SURVEY_COMPLETE))
+			if (url.contains(dataModel.getSurveyUrl()) || url.contains(SURVEY_COMPLETE))
 			{
 				// User started or finished survey.. do react (load new page)
 				return false;
@@ -195,7 +202,11 @@ public class SurveyActivity extends Activity
 				ivSurveyCompleted.setVisibility(ImageView.VISIBLE);
 				
 				// Remember that user took survey to prevent user take survey again 
-				tookSurvey = true;
+				dataModel.setTookSurvey(true);
+				
+				// Save all changes the activity did to the data model
+				SaveDataModeToFilelAsyncTask saveTask = new SaveDataModeToFilelAsyncTask();
+				saveTask.execute();
 			}			
 	    }
 	}
@@ -229,25 +240,58 @@ public class SurveyActivity extends Activity
 		}
 	}
 	
-	@Override
-	public void onBackPressed() 
+	/**
+	 * Class to load local data model
+	 */
+	private class LoadDataModelFromFileAsyncTask extends AsyncTask<Void, Void, Void>
 	{
-		System.out.println("Back button pressed.");
-
-		Intent returnToOverview = new Intent();
-		
-		// Check if user took the survey to update local data model
-		if (tookSurvey)
-		{
-			System.out.println("RESULT_OK");
-			setResult(RESULT_OK, returnToOverview);
-		}
-		else
-		{
-			System.out.println("RESULT_CANCELED");
-			setResult(RESULT_CANCELED, returnToOverview);
+		@Override
+		protected Void doInBackground(Void... params)
+		{		
+			// Load data model from file
+			dataModel = DataModel.loadFromFile(SurveyActivity.this.getFilesDir());
+						
+			return null; 
 		}
 		
-		finish();
+		@Override
+		protected void onPostExecute(Void result)
+		{	
+			if (dataModel != null)
+			{
+				// Update GUI
+				updateGui();
+				
+				// Toast toast = Toast.makeText(HeightDiagramActivity.this, "..loaded from file", Toast.LENGTH_SHORT);
+				// toast.show();
+			}
+		}
+	}
+	
+	/**
+	 * Class to save data model to local file
+	 */
+	private class SaveDataModeToFilelAsyncTask extends AsyncTask<Void, Void, Void>
+	{			
+		@Override
+		protected Void doInBackground(Void... params)
+		{	
+			// Only save if data model is initialised
+			if (dataModel != null)
+			{
+				// Save data model to local file
+				dataModel.saveToFile(dataModel, SurveyActivity.this.getFilesDir());
+			}
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result)
+		{
+			 // Debug: Show in GUI
+			 // Toast toast = Toast.makeText(OverviewActivity.this, "..saved to file", Toast.LENGTH_SHORT);
+			 // toast.show();
+		}
 	}
 } 

@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".OverviewActivity"
+            android:name="com.uni.bradford.bib.control.OverviewActivity"
             android:icon="@drawable/ic_launcher"
             android:label="@string/title_activity_overview"
             android:screenOrientation="portrait" >
