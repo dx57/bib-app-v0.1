@@ -80,6 +80,10 @@
     <string name="own_child">Own child</string>
     <string name="national_average">National average</string>
     
+    <string name="year_shurtcut">yr</string>
+    <string name="month_shurtcut">m</string>
+    <string name="day_shurtcut">d</string>
+    
     
     
     <!-- Profile Screen ................................................................................................ -->

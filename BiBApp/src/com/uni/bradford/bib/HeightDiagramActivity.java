@@ -44,6 +44,9 @@ public class HeightDiagramActivity extends Activity
 	
 	// Logic
 	private DataModel dataModel;
+	
+	public static final int averageYear = 360;
+	public static final int averageMonth = 30;
 
 	
 	@Override
@@ -90,9 +93,6 @@ public class HeightDiagramActivity extends Activity
 
 		// set the marker to the chart
 		lcHeight.setMarkerView(mvMarker);
-
-		// TODO: Just basic approach to get going.. not full functional
-		setData(19);
 		
 		// Add listener
 		sDiagramSelectChild.setOnItemSelectedListener(new OnSpinnerSelectChildSelectedListener());
@@ -181,176 +181,118 @@ public class HeightDiagramActivity extends Activity
 		sDiagramSelectChild.setAdapter(adapterChilds);
 	}
 
-	// TODO: Only to get started
-	private void setData(int count) 
-	{
-		ArrayList<String> xVals = new ArrayList<String>();
-		for (int i = 0; i < count; i++) 
-		{
-			// TODO: Maybe instead of years, by months?
-			xVals.add((i) + " yr");
-		}
-
-		ArrayList<Entry> yVals1 = new ArrayList<Entry>();
-
-		yVals1.add(new Entry((float) 50, 0));
-		yVals1.add(new Entry((float) 70, 1));
-		yVals1.add(new Entry((float) 80, 2));
-		yVals1.add(new Entry((float) 88, 3));
-		yVals1.add(new Entry((float) 96, 4));
-		yVals1.add(new Entry((float) 100, 5));
-		yVals1.add(new Entry((float) 106, 6));
-		yVals1.add(new Entry((float) 112, 7));
-		yVals1.add(new Entry((float) 119, 8));
-		yVals1.add(new Entry((float) 126, 9));
-		yVals1.add(new Entry((float) 130, 10));
-		yVals1.add(new Entry((float) 136, 11));
-		yVals1.add(new Entry((float) 141, 12));
-		yVals1.add(new Entry((float) 145, 13));
-		yVals1.add(new Entry((float) 150, 14));
-		yVals1.add(new Entry((float) 153, 15));
-		yVals1.add(new Entry((float) 155, 16));
-		yVals1.add(new Entry((float) 156, 17));
-		yVals1.add(new Entry((float) 156, 18));
-
-
-		ArrayList<Entry> yVals2 = new ArrayList<Entry>();
-
-		yVals2.add(new Entry((float) 50+10, 0));
-		yVals2.add(new Entry((float) 70+12, 1));
-		yVals2.add(new Entry((float) 80+8, 2));
-		yVals2.add(new Entry((float) 88+6, 3));
-		yVals2.add(new Entry((float) 96+7, 4));
-		yVals2.add(new Entry((float) 100+8, 5));
-		yVals2.add(new Entry((float) 106+7, 6));
-		yVals2.add(new Entry((float) 112+5, 7));
-		yVals2.add(new Entry((float) 119+5, 8));
-		yVals2.add(new Entry((float) 126+4, 9));
-		yVals2.add(new Entry((float) 130+6, 10));
-		yVals2.add(new Entry((float) 136+6, 11));
-		yVals2.add(new Entry((float) 141+7, 12));
-		yVals2.add(new Entry((float) 145+5, 13));
-		yVals2.add(new Entry((float) 150+4, 14));
-		yVals2.add(new Entry((float) 153+4, 15));
-		yVals2.add(new Entry((float) 155+4, 16));
-		yVals2.add(new Entry((float) 156+4, 17));
-		yVals2.add(new Entry((float) 156+4, 18));
-
-
-		// create a dataset and give it a type
-		LineDataSet set1 = new LineDataSet(yVals2, getResources().getString(R.string.national_average));
-		set1.setColor(Color.parseColor("#0171bd"));
-		set1.setCircleColor(Color.parseColor("#0171bd"));
-		set1.setLineWidth(2f);
-		set1.setCircleSize(4f);
-		set1.setFillAlpha(65);
-		set1.setFillColor(ColorTemplate.getHoloBlue());
-		set1.setHighLightColor(Color.rgb(244, 117, 117));
-		// set1.setDrawFilled(true);
-		set1.setDrawCircles(true);
-		set1.setDrawCubic(true);
-
-		// create a dataset and give it a type
-		LineDataSet set2 = new LineDataSet(yVals1, getResources().getString(R.string.own_child));
-		set2.setColor(Color.parseColor("#009933"));
-		set2.setCircleColor(Color.parseColor("#009933"));
-		set2.setLineWidth(4f);
-		set2.setCircleSize(6f);
-		set2.setFillAlpha(65);
-		set2.setHighLightColor(Color.rgb(244, 117, 117));
-		set2.setDrawCubic(true);
-
-		ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
-		dataSets.add(set1);
-		dataSets.add(set2);
-
-		// create a data object with the datasets
-		LineData data = new LineData(xVals, dataSets);
-
-		// set data
-		lcHeight.setData(data);
-	}
-
 	private void showGrowthDataForChild(int position)
 	{
-		// TODO: Evtl. muss ich hier noch mal eine Umrechnung von Tagen auf Jahre machen (Jahre kann man ganz gut für x
-		//       Achse nehmen
-		
-		// x axis is made from full integer values with a String representation.. this is already the workaround!
-		
+		// Reset diagram view
 		lcHeight.clear();
 		
+		// Get selected child
 		Child selectedChild = dataModel.getMother().getChild(position);
 		
+		// Construct x axis labels (x axis only based on interger values with String representation.. this is already the workaround!
 		ArrayList<String> xVals = new ArrayList<String>();
 		for (int i = 0; i < selectedChild.getLastChildData().getAgeDays()+10; i++) 
 		{
+			// Relativ rough age of child with little use of space
 			String xLabelString = "";
 			
-			// TODO: Hier auf jeden Fall Constanten nehmen, da ich vielleicht Jahr und Monat Dauer noch mal ändere
-			
 			// Use average year
-			if ( (i/360) >= 1)
+			if ( (i/averageYear) >= 1)
 			{
-				xLabelString = (i/360) + "yr";
+				xLabelString = (i/averageYear) + getResources().getString(R.string.year_shurtcut);
 			}
 			
 			// Use average month
-			if ( ((i % 360)/30) >= 1)
+			if ( ((i % averageYear)/averageMonth) >= 1)
 			{
 				if (xLabelString.length() > 0)
 				{
 					xLabelString += " ";
 				}
 				
-				xLabelString += ((i % 360)/30) + "m";
+				xLabelString += ((i % averageYear)/averageMonth) + getResources().getString(R.string.month_shurtcut);
 			}
 			
-			if ( ((i % 360) % 30) >= 1 )
+			if ( ((i % averageYear) % averageMonth) >= 1 )
 			{
 				if (xLabelString.length() > 0)
 				{
 					xLabelString += " ";
 				}
 				
-				xLabelString += ((i % 360) % 30) + "d";
+				xLabelString += ((i % averageYear) % averageMonth) + getResources().getString(R.string.day_shurtcut);
 			}
 						
 			xVals.add(xLabelString);
 		}
 		
-		ArrayList<Entry> yValues = new ArrayList<Entry>();
 		
 		// Take all data of child for diagram
+		ArrayList<Entry> yValuesOwnChild = new ArrayList<Entry>();
 		for (int i = 0; i < selectedChild.getChildDataAmount(); i++)
 		{
+			// TODO: only debug
 			System.out.println(selectedChild.getChildData(i).getHeight().floatValue() + " " + selectedChild.getChildData(i).getAgeDays());
-			yValues.add(new Entry(selectedChild.getChildData(i).getHeight().floatValue(), selectedChild.getChildData(i).getAgeDays()));
+			
+			yValuesOwnChild.add(new Entry(selectedChild.getChildData(i).getHeight().floatValue(), selectedChild.getChildData(i).getAgeDays()));
 		}
 		
-		// create a dataset and give it a type
-		LineDataSet ownChildDataSet = new LineDataSet(yValues, getResources().getString(R.string.own_child));
+		// TODO: Only local approach until data gets from WebService
+		ArrayList<Entry> yValsAverage = new ArrayList<Entry>();
+		yValsAverage.add(new Entry((float) 50, averageYear*0));
+		yValsAverage.add(new Entry((float) 70, averageYear*1));
+		yValsAverage.add(new Entry((float) 80, averageYear*2));
+		yValsAverage.add(new Entry((float) 88, averageYear*3));
+		yValsAverage.add(new Entry((float) 96, averageYear*4));
+		yValsAverage.add(new Entry((float) 100, averageYear*5));
+		yValsAverage.add(new Entry((float) 106, averageYear*6));
+		yValsAverage.add(new Entry((float) 112, averageYear*7));
+		yValsAverage.add(new Entry((float) 119, averageYear*8));
+		yValsAverage.add(new Entry((float) 126, averageYear*9));
+		yValsAverage.add(new Entry((float) 130, averageYear*10));
+		yValsAverage.add(new Entry((float) 136, averageYear*11));
+		yValsAverage.add(new Entry((float) 141, averageYear*12));
+		yValsAverage.add(new Entry((float) 145, averageYear*13));
+		yValsAverage.add(new Entry((float) 150, averageYear*14));
+		yValsAverage.add(new Entry((float) 153, averageYear*15));
+		yValsAverage.add(new Entry((float) 155, averageYear*16));
+		yValsAverage.add(new Entry((float) 156, averageYear*17));
+		yValsAverage.add(new Entry((float) 156, averageYear*18));
+		
+		// Create a dataset for own child data
+		LineDataSet ownChildDataSet = new LineDataSet(yValuesOwnChild, getResources().getString(R.string.own_child));
 		ownChildDataSet.setColor(Color.parseColor("#0171bd"));
 		ownChildDataSet.setCircleColor(Color.parseColor("#0171bd"));
-		ownChildDataSet.setLineWidth(2f);
-		ownChildDataSet.setCircleSize(4f);
+		ownChildDataSet.setLineWidth(4f);
+		ownChildDataSet.setCircleSize(8f);
 		ownChildDataSet.setFillAlpha(65);
 		ownChildDataSet.setFillColor(ColorTemplate.getHoloBlue());
 		ownChildDataSet.setHighLightColor(Color.rgb(244, 117, 117));
-		// set1.setDrawFilled(true);
+		// ownChildDataSet.setDrawFilled(true);
 		ownChildDataSet.setDrawCircles(true);
 		ownChildDataSet.setDrawCubic(true);
 		
+		// create a dataset and give it a type
+		LineDataSet averageDataSet = new LineDataSet(yValsAverage, getResources().getString(R.string.national_average));
+		averageDataSet.setColor(Color.parseColor("#009933"));
+		averageDataSet.setDrawCircles(false);
+		averageDataSet.setLineWidth(4f);
+		averageDataSet.setFillAlpha(65);
+		averageDataSet.setHighLightColor(Color.rgb(244, 117, 117));
+		averageDataSet.setDrawCubic(true);
+		
+		// Add datasets for line chart
 		ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
 		dataSets.add(ownChildDataSet);
+		dataSets.add(averageDataSet);
 
-		// create a data object with the datasets
+		// Create a data object with the datasets
 		LineData data = new LineData(xVals, dataSets);
 
-		// set data
+		// Set data
 		lcHeight.setData(data);
 		
-		
+		// Label marker is now not percise anymore, because there are so many elements on the x axis
 	}
 	
 	/**
@@ -361,7 +303,6 @@ public class HeightDiagramActivity extends Activity
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
 		{
-			// TODO: Add behaviour
 			System.out.println("Selected child: " + position + " " + parent.getItemAtPosition(position).toString());
 			
 			showGrowthDataForChild(position);
