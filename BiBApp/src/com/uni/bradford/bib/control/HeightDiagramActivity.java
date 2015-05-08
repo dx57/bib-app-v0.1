@@ -1,4 +1,4 @@
-package com.uni.bradford.bib;
+package com.uni.bradford.bib.control;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -30,6 +30,10 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MarkerView;
+import com.uni.bradford.bib.Child;
+import com.uni.bradford.bib.DataModel;
+import com.uni.bradford.bib.DiagramMarkerView;
+import com.uni.bradford.bib.R;
 
 /**
  * Class to deal with user interaction for showing child growth information
@@ -181,6 +185,11 @@ public class HeightDiagramActivity extends Activity
 		sDiagramSelectChild.setAdapter(adapterChilds);
 	}
 
+	/**
+	 * Construct diagram for selected child
+	 * 
+	 * @param position Position of the selected child within the selection Spinner
+	 */
 	private void showGrowthDataForChild(int position)
 	{
 		// Reset diagram view
@@ -199,6 +208,7 @@ public class HeightDiagramActivity extends Activity
 			// Use average year
 			if ( (i/averageYear) >= 1)
 			{
+				// Add amount of years to relative age
 				xLabelString = (i/averageYear) + getResources().getString(R.string.year_shurtcut);
 			}
 			
@@ -210,6 +220,7 @@ public class HeightDiagramActivity extends Activity
 					xLabelString += " ";
 				}
 				
+				// Add amount of month to relative age 
 				xLabelString += ((i % averageYear)/averageMonth) + getResources().getString(R.string.month_shurtcut);
 			}
 			
@@ -220,6 +231,7 @@ public class HeightDiagramActivity extends Activity
 					xLabelString += " ";
 				}
 				
+				// Add amount of days to relative age 
 				xLabelString += ((i % averageYear) % averageMonth) + getResources().getString(R.string.day_shurtcut);
 			}
 						
@@ -231,9 +243,6 @@ public class HeightDiagramActivity extends Activity
 		ArrayList<Entry> yValuesOwnChild = new ArrayList<Entry>();
 		for (int i = 0; i < selectedChild.getChildDataAmount(); i++)
 		{
-			// TODO: only debug
-			System.out.println(selectedChild.getChildData(i).getHeight().floatValue() + " " + selectedChild.getChildData(i).getAgeDays());
-			
 			yValuesOwnChild.add(new Entry(selectedChild.getChildData(i).getHeight().floatValue(), selectedChild.getChildData(i).getAgeDays()));
 		}
 		
@@ -264,7 +273,7 @@ public class HeightDiagramActivity extends Activity
 		ownChildDataSet.setColor(Color.parseColor("#0171bd"));
 		ownChildDataSet.setCircleColor(Color.parseColor("#0171bd"));
 		ownChildDataSet.setLineWidth(4f);
-		ownChildDataSet.setCircleSize(8f);
+		ownChildDataSet.setCircleSize(6f);
 		ownChildDataSet.setFillAlpha(65);
 		ownChildDataSet.setFillColor(ColorTemplate.getHoloBlue());
 		ownChildDataSet.setHighLightColor(Color.rgb(244, 117, 117));
@@ -292,7 +301,7 @@ public class HeightDiagramActivity extends Activity
 		// Set data
 		lcHeight.setData(data);
 		
-		// Label marker is now not percise anymore, because there are so many elements on the x axis
+		// Label marker is now not precise anymore, because there are so many elements on the x axis
 	}
 	
 	/**
