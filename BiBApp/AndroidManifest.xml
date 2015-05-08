@@ -45,7 +45,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".HeightDiagramActivity"
+            android:name="com.uni.bradford.bib.control.HeightDiagramActivity"
             android:icon="@drawable/ic_height_diagram_white"
             android:label="@string/title_activity_height_diagram"
             android:screenOrientation="portrait" >

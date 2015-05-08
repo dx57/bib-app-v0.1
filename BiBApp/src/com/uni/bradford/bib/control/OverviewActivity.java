@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.uni.bradford.bib.DataModel;
-import com.uni.bradford.bib.HeightDiagramActivity;
 import com.uni.bradford.bib.HeightVisualActivity;
 import com.uni.bradford.bib.R;
 
@@ -124,6 +123,8 @@ public class OverviewActivity extends Activity
 		
 		/**
 		 * Initialise each listener with the according link
+		 * 
+		 * @param socialMediaUrl Url for the particular selection
 		 */
 		public IvSocialMediaOnClickListener(String socialMediaUrl)
 		{
