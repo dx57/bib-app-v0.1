@@ -1,8 +1,13 @@
-package com.uni.bradford.bib;
+package com.uni.bradford.bib.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Class to structure all data related to a child
+ * 
+ * @author Martin
+ */
 public class Child implements Serializable
 {
 	private static final long serialVersionUID = 5856826193060713777L;
@@ -13,6 +18,22 @@ public class Child implements Serializable
     
     private ArrayList<ChildData> childData;
     
+    /**
+	 * Init child
+	 * 
+	 * @param childId Unique child identification
+	 * @param pregnancy Tells if mother still pregnant
+	 * @param birthOrder Number to specify birth order
+	 * @param genderId Tells whether the child is fe/male
+	 * @param monthOfBirth Specifies the month of birth
+	 * @param yearOfBirth Specifies the year of birth
+	 * @param maternalBaseQ Tells if this child is part of the particular study
+	 * @param eclipse Tells if this child is part of the particular study
+	 * @param education Tells if this child is part of the particular study
+	 * @param bib1000 Tells if this child is part of the particular study
+	 * @param meDall Tells if this child is part of the particular study
+	 * @param all_in Tells if this child is part of the particular study
+	 */
     public Child(String childId, 
     			 String pregnancy, 
     			 short birthOrder, 
@@ -43,7 +64,12 @@ public class Child implements Serializable
 		
 		this.childData = new ArrayList<ChildData>();
     }
-
+    
+	/**
+	 * Construct string to identify the child in a unique way
+	 * 
+	 * @return String to identify the child
+	 */
     public String getIdentifier()
     {
     	String identifier = yearOfBirth + "-" + monthOfBirth;

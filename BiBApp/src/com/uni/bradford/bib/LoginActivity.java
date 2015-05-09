@@ -26,6 +26,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import com.uni.bradford.bib.control.OverviewActivity;
+import com.uni.bradford.bib.model.DataModel;
 
 public class LoginActivity extends Activity
 {

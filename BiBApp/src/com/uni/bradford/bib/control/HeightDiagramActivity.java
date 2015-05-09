@@ -30,10 +30,9 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MarkerView;
-import com.uni.bradford.bib.Child;
-import com.uni.bradford.bib.DataModel;
-import com.uni.bradford.bib.DiagramMarkerView;
 import com.uni.bradford.bib.R;
+import com.uni.bradford.bib.model.Child;
+import com.uni.bradford.bib.model.DataModel;
 
 /**
  * Class to deal with user interaction for showing child growth information

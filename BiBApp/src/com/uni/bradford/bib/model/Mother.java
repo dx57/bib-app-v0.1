@@ -1,8 +1,13 @@
-package com.uni.bradford.bib;
+package com.uni.bradford.bib.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Class to structure all data related to a mother
+ * 
+ * @author Martin
+ */
 public class Mother implements Serializable
 {
 	private static final long serialVersionUID = -221146359928224861L;
@@ -11,6 +16,14 @@ public class Mother implements Serializable
 	private boolean primaryCare;
 	private ArrayList<Child> children;
 	
+	/**
+	 * Init mother
+	 * 
+	 * @param motherId Unique mother identification
+	 * @param description Mother description
+	 * @param phoneId Unique phone identification
+	 * @param primaryCare Tells whether or not mother was part of the primaryCare study
+	 */
 	public Mother(String motherId, String description, String phoneId, boolean primaryCare)
 	{
 		this.motherId = motherId;
@@ -19,6 +32,25 @@ public class Mother implements Serializable
 		this.primaryCare = primaryCare;
 		
 		this.children = new ArrayList<Child>();
+	}
+	
+	/**
+	 * Load data from local file
+	 * 
+	 * @param childID Child identification
+	 * @return Position of the stated childID within the list
+	 */
+	public int getChildPos(String childID)
+	{
+		for (int i = 0; i < children.size(); i++)
+		{
+			if (children.get(i).getChildId().equals(childID))
+			{
+				return i;
+			}
+		}
+		
+		return -1;
 	}
 
 	public String getMotherId()
@@ -49,19 +81,6 @@ public class Mother implements Serializable
 	public void addChild(Child newChild)
 	{
 		this.children.add(newChild);
-	}
-	
-	public int getChildPos(String childID)
-	{
-		for (int i = 0; i < children.size(); i++)
-		{
-			if (children.get(i).getChildId().equals(childID))
-			{
-				return i;
-			}
-		}
-		
-		return -1;
 	}
 	
 	public Child getChild(int position)
