@@ -49,10 +49,6 @@ public class HeightDiagramActivity extends Activity
 	// Logic
 	private DataModel dataModel;
 	
-	public static final int averageYear = 360;
-	public static final int averageMonth = 30;
-
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -61,7 +57,7 @@ public class HeightDiagramActivity extends Activity
 
 		// Change ActionBar color
 		ActionBar bar = getActionBar(); 
-		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(getResources().getString(R.string.bib_blue))));
 		
 		// Init logic
 		LoadDataModelFromFileAsyncTask loadLocalTask = new LoadDataModelFromFileAsyncTask();
@@ -158,7 +154,7 @@ public class HeightDiagramActivity extends Activity
 			// Append
 			sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + Environment.getExternalStorageDirectory().getPath() + "/temporary_file.jpg"));
 			
-			startActivity(Intent.createChooser(sendIntent, "Share Infographic:"));
+			startActivity(Intent.createChooser(sendIntent, getResources().getString(R.string.share_menu_text)));
 			
 			// Consume event
 			return true;
@@ -202,18 +198,18 @@ public class HeightDiagramActivity extends Activity
 		ArrayList<String> xVals = new ArrayList<String>();
 		for (int i = 0; i < selectedChild.getLastChildData().getAgeDays()+10; i++) 
 		{
-			// Relativ rough age of child with little use of space
+			// Relative rough age of child with little use of space
 			String xLabelString = "";
 			
 			// Use average year
-			if ( (i/averageYear) >= 1)
+			if ( (i/DataModel.averageYear) >= 1)
 			{
 				// Add amount of years to relative age
-				xLabelString = (i/averageYear) + getResources().getString(R.string.year_shurtcut);
+				xLabelString = (i/DataModel.averageYear) + getResources().getString(R.string.year_shurtcut);
 			}
 			
 			// Use average month
-			if ( ((i % averageYear)/averageMonth) >= 1)
+			if ( ((i % DataModel.averageYear)/DataModel.averageMonth) >= 1)
 			{
 				if (xLabelString.length() > 0)
 				{
@@ -221,10 +217,10 @@ public class HeightDiagramActivity extends Activity
 				}
 				
 				// Add amount of month to relative age 
-				xLabelString += ((i % averageYear)/averageMonth) + getResources().getString(R.string.month_shurtcut);
+				xLabelString += ((i % DataModel.averageYear)/DataModel.averageMonth) + getResources().getString(R.string.month_shurtcut);
 			}
 			
-			if ( ((i % averageYear) % averageMonth) >= 1 )
+			if ( ((i % DataModel.averageYear) % DataModel.averageMonth) >= 1 )
 			{
 				if (xLabelString.length() > 0)
 				{
@@ -232,7 +228,7 @@ public class HeightDiagramActivity extends Activity
 				}
 				
 				// Add amount of days to relative age 
-				xLabelString += ((i % averageYear) % averageMonth) + getResources().getString(R.string.day_shurtcut);
+				xLabelString += ((i % DataModel.averageYear) % DataModel.averageMonth) + getResources().getString(R.string.day_shurtcut);
 			}
 						
 			xVals.add(xLabelString);
@@ -248,25 +244,25 @@ public class HeightDiagramActivity extends Activity
 		
 		// TODO: Only local approach until data gets from WebService
 		ArrayList<Entry> yValsAverage = new ArrayList<Entry>();
-		yValsAverage.add(new Entry((float) 50, averageYear*0));
-		yValsAverage.add(new Entry((float) 70, averageYear*1));
-		yValsAverage.add(new Entry((float) 80, averageYear*2));
-		yValsAverage.add(new Entry((float) 88, averageYear*3));
-		yValsAverage.add(new Entry((float) 96, averageYear*4));
-		yValsAverage.add(new Entry((float) 100, averageYear*5));
-		yValsAverage.add(new Entry((float) 106, averageYear*6));
-		yValsAverage.add(new Entry((float) 112, averageYear*7));
-		yValsAverage.add(new Entry((float) 119, averageYear*8));
-		yValsAverage.add(new Entry((float) 126, averageYear*9));
-		yValsAverage.add(new Entry((float) 130, averageYear*10));
-		yValsAverage.add(new Entry((float) 136, averageYear*11));
-		yValsAverage.add(new Entry((float) 141, averageYear*12));
-		yValsAverage.add(new Entry((float) 145, averageYear*13));
-		yValsAverage.add(new Entry((float) 150, averageYear*14));
-		yValsAverage.add(new Entry((float) 153, averageYear*15));
-		yValsAverage.add(new Entry((float) 155, averageYear*16));
-		yValsAverage.add(new Entry((float) 156, averageYear*17));
-		yValsAverage.add(new Entry((float) 156, averageYear*18));
+		yValsAverage.add(new Entry((float) 50, DataModel.averageYear*0));
+		yValsAverage.add(new Entry((float) 70, DataModel.averageYear*1));
+		yValsAverage.add(new Entry((float) 80, DataModel.averageYear*2));
+		yValsAverage.add(new Entry((float) 88, DataModel.averageYear*3));
+		yValsAverage.add(new Entry((float) 96, DataModel.averageYear*4));
+		yValsAverage.add(new Entry((float) 100, DataModel.averageYear*5));
+		yValsAverage.add(new Entry((float) 106, DataModel.averageYear*6));
+		yValsAverage.add(new Entry((float) 112, DataModel.averageYear*7));
+		yValsAverage.add(new Entry((float) 119, DataModel.averageYear*8));
+		yValsAverage.add(new Entry((float) 126, DataModel.averageYear*9));
+		yValsAverage.add(new Entry((float) 130, DataModel.averageYear*10));
+		yValsAverage.add(new Entry((float) 136, DataModel.averageYear*11));
+		yValsAverage.add(new Entry((float) 141, DataModel.averageYear*12));
+		yValsAverage.add(new Entry((float) 145, DataModel.averageYear*13));
+		yValsAverage.add(new Entry((float) 150, DataModel.averageYear*14));
+		yValsAverage.add(new Entry((float) 153, DataModel.averageYear*15));
+		yValsAverage.add(new Entry((float) 155, DataModel.averageYear*16));
+		yValsAverage.add(new Entry((float) 156, DataModel.averageYear*17));
+		yValsAverage.add(new Entry((float) 156, DataModel.averageYear*18));
 		
 		// Create a dataset for own child data
 		LineDataSet ownChildDataSet = new LineDataSet(yValuesOwnChild, getResources().getString(R.string.own_child));

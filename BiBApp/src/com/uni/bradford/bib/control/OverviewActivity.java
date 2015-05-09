@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.uni.bradford.bib.DataModel;
-import com.uni.bradford.bib.HeightVisualActivity;
 import com.uni.bradford.bib.R;
 
 /**
@@ -49,7 +48,7 @@ public class OverviewActivity extends Activity
 		
 		// Change ActionBar color and icon
 		ActionBar bar = getActionBar(); 
-		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(getResources().getString(R.string.bib_blue))));
 		
 		// Init local data-model
 		overviewList = new ArrayList<OverviewEntry>(); 

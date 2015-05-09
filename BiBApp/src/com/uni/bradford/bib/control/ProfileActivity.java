@@ -55,7 +55,7 @@ public class ProfileActivity extends Activity
 		
 		// Change ActionBar color
 		ActionBar bar = getActionBar(); 
-		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0171bd")));
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(getResources().getString(R.string.bib_blue))));
 		
 		// Init logic
 		LoadDataModelFromFileAsyncTask loadLocalTask = new LoadDataModelFromFileAsyncTask();
