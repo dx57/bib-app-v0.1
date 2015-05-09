@@ -39,7 +39,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".HeightVisualActivity"
+            android:name="com.uni.bradford.bib.control.HeightVisualActivity"
             android:icon="@drawable/ic_height_visual_white"
             android:label="@string/title_activity_height_visual"
             android:screenOrientation="portrait" >

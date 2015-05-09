@@ -19,6 +19,8 @@ public class DataModel implements Serializable
 	private static final long serialVersionUID = -2250550860698843034L;
 
 	public static final String FILE_NAME = "datamodel.dat";
+	public static final int averageYear = 360;
+	public static final int averageMonth = 30;
 	
 	private double lastUpdate;
 	private boolean tookSurvey;
