@@ -28,9 +28,9 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.uni.bradford.bib.Child;
-import com.uni.bradford.bib.DataModel;
 import com.uni.bradford.bib.R;
+import com.uni.bradford.bib.model.Child;
+import com.uni.bradford.bib.model.DataModel;
 
 /**
  * Class to deal with user interaction for showing child growth information

@@ -22,8 +22,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.uni.bradford.bib.DataModel;
 import com.uni.bradford.bib.R;
+import com.uni.bradford.bib.model.DataModel;
 
 /**
  * Class to deal with user interaction for filling in the online survey

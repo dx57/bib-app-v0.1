@@ -1,7 +1,12 @@
-package com.uni.bradford.bib;
+package com.uni.bradford.bib.model;
 
 import java.io.Serializable;
 
+/**
+ * Class to structure all data related to ChildData
+ * 
+ * @author Martin
+ */
 public class ChildData implements Serializable
 {
 	private static final long serialVersionUID = 1110741657843195784L;
@@ -10,6 +15,15 @@ public class ChildData implements Serializable
     private int ageDays;
     private Double weight, height, bmi;
     
+    /**
+	 * Init ChildData
+	 * 
+	 * @param source Source of this measure
+	 * @param ageDays Age of the child at this measure
+	 * @param weight Weight of the child
+	 * @param height Height of the child
+	 * @param bmi BMI of the child
+	 */
     public ChildData(String source, int ageDays, Double weight, Double height, Double bmi)
     {
     	this.source = source;

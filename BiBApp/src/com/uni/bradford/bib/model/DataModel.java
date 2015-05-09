@@ -1,4 +1,4 @@
-package com.uni.bradford.bib;
+package com.uni.bradford.bib.model;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +14,13 @@ import java.io.StreamCorruptedException;
 
 import android.os.SystemClock;
 
+import com.uni.bradford.bib.WebServiceInteraction;
+
+/**
+ * Class to structure all data
+ * 
+ * @author Martin
+ */
 public class DataModel implements Serializable
 {
 	private static final long serialVersionUID = -2250550860698843034L;
@@ -30,12 +37,18 @@ public class DataModel implements Serializable
 	
 	private Mother mother;
 	
+	/**
+	 * Load data from local file
+	 * 
+	 * @param fileDir File directory for local file with serialised data model
+	 */
 	public static DataModel loadFromFile(File fileDir)
 	{
 		DataModel dataModel;
 		
 		InputStream fileInputStream = null;
 		
+		// Specify file
 		File file = new File(fileDir, DataModel.FILE_NAME);
 		if (file.exists()) 
 		{
@@ -69,12 +82,19 @@ public class DataModel implements Serializable
 		return null;
 	}
 	
+	/**
+	 * Save data to local file
+	 * 
+	 * @param dataModel Data model which should get saved
+	 * @param fileDir File directory for local file with serialised data model
+	 */
 	public void saveToFile(DataModel dataModel, File fileDir)
 	{
 		OutputStream fileOutputStream = null;
 		
 		File file = new File(fileDir, DataModel.FILE_NAME);
 		
+		// Save to file
 		try
 		{
 			file.createNewFile();
@@ -89,11 +109,17 @@ public class DataModel implements Serializable
 		}
 	}
 	
+	/**
+	 * Load data from Webservice
+	 * 
+	 * @param deviceId Device ID to identify phone
+	 * @param loginId Login ID to identify user
+	 */
 	public static DataModel loadFromWebService(String deviceId, String loginId)
 	{
 		// No local data model instance.. Load from WebService (first App start with Internet connection)
 		
-		// Debug: Measure time to init datamodel through WebService
+		// Debug: Measure time to init data model through WebService
 		long start = SystemClock.uptimeMillis();
 		
 		DataModel dataModel = new DataModel();
@@ -108,7 +134,6 @@ public class DataModel implements Serializable
 //			return null;
 //		}
 		
-		// TODO: vs the all in one approach!!!
 		if (wsi.getMotherById(loginId, deviceId))
 		{
 			// Correct loginId and phoneId pair

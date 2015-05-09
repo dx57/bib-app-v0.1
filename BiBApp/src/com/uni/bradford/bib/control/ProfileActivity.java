@@ -16,10 +16,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import com.uni.bradford.bib.DataModel;
-import com.uni.bradford.bib.ProgramEntry;
-import com.uni.bradford.bib.ProgramListViewAdapter;
 import com.uni.bradford.bib.R;
+import com.uni.bradford.bib.model.DataModel;
 
 /**
  * Class to deal with user interaction for showing profile information

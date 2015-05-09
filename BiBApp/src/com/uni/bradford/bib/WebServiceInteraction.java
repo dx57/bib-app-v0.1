@@ -11,6 +11,11 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 import org.xmlpull.v1.XmlPullParserException;
 
+import com.uni.bradford.bib.model.Child;
+import com.uni.bradford.bib.model.ChildData;
+import com.uni.bradford.bib.model.DataModel;
+import com.uni.bradford.bib.model.Mother;
+
 
 public class WebServiceInteraction
 {

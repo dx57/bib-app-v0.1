@@ -1,8 +1,6 @@
-package com.uni.bradford.bib;
+package com.uni.bradford.bib.control;
 
 import java.util.ArrayList;
-
-import com.uni.bradford.bib.control.ProfileActivity;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -12,10 +10,23 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.uni.bradford.bib.R;
+
+/**
+ * Class to deal with the list within ProfileActivity
+ * 
+ * @author Martin
+ */
 public class ProgramListViewAdapter extends BaseAdapter
 {
 	private ArrayList<ProgramEntry> arrayList;
 	
+	/**
+	 * Initialise the the profile list
+	 * 
+	 * @param programList List of list entries
+	 * @param profileActivity Reference for ProfileActivty
+	 */
 	public ProgramListViewAdapter(ArrayList<ProgramEntry> programList, ProfileActivity profileActivity)
 	{
 		this.arrayList = programList;

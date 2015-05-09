@@ -16,8 +16,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.uni.bradford.bib.DataModel;
 import com.uni.bradford.bib.R;
+import com.uni.bradford.bib.model.DataModel;
 
 /**
  * Class to deal with in-App navigation
