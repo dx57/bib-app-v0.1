@@ -1,4 +1,4 @@
-package com.uni.bradford.bib;
+package com.uni.bradford.bib.model;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,12 +11,11 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 import org.xmlpull.v1.XmlPullParserException;
 
-import com.uni.bradford.bib.model.Child;
-import com.uni.bradford.bib.model.ChildData;
-import com.uni.bradford.bib.model.DataModel;
-import com.uni.bradford.bib.model.Mother;
-
-
+/**
+ * Class to deal with Web service interaction
+ * 
+ * @author Martin
+ */
 public class WebServiceInteraction
 {
 	private DataModel dataModel;
@@ -33,13 +32,25 @@ public class WebServiceInteraction
 	private static final String GET_ALL_INFO_BY_MOTHER_ID = "GetAllInfoByMotherID";
 	private static final String GET_ALL_INFO_BY_MOTHER_ID_RESPONSE = "GetAllInfoByMotherIDResponse";
 	
+	/**
+	 * Init Web service
+	 * 
+	 * @param dataModel Data model reference
+	 */
 	public WebServiceInteraction(DataModel dataModel)
 	{
 		this.dataModel = dataModel;
 	}
 	
+	/**
+	 * Build request to ask for information about mother
+	 * 
+	 * @param loginId Login ID to identify mother
+	 * @param phoneId Phone ID to identify phone
+	 */
 	public boolean getMotherById(String loginId, String phoneId)
 	{
+		// Construct request to ask for information about a particular mother
 		ArrayList<PropertyInfo> propertyInfos = new ArrayList<PropertyInfo>();		
 		
 		PropertyInfo tempPropertyInfo = new PropertyInfo();
@@ -55,8 +66,14 @@ public class WebServiceInteraction
 		return sendReceiveSoapMessage(GET_MOTHER_BY_ID, propertyInfos);
 	}
 	
+	/**
+	 * Build request to ask for information about children
+	 * 
+	 * @param loginId Login ID to identify mother
+	 */
 	public boolean getChildIdByMotherId(String loginId)
 	{
+		// Construct request to ask for information about a mothers children
 		ArrayList<PropertyInfo> propertyInfos = new ArrayList<PropertyInfo>();		
 		
 		PropertyInfo tempPropertyInfo = new PropertyInfo();
@@ -67,8 +84,14 @@ public class WebServiceInteraction
 		return sendReceiveSoapMessage(GET_CHILD_ID_BY_MOTHER_ID, propertyInfos);
 	}
 	
+	/**
+	 * Build request to ask for information about a particular child
+	 * 
+	 * @param childId Child ID to identify a particular child
+	 */
 	public boolean getChildGrowthById(String childId)
 	{
+		// Construct request to ask for information about a particular child
 		ArrayList<PropertyInfo> propertyInfos = new ArrayList<PropertyInfo>();
 		
 		PropertyInfo tempPropertyInfo = new PropertyInfo();
@@ -79,8 +102,14 @@ public class WebServiceInteraction
 		return sendReceiveSoapMessage(GET_CHILD_GROWTH_DATA_BY_ID, propertyInfos);
 	}
 	
+	/**
+	 * Build request to ask for information about average child of particular sex
+	 * 
+	 * @param sex Specifies male or female
+	 */
 	public boolean getAverageChildBySex(String sex)
 	{
+		// Construct request to ask for information average child with particular sex
 		ArrayList<PropertyInfo> propertyInfos = new ArrayList<PropertyInfo>();		
 		
 		PropertyInfo tempPropertyInfo = new PropertyInfo();
@@ -91,8 +120,15 @@ public class WebServiceInteraction
 		return sendReceiveSoapMessage("GetAverageChildBySex", propertyInfos);
 	}
 	
+	/**
+	 * Build request to ask for all information for a mother
+	 * 
+	 * @param loginId Login ID to identify mother
+	 * @param phoneId Phone ID to identify phone
+	 */
 	public boolean getAllInfoByMotherID(String loginId, String phoneId)
 	{
+		// Construct request to ask for all information for a particular mother
 		ArrayList<PropertyInfo> propertyInfos = new ArrayList<PropertyInfo>();		
 		
 		PropertyInfo tempPropertyInfo = new PropertyInfo();
@@ -108,6 +144,12 @@ public class WebServiceInteraction
 		return sendReceiveSoapMessage(GET_ALL_INFO_BY_MOTHER_ID, propertyInfos);
 	}
 	
+	/**
+	 * Use pre-build request with parameters to send soap request 
+	 * 
+	 * @param requestType Typ of the request
+	 * @param propertyInfos Parameters for the request
+	 */
 	private boolean sendReceiveSoapMessage(String requestType, ArrayList<PropertyInfo> propertyInfos)
 	{
 		// Construct soap message for request
@@ -119,7 +161,7 @@ public class WebServiceInteraction
 			request.addProperty(propertyInfo);
 		}
 
-		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11); // TODO: Which version Stella?
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 		envelope.setOutputSoapObject(request);
 
 		HttpTransportSE httpTransportSE = new HttpTransportSE(URL);
@@ -151,7 +193,7 @@ public class WebServiceInteraction
 		} 
 		catch (XmlPullParserException | IOException e) 
 		{
-			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); // TODO: Debug
+			System.out.println("XmlPullParserException or IOException");
 			e.printStackTrace();
 		} 
 
@@ -181,6 +223,7 @@ public class WebServiceInteraction
 				System.out.println("phoneID: " + soapObject.getProperty("phoneID").toString());
 				System.out.println("PrimaryCare: " + soapObject.getProperty("primaryCare").toString());
 
+				// Add result to data model
 				dataModel.setMother(new Mother(soapObject.getProperty("id").toString(), 
 											   "?empty?", 
 											   soapObject.getProperty("phoneID").toString(),
@@ -217,6 +260,7 @@ public class WebServiceInteraction
 					System.out.println("ALL_IN: " + soapObject.getProperty("ALL_IN").toString());
 					System.out.println("-------------------");
 					
+					// Add result to data model
 					dataModel.getMother().addChild(new Child(soapObject.getProperty("childID").toString(), 
 															 soapObject.getProperty("pregnancy").toString(), 
 															 Short.parseShort(soapObject.getProperty("birthOrder").toString()), 
@@ -256,6 +300,7 @@ public class WebServiceInteraction
 					
 					int pos = dataModel.getMother().getChildPos(soapObject.getProperty("childID").toString());
 					
+					// Add result to data model
 					dataModel.getMother().getChild(pos).addChildData(new ChildData(soapObject.getProperty("source").toString(), 
 																				   Integer.parseInt(soapObject.getProperty("ageDays").toString()), 
 																				   Double.parseDouble(soapObject.getProperty("weight").toString()),
