@@ -14,8 +14,6 @@ import java.io.StreamCorruptedException;
 
 import android.os.SystemClock;
 
-import com.uni.bradford.bib.WebServiceInteraction;
-
 /**
  * Class to structure all data
  * 

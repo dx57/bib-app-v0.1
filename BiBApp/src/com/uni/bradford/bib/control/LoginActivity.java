@@ -21,9 +21,9 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.uni.bradford.bib.GMailSender;
 import com.uni.bradford.bib.R;
 import com.uni.bradford.bib.model.DataModel;
+import com.uni.bradford.bib.model.GMailSender;
 
 /**
  * Class to deal with user login
