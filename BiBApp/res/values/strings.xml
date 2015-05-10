@@ -5,60 +5,47 @@
     <string name="bib_blue">#0171bd</string>
     
     <string name="place_holder">Content to be added</string>
+       
+    <string name="action_settings">Settings</string>
+    <string name="action_share">Share</string>
    
     
     
-    
-    
-    
-    <string name="bottom_description">Born in Bradford Design</string>
-    <string name="login_text">Enter your User-ID:</string>
-    <string name="login_button">LOGIN</string>
-    <string name="remember_me">Remember Me |</string>
-    <string name="forgot_id"><u>Forgot ID?</u></string>
-    <string name="login_hint"></string>
-    <string name="action_settings">Settings</string>
-    <string name="action_share">Share</string>
-    
-    <string name="title_activity_height_visual">My Childs height</string>
-    
-    <string name="hello_world">Content to be added</string>
-    
-    <string name="image_description">Image description</string>
-    
-    <string name="average_child">Average child</string>
-    
-    <string name="slider_info">Use slider to compare childs over time</string>
-    
-    <string name="current_date">YYYY-MM-TT</string>
-    <string name="title_activity_survey">Survey</string>
-    <string name="fogot_id_mail_subject">Born in Bradford App - Forgot login ID request</string>
-    <string name="fogot_id_mail_text">Please resend login ID to deposited email address for user with Smartphone ID: </string>
-    <string name="mail_button">Send Mail</string>
-    <string name="cancel">Cancel</string>
-    
-    <string name="survey_thanks">Thank you for taking the survey.</string>
-    
+    <!-- Internet Dialog ............................................................................................... -->
+    <string name="no_internet_connection">No Internet connection</string>
+    <string name="no_internet_connection_text">Check the Internet connection of the smartphone to proceed.</string>
     <string name="ok">OK</string>
-    
     
-    
-    <string name="forgot_login_id">Forgot Login ID?</string>
-    <string name="forgot_login_id_text">        If you forgot your Login ID you can send a request to the Born in Bradford organisation.\n\nThe
-        requested Login ID is send to you to the mail address registered with this device.</string>
-    <string name="try_again">Try again!</string>
-    <string name="wrong_password">Wrong password</string>
-    <string name="wrong_password_text">You entered the wrong Login ID.</string>
     
     
     <!-- Login Screen .................................................................................................. -->
+    <string name="logo_description">Born in Bradford Logo</string>
+    <string name="login_text">Enter your User-ID:</string>
+    <string name="login_hint"></string>
+    <string name="login_button">LOGIN</string>
+    <string name="remember_me">Remember Me |</string>
+    <string name="forgot_id"><u>Forgot ID?</u></string>
     
+    <string name="try_again">Try again!</string>
+    <string name="wrong_password">Wrong password</string>
+    <string name="wrong_password_text">You entered the wrong Login ID.</string>
+    <string name="bottom_description">Born in Bradford Design</string>
+    
+    <string name="forgot_login_id">Forgot Login ID?</string>
+    <string name="forgot_login_id_text">If you forgot your Login ID you can send a request to the Born 
+        in Bradford organisation.\n\nThe requested Login ID is send to you to the mail address 
+        registered with this device.
+	</string>
+    <string name="cancel">Cancel</string>
+    <string name="mail_button">Send Mail</string>
+    
+    <string name="fogot_id_mail_subject">Born in Bradford App - Forgot login ID request</string>
+    <string name="fogot_id_mail_text">Please resend login ID to deposited email address for user with Smartphone ID: </string>
     
     
     
     <!-- Overview Screen ............................................................................................... -->
     <string name="title_activity_overview">Overview</string>
-    <string name="logo_description">Born in Bradford Logo</string>
     <string name="overview_banner_description">Banner for the overview screen</string>
     
     <string name="social_media">Social Media</string>
@@ -72,8 +59,10 @@
     <string name="link_youtube">http://www.youtube.com/user/BorninBradford2011</string>
     
     
+    
     <!-- Growth Visualisation Screen .................................................................................... -->
     <string name="title_activity_height_diagram">My Childs height</string>
+    <string name="title_activity_height_visual">My Childs height</string>
     
     <string name="own_child">Own child</string>
     <string name="national_average">National average</string>
@@ -87,12 +76,17 @@
     <string name="start_date">XXXX</string>
     <string name="end_date">YYYY</string>
     
+    <string name="slider_info">Use slider to compare childs over time</string>
+    
+    <string name="scale_image_description">Scale for children</string>
+    <string name="own_child_image_description">Image to represent own child</string>
+    <string name="compare_child_image_description">Image to represent average child</string>
+    <string name="calendar_image_description">Image to represent calendar</string>
+    
     <string name="share_menu_text">Share Infographic:</string>
     <string name="share_mail_title">Born in Bradford Infographic</string>
     <string name="share_mail_subject">My latest personal Born in Bradford infographic</string>
     <string name="share_mail_text">Hello, take a look at my latest personal Born in Bradford infographic. For more information visit: www.borninbradford.nhs.uk</string>
-    
-    
     
     
     
@@ -124,9 +118,8 @@
     
     
     
-    <!-- Survey Screen -->
-    <string name="no_internet_connection">No Internet connection</string>
-    <string name="no_internet_connection_text">Check the Internet connection of the smartphone to proceed.</string>
+    <!-- Survey Screen ................................................................................................ -->
+    <string name="title_activity_survey">Survey</string>
     
     <string name="load_website"><b>Survey generation</b> is almost done.</string>
     <string name="please_wait"><i>Please wait..</i></string>

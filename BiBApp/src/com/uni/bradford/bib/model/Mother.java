@@ -9,9 +9,9 @@ import java.util.ArrayList;
  * @author Martin
  */
 public class Mother implements Serializable
-{
+{  
 	private static final long serialVersionUID = -221146359928224861L;
-
+ 
 	private String motherId, description, phoneId;
 	private boolean primaryCare;
 	private ArrayList<Child> children;

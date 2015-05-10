@@ -54,7 +54,7 @@
         android:layout_above="@+id/vBackground"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"
-        android:contentDescription="@string/image_description"
+        android:contentDescription="@string/scale_image_description"
         android:src="@drawable/wall_lines" />
     
     <View
@@ -70,7 +70,7 @@
         android:layout_height="290dp"
         android:layout_alignParentLeft="true"
         android:layout_above="@+id/sbTimeLine"
-        android:contentDescription="@string/image_description" />
+        android:contentDescription="@string/own_child_image_description" />
     
     <ImageView
         android:id="@+id/ivCompareChild"
@@ -78,7 +78,7 @@
         android:layout_height="100dp"
         android:layout_alignParentRight="true"
         android:layout_above="@id/sbTimeLine"
-        android:contentDescription="@string/image_description" />
+        android:contentDescription="@string/compare_child_image_description" />
     
     <TextView
         android:id="@+id/tvStartDate"
@@ -92,7 +92,7 @@
         android:paddingRight="5dp"
         android:paddingTop="10dp"
         android:gravity="center"
-        android:contentDescription="@string/image_description" 
+        android:contentDescription="@string/calendar_image_description" 
         android:background="@drawable/ic_calendar"
         android:text="@string/start_date" />
     
@@ -108,7 +108,7 @@
         android:paddingRight="5dp"
         android:paddingTop="10dp"
         android:gravity="center"
-        android:contentDescription="@string/image_description" 
+        android:contentDescription="@string/calendar_image_description" 
         android:background="@drawable/ic_calendar"
         android:text="@string/end_date" />
     
@@ -127,9 +127,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/tvSliderHint"
         android:layout_marginBottom="5dp"
-        android:layout_centerHorizontal="true"
-        android:contentDescription="@string/image_description"
-        android:text="@string/current_date" />    
+        android:layout_centerHorizontal="true"/>    
         
     <TextView
         android:id="@id/tvSliderHint"
@@ -138,7 +136,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="5dp"
         android:layout_centerHorizontal="true"
-        android:contentDescription="@string/image_description"
         android:text="@string/slider_info" />    
 
 </RelativeLayout>
