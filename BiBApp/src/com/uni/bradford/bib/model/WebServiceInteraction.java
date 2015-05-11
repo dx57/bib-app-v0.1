@@ -21,14 +21,15 @@ public class WebServiceInteraction
 	private DataModel dataModel;
 	
 	private static final String NAME_SPACE = "http://bib.service.code/";
-	private static final String URL = "http://medicalxtra.cloudapp.net/BIBService/BIBWebService?wsdl";
-	
+//	private static final String URL = "http://medicalxtra.cloudapp.net/BIBService/BIBWebService?wsdl";
+	private static final String URL = "http://82.219.187.39:8084/BIBService/BIBWebService?wsdl"; // TODO: Switch and adjustfor live demo
+	 
 	private static final String GET_MOTHER_BY_ID = "GetMotherByID";
 	private static final String GET_MOTHER_BY_ID_RESPONSE = "GetMotherByIDResponse";
 	private static final String GET_CHILD_ID_BY_MOTHER_ID = "GetChildIDbyMotherID"; 
 	private static final String GET_CHILD_ID_BY_MOTHER_ID_RESPONSE = "GetChildIDbyMotherIDResponse";
-	private static final String GET_CHILD_GROWTH_DATA_BY_ID = "ChildGrowthData"; // TODO: Stella.. same var chemata please
-	private static final String GET_CHILD_GROWTH_DATA_BY_ID_RESPONSE = "ChildGrowthDataResponse"; // TODO: Stella.. same var chemata please
+	private static final String GET_CHILD_GROWTH_DATA_BY_ID = "ChildGrowthData"; // TODO: S.. same var chemata please
+	private static final String GET_CHILD_GROWTH_DATA_BY_ID_RESPONSE = "ChildGrowthDataResponse"; // TODO: S.. same var chemata please
 	private static final String GET_ALL_INFO_BY_MOTHER_ID = "GetAllInfoByMotherID";
 	private static final String GET_ALL_INFO_BY_MOTHER_ID_RESPONSE = "GetAllInfoByMotherIDResponse";
 	

@@ -20,6 +20,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.uni.bradford.bib.R;
 import com.uni.bradford.bib.model.DataModel;
@@ -474,8 +475,8 @@ public class LoginActivity extends Activity
 				}
 	
 				// Debug: Show in GUI
-				// Toast toast = Toast.makeText(LoginActivity.this, "..loaded from file", Toast.LENGTH_SHORT);
-				// toast.show();
+				 Toast toast = Toast.makeText(LoginActivity.this, "..loaded from file", Toast.LENGTH_SHORT);
+				 toast.show();
 			}
 		}
 	}
@@ -516,8 +517,8 @@ public class LoginActivity extends Activity
 			}
 			
 			// Debug: Show in GUI
-			// Toast toast = Toast.makeText(LoginActivity.this, "..loaded from WebService", Toast.LENGTH_SHORT);
-			// toast.show();
+			 Toast toast = Toast.makeText(LoginActivity.this, "..loaded from WebService", Toast.LENGTH_SHORT);
+			 toast.show();
 		}
 	}
 	
