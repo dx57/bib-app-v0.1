@@ -171,12 +171,15 @@ public class HeightVisualActivity extends Activity
 	 */
 	public void updateGui()
 	{	
-		// Init relative height
-		lowestHeight = dataModel.getMother().getChild(0).getChildData(0).getHeight();
-		highestHeight = dataModel.getMother().getChild(0).getLastChildData().getHeight();
-		
-		// Init slider description
-		tvCurrent.setText(constructRelativeAge(dataModel.getMother().getChild(0).getChildData(0).getAgeDays()));
+		if (dataModel.getMother().getChild(0).getChildDataAmount() != 0)
+		{	
+			// Init relative height
+			lowestHeight = dataModel.getMother().getChild(0).getChildData(0).getHeight();
+			highestHeight = dataModel.getMother().getChild(0).getLastChildData().getHeight();
+
+			// Init slider description
+			tvCurrent.setText(constructRelativeAge(dataModel.getMother().getChild(0).getChildData(0).getAgeDays()));
+		}
 		
 		// Create array for all children of a mother for spinner
 		String[] children = new String[dataModel.getMother().getChildCount()];
@@ -195,13 +198,21 @@ public class HeightVisualActivity extends Activity
 		{
 			tvStartDate.setText(dataModel.getMother().getChild(0).getYearOfBirth() + "");
 			
-			int yearsOld = (int)(dataModel.getMother().getChild(0).getLastChildData().getAgeDays() / DataModel.averageYear);
-			tvEndDate.setText(dataModel.getMother().getChild(0).getYearOfBirth() + yearsOld + "");
+			if (dataModel.getMother().getChild(0).getChildDataAmount() == 0)
+			{
+				// If there is no data, it is not possible to say
+				tvEndDate.setText("");
+			}
+			else
+			{
+				int yearsOld = (int)(dataModel.getMother().getChild(0).getLastChildData().getAgeDays() / DataModel.averageYear);
+				tvEndDate.setText(dataModel.getMother().getChild(0).getYearOfBirth() + yearsOld + "");
 			
-			tvCurrent.setText( sbTimeLine.getProgress() + " month");
+				tvCurrent.setText( sbTimeLine.getProgress() + " month");
 			
-			// Init child representation
-			ivOwnChild.setImageResource(R.drawable.own_child);
+				// Init child representation
+				ivOwnChild.setImageResource(R.drawable.own_child);
+			}
 		}
 	}
 	
@@ -297,6 +308,19 @@ public class HeightVisualActivity extends Activity
 			// Adjust slider info
 			if (dataModel.getMother().getChildCount() > 0)
 			{
+				if (dataModel.getMother().getChild(position).getChildDataAmount() == 0)
+				{
+					// No data => Nothing to construct a infographic to display
+					ivOwnChild.setVisibility(ImageView.INVISIBLE);
+					ivCompareChild.setVisibility(ImageView.INVISIBLE);
+					return;
+				}
+				else
+				{
+					ivOwnChild.setVisibility(ImageView.VISIBLE);
+					ivCompareChild.setVisibility(ImageView.VISIBLE);
+				}
+				
 				// Visualise first year with growth data
 				tvStartDate.setText(dataModel.getMother().getChild(position).getYearOfBirth() + "");
 				
@@ -308,10 +332,10 @@ public class HeightVisualActivity extends Activity
 				ivOwnChild.setImageResource(R.drawable.own_child);
 				ivCompareChild.setImageResource(R.drawable.average_child);
 				
-				sbTimeLine.setMax(dataModel.getMother().getChild(position).getChildDataAmount()-1);
-				
 				lowestHeight = dataModel.getMother().getChild(position).getChildData(0).getHeight();
 				highestHeight = dataModel.getMother().getChild(position).getLastChildData().getHeight();
+				
+				sbTimeLine.setMax(dataModel.getMother().getChild(position).getChildDataAmount()-1);
 			}
 		}
 
@@ -331,7 +355,11 @@ public class HeightVisualActivity extends Activity
 			
 			// Convert child's height in cm to pixel height for the image representation  
 			double percentageQuotationCm = selectedChild.getChildData(progress).getHeight() - lowestHeight;
-			double percentageRate = (percentageQuotationCm * 100) / (highestHeight - lowestHeight);
+			double percentageRate = 100;
+			if ((highestHeight - lowestHeight) > 0)
+			{
+				percentageRate = (percentageQuotationCm * 100) / (highestHeight - lowestHeight);
+			}
 			double percentageQuotationPixel = ((maxHeight - minHeight) * percentageRate) / (double)100;
 			
 			// TODO: Only for debug

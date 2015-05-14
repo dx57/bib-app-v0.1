@@ -193,6 +193,12 @@ public class HeightDiagramActivity extends Activity
 		// Get selected child
 		Child selectedChild = dataModel.getMother().getChild(position);
 		
+		if (selectedChild.getChildDataAmount() == 0)
+		{
+			// No data => Nothing to construct a diagram to display
+			return;
+		}
+		
 		// Construct x axis labels (x axis only based on interger values with String representation.. this is already the workaround!
 		ArrayList<String> xVals = new ArrayList<String>();
 		for (int i = 0; i < selectedChild.getLastChildData().getAgeDays()+10; i++) 
@@ -274,7 +280,7 @@ public class HeightDiagramActivity extends Activity
 		ownChildDataSet.setHighLightColor(Color.rgb(244, 117, 117));
 		// ownChildDataSet.setDrawFilled(true);
 		ownChildDataSet.setDrawCircles(true);
-		ownChildDataSet.setDrawCubic(true);
+		// ownChildDataSet.setDrawCubic(true);
 		
 		// create a dataset and give it a type
 		LineDataSet averageDataSet = new LineDataSet(yValsAverage, getResources().getString(R.string.national_average));

@@ -2,13 +2,15 @@ package com.uni.bradford.bib.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Class to structure all data related to a child
  * 
  * @author Martin
  */
-public class Child implements Serializable
+public class Child implements Serializable, Comparable<Child>
 {
 	private static final long serialVersionUID = 5856826193060713777L;
 
@@ -83,6 +85,17 @@ public class Child implements Serializable
     	return identifier;
     }
     
+	@Override
+	public int compareTo(Child compChild)
+	{
+		if (birthOrder <= compChild.birthOrder)
+		{
+			return -1;
+		}
+		
+		return 1;
+	}
+    
 	public String getChildId()
 	{
 		return childId;
@@ -149,8 +162,10 @@ public class Child implements Serializable
 	}
 	
 	public void addChildData(ChildData newChildData)
-	{		
+	{	
+		// Add and sort data according to age
 		this.childData.add(newChildData);
+		Collections.sort(childData);
 	}
 	
 	public ChildData getChildData(int position)

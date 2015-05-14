@@ -22,7 +22,7 @@ public class WebServiceInteraction
 	
 	private static final String NAME_SPACE = "http://bib.service.code/";
 //	private static final String URL = "http://medicalxtra.cloudapp.net/BIBService/BIBWebService?wsdl";
-	private static final String URL = "http://82.219.187.39:8084/BIBService/BIBWebService?wsdl"; // TODO: Switch and adjustfor live demo
+	private static final String URL = "http://192.168.173.1:8084/BIBService/BIBWebService?wsdl"; // TODO: Switch and adjustfor live demo
 	 
 	private static final String GET_MOTHER_BY_ID = "GetMotherByID";
 	private static final String GET_MOTHER_BY_ID_RESPONSE = "GetMotherByIDResponse";
@@ -290,24 +290,30 @@ public class WebServiceInteraction
 				{
 					SoapObject soapObject =  (SoapObject)response.getProperty(index);
 				
+					
+					
 					// TODO: Just for debug.. 
 					System.out.println("childID: " + soapObject.getProperty("childID").toString());
 					System.out.println("source: " + soapObject.getProperty("source").toString());
 					System.out.println("AgeDays: " + soapObject.getProperty("ageDays").toString());
 					System.out.println("Weight: " + soapObject.getProperty("weight").toString());
 					System.out.println("Height: " + soapObject.getProperty("height").toString());
-					System.out.println("BMI: " + soapObject.getProperty("BMI").toString());
+//					System.out.println("BMI: " + soapObject.getProperty("BMI").toString());
 					System.out.println("-------------------");
 					
-					int pos = dataModel.getMother().getChildPos(soapObject.getProperty("childID").toString());
+					if (!soapObject.getProperty("height").toString().equals("0.0"))
+					{
+						// We only want entries with height value					
+						int pos = dataModel.getMother().getChildPos(soapObject.getProperty("childID").toString());
 					
-					// Add result to data model
-					dataModel.getMother().getChild(pos).addChildData(new ChildData(soapObject.getProperty("source").toString(), 
+						// Add result to data model
+						dataModel.getMother().getChild(pos).addChildData(new ChildData(soapObject.getProperty("source").toString(), 
 																				   Integer.parseInt(soapObject.getProperty("ageDays").toString()), 
 																				   Double.parseDouble(soapObject.getProperty("weight").toString()),
 																				   Double.parseDouble(soapObject.getProperty("height").toString()),
-																				   Double.parseDouble(soapObject.getProperty("BMI").toString())));
-				}
+																				   /*Double.parseDouble(soapObject.getProperty("BMI").toString())*/ 0.0 ));
+					}
+				}	
 				
 				break;
 			}

@@ -126,7 +126,7 @@ public class ProfileActivity extends Activity
 		String[] programDescription = getResources().getStringArray(R.array.program_descriptions);
 		
 		// Fill list and draw infographic according to programs the selected child took part in
-		if (1 >= dataModel.getMother().getChild(position).getEclipse())
+		if (1 == dataModel.getMother().getChild(position).getEclipse())
 		{
 			programList.add(new ProgramEntry(true, programNames[0], programDescription[0]));
 			ivMap01check.setVisibility(ImageView.VISIBLE);
@@ -137,7 +137,7 @@ public class ProfileActivity extends Activity
 			ivMap01check.setVisibility(ImageView.INVISIBLE);
 		}
 		
-		if (1 >= dataModel.getMother().getChild(position).getPrimaryCare())
+		if (1 == dataModel.getMother().getChild(position).getPrimaryCare())
 		{
 			programList.add(new ProgramEntry(true, programNames[1], programDescription[1]));
 			ivMap02check.setVisibility(ImageView.VISIBLE);
@@ -148,7 +148,7 @@ public class ProfileActivity extends Activity
 			ivMap02check.setVisibility(ImageView.INVISIBLE);
 		}
 		
-		if (1 >= dataModel.getMother().getChild(position).getEducation())
+		if (1 == dataModel.getMother().getChild(position).getEducation())
 		{
 			programList.add(new ProgramEntry(true, programNames[2], programDescription[2]));
 			ivMap03check.setVisibility(ImageView.VISIBLE);
@@ -159,7 +159,7 @@ public class ProfileActivity extends Activity
 			ivMap03check.setVisibility(ImageView.INVISIBLE);
 		} 
 		
-		if (1 >= dataModel.getMother().getChild(position).getBib1000())
+		if (1 == dataModel.getMother().getChild(position).getBib1000())
 		{
 			programList.add(new ProgramEntry(true, programNames[3], programDescription[3]));
 			ivMap04check.setVisibility(ImageView.VISIBLE);
@@ -170,7 +170,7 @@ public class ProfileActivity extends Activity
 			ivMap04check.setVisibility(ImageView.INVISIBLE);
 		}
 		
-		if (1 >= dataModel.getMother().getChild(position).getMeDall())
+		if (1 == dataModel.getMother().getChild(position).getMeDall())
 		{
 			programList.add(new ProgramEntry(true, programNames[4], programDescription[4]));
 			ivMap05check.setVisibility(ImageView.VISIBLE);
@@ -181,7 +181,7 @@ public class ProfileActivity extends Activity
 			ivMap05check.setVisibility(ImageView.INVISIBLE);
 		}
 		
-		if (1 >= dataModel.getMother().getChild(position).getAll_in())
+		if (1 == dataModel.getMother().getChild(position).getAll_in())
 		{
 			programList.add(new ProgramEntry(true, programNames[5], programDescription[5]));
 			ivMap07check.setVisibility(ImageView.VISIBLE);

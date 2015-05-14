@@ -2,6 +2,7 @@ package com.uni.bradford.bib.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Class to structure all data related to a mother
@@ -80,7 +81,9 @@ public class Mother implements Serializable
 	
 	public void addChild(Child newChild)
 	{
+		// Add and sort data according to age
 		this.children.add(newChild);
+		Collections.sort(children);
 	}
 	
 	public Child getChild(int position)
