@@ -37,11 +37,14 @@
         android:layout_marginRight="42dp"
         android:background="#ffffff"
         android:ems="10"
-        android:text="7ec595e7-1fbb-4791-8a06-119de940114a"
+        android:text="38fdb7f6-4503-4211-af1e-c1da5959241e"
         android:hint="@string/login_hint"
         android:inputType="text" />
 
     <!-- B100006 -->
+    <!-- 38fdb7f6-4503-4211-af1e-c1da5959241e --><!-- Mother with 3 childs (thrilling) with 0 and 1 growth data -->
+    <!-- 7ec595e7-1fbb-4791-8a06-119de940114a --><!-- Mother with 1 child and 3 growth data -->
+    <!-- b65f389b-aa54-4b1b-ae23-d028906237fb --><!-- Mother with 1 child but lots of growth data -->
     
     <Button
         android:id="@+id/btnLogin"

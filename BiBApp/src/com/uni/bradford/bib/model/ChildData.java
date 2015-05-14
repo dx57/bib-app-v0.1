@@ -7,7 +7,7 @@ import java.io.Serializable;
  * 
  * @author Martin
  */
-public class ChildData implements Serializable
+public class ChildData implements Serializable, Comparable<ChildData>
 {
 	private static final long serialVersionUID = 1110741657843195784L;
 
@@ -32,6 +32,17 @@ public class ChildData implements Serializable
     	this.height = height;
     	this.bmi = bmi;
     }
+    
+	@Override
+	public int compareTo(ChildData compChildData)
+	{
+		if (ageDays <= compChildData.ageDays)
+		{
+			return -1;
+		}
+		
+		return 1;
+	}
 
 	public String getSource()
 	{
