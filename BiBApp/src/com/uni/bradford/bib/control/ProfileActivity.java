@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -38,7 +39,7 @@ public class ProfileActivity extends Activity
 	private Spinner sSelectChild;
 	
 	private ListView lvProgram;
-	private ProgramListViewAdapter listAdapter;
+	private BaseAdapter listAdapter;
 	
 	// Logic
 	private DataModel dataModel;
