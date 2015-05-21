@@ -38,6 +38,7 @@ public class SurveyActivity extends Activity
 	private TextView tvInfoToSurvey;
 	private TextView tvWait;
 	private ImageView ivSurveyCompleted;
+	private TextView tvReturnHelp;
 	
 	// Logic
 	private DataModel dataModel;
@@ -74,6 +75,7 @@ public class SurveyActivity extends Activity
 		tvInfoToSurvey = (TextView)findViewById(R.id.tvInfoToSurvey);
 		tvWait = (TextView)findViewById(R.id.tvWait);
 		ivSurveyCompleted = (ImageView)findViewById(R.id.ivSurveyCompleted);
+		tvReturnHelp = (TextView)findViewById(R.id.tvReturnHelp);
 		
 		// Must-Have for SurveyMonkey.. but might allow cross-side-scripting
 		wvSurvey.getSettings().setJavaScriptEnabled(true);
@@ -200,6 +202,7 @@ public class SurveyActivity extends Activity
 				// Thank user and hide survey view
 				wvSurvey.setVisibility(WebView.INVISIBLE);
 				ivSurveyCompleted.setVisibility(ImageView.VISIBLE);
+				tvReturnHelp.setVisibility(TextView.VISIBLE);
 				
 				// Remember that user took survey to prevent user take survey again 
 				dataModel.setTookSurvey(true);

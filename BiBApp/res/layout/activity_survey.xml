@@ -48,5 +48,15 @@
         android:paddingTop="100dp"
         android:visibility="invisible"
         android:src="@drawable/survey_completed" />
+    
+    <TextView
+        android:id="@+id/tvReturnHelp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivSurveyCompleted"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"
+        android:text="@string/return_help" />
 
 </RelativeLayout>

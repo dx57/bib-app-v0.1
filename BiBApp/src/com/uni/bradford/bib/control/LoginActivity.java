@@ -43,6 +43,7 @@ public class LoginActivity extends Activity
 	private DataModel dataModel;
 	private boolean internetConnection;
 	private BroadcastReceiver networkStateBroadcastReceiver;
+	private double lastUpdateWebServiceBased;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -236,10 +237,14 @@ public class LoginActivity extends Activity
 				String phoneId = telephonyManager.getDeviceId(); 
 			    
 				// Send mail without blocking the GUI
-				// TODO: Get receiver-address within askForLastUpdateDate request message
+				if (dataModel == null)
+				{
+					return;
+				}
+				
 				SendEmail sendEmail = new SendEmail("stellaleeuss@gmail.com", 
 			    									"AskMeAgain", 
-			    									"mjwalda@bradford.ac.uk",
+			    									dataModel.getRecipientMail(),
 			    									getResources().getString(R.string.fogot_id_mail_subject),
 			    									getResources().getString(R.string.fogot_id_mail_text) + " " + phoneId + ".");
 			    sendEmail.execute();
@@ -293,26 +298,32 @@ public class LoginActivity extends Activity
 	{
 		@Override
 		public void onClick(View view)
-		{
+		{						
 			System.out.println("Button Login clicked");	
 			
 			// Disable button to prevent multiple 'load data model' requests
 			btnLogin.setEnabled(false);
-			
-			// TODO: Request WebService if there is new data even if we can load the local data.. to check for updates
-			
+			btnLogin.setText(getResources().getString(R.string.login_wait)); 
+						
 			// Check if data model was initialised (local data model => no Internect connection needed)
-			if (dataModel == null)
+			if ( (dataModel == null) )
 			{
 				// Got no internet connection
 				if (!internetConnection) 
 				{
 					// Login not possible
 					btnLogin.setEnabled(true);
+					btnLogin.setText(getResources().getString(R.string.login_button));
 					showNoConnectionDialog();
 					return;
 				}	
 				
+				// Load data model from WebService
+				LoadDataModelFromWebServiceAsyncTask loadRemoteTask = new LoadDataModelFromWebServiceAsyncTask();
+				loadRemoteTask.execute();
+			}
+			else if ( internetConnection && (dataModel.getLastUpdate() < lastUpdateWebServiceBased) )
+			{
 				// Load data model from WebService
 				LoadDataModelFromWebServiceAsyncTask loadRemoteTask = new LoadDataModelFromWebServiceAsyncTask();
 				loadRemoteTask.execute();
@@ -330,6 +341,7 @@ public class LoginActivity extends Activity
 			else
 			{
 				btnLogin.setEnabled(true);
+				btnLogin.setText(getResources().getString(R.string.login_button));
 				showWrongPasswordDialog();
 			}
 		}	
@@ -453,10 +465,19 @@ public class LoginActivity extends Activity
 	{
 		@Override
 		protected Void doInBackground(Void... params)
-		{	
+		{				
 			// Load data model from file
 			dataModel = DataModel.loadFromFile(LoginActivity.this.getFilesDir());
-						
+			
+			ConnectivityManager connectivityManager = (ConnectivityManager)LoginActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
+			NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+			
+			// Check for Internet availability
+			if ( (dataModel != null) && (networkInfo != null) && (networkInfo.isConnected()) )
+			{
+				 lastUpdateWebServiceBased =  DataModel.checkForLastUpdate();
+			}
+			
 			return null; 
 		}
 		
@@ -509,10 +530,12 @@ public class LoginActivity extends Activity
 			{
 				// Wrong login ID
 				btnLogin.setEnabled(true);
+				btnLogin.setText(getResources().getString(R.string.login_button));
 				showWrongPasswordDialog(); 
 			}
 			else
 			{
+				// To check login with the new informations again
 				btnLogin.performClick();
 			}
 			
