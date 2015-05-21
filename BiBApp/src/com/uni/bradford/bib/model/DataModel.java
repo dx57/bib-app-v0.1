@@ -27,10 +27,11 @@ public class DataModel implements Serializable
 	public static final int averageYear = 360;
 	public static final int averageMonth = 30;
 	
-	private double lastUpdate;
+	private long lastUpdate;
 	private boolean tookSurvey;
 	private boolean rememberUser;
 	private String hashedLoginId;
+	private String recipientMail;
 	private String surveyUrl; 
 	
 	private Mother mother;
@@ -121,16 +122,17 @@ public class DataModel implements Serializable
 		long start = SystemClock.uptimeMillis();
 		
 		DataModel dataModel = new DataModel();
-		dataModel.setSurveyUrl("https://www.surveymonkey.com/s/HMP398J"); // TODO: Load from WebService
 							
 		WebServiceInteraction wsi = new WebServiceInteraction(dataModel);
+				
+		// Ask for date of last database update
+		wsi.getLastUpdate();
 		
-		// TODO: vs the all in one approach!!!
-//		if (!wsi.getAverageChildBySex("0"))
-//		{
-//			// Wrong loginId or phoneId
-//			return null;
-//		}
+		// Ask for recipient mail to deal with login id requests
+		wsi.getRecipientMail();
+		
+		// Ask for survey link
+		wsi.getSurveyUrl();
 		
 		if (wsi.getMotherById(loginId, deviceId))
 		{
@@ -156,12 +158,29 @@ public class DataModel implements Serializable
 		return dataModel;
 	}
 	
-	public double getLastUpdate()
+	/**
+	 * Load last update date from Webservice
+	 * 
+	 * @return Last time, the database was updated
+	 */
+	public static double checkForLastUpdate()
+	{
+		DataModel dataModel = new DataModel();
+							
+		WebServiceInteraction wsi = new WebServiceInteraction(dataModel);
+		
+		// Ask for date of last database update
+		wsi.getLastUpdate();
+		
+		return dataModel.getLastUpdate();
+	}
+	
+	public long getLastUpdate()
 	{
 		return lastUpdate;
 	}
 	
-	public void setLastUpdate(double lastUpdate)
+	public void setLastUpdate(long lastUpdate)
 	{
 		this.lastUpdate = lastUpdate;
 	}
@@ -214,5 +233,15 @@ public class DataModel implements Serializable
 	public void setMother(Mother mother)
 	{
 		this.mother = mother;
+	}
+
+	public String getRecipientMail()
+	{
+		return recipientMail;
+	}
+
+	public void setRecipientMail(String recipientMail)
+	{
+		this.recipientMail = recipientMail;
 	}
 }

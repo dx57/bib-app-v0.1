@@ -13,7 +13,7 @@
     
     <!-- Internet Dialog ............................................................................................... -->
     <string name="no_internet_connection">No Internet connection</string>
-    <string name="no_internet_connection_text">Check the Internet connection of the smartphone to proceed.</string>
+    <string name="no_internet_connection_text">Check the Internet connection of your smartphone to proceed</string>
     <string name="ok">OK</string>
     
     
@@ -23,24 +23,24 @@
     <string name="login_text">Enter your User-ID:</string>
     <string name="login_hint"></string>
     <string name="login_button">LOGIN</string>
+    <string name="login_wait">WAIT</string>
     <string name="remember_me">Remember Me |</string>
     <string name="forgot_id"><u>Forgot ID?</u></string>
     
-    <string name="try_again">Try again!</string>
+    <string name="try_again">Please try again</string>
     <string name="wrong_password">Wrong password</string>
-    <string name="wrong_password_text">You entered the wrong Login ID.</string>
+    <string name="wrong_password_text">You entered the wrong login ID.</string>
     <string name="bottom_description">Born in Bradford Design</string>
     
     <string name="forgot_login_id">Forgot Login ID?</string>
     <string name="forgot_login_id_text">If you forgot your Login ID you can send a request to the Born 
-        in Bradford organisation.\n\nThe requested Login ID is send to you to the mail address 
-        registered with this device.
+        in Bradford organisation.\n\nThe requested Login ID will be sent to you to the e-mail address registered with this device.
 	</string>
     <string name="cancel">Cancel</string>
     <string name="mail_button">Send Mail</string>
     
     <string name="fogot_id_mail_subject">Born in Bradford App - Forgot login ID request</string>
-    <string name="fogot_id_mail_text">Please resend login ID to deposited email address for user with Smartphone ID: </string>
+    <string name="fogot_id_mail_text">Please resend login ID to the email address for user with Smartphone ID: </string>
     
     
     
@@ -52,7 +52,7 @@
     
     <string name="icon_facebook_description">Facebook</string>
     <string name="icon_twitter_description">Twitter</string>
-    <string name="icon_youtube_description">Youtube</string>
+    <string name="icon_youtube_description">YouTube</string>
     
     <string name="link_facebook">http://www.facebook.com/BornInBradford?fref=ts</string>
     <string name="link_twitter">https://twitter.com/BiBresearch</string>
@@ -61,10 +61,10 @@
     
     
     <!-- Growth Visualisation Screen .................................................................................... -->
-    <string name="title_activity_height_diagram">My Childs height</string>
-    <string name="title_activity_height_visual">My Childs height</string>
+    <string name="title_activity_height_diagram">My Child\'s height</string>
+    <string name="title_activity_height_visual">My Child\'s height</string>
     
-    <string name="own_child">Own child</string>
+    <string name="own_child">My child</string>
     <string name="national_average">National average</string>
     
     <string name="year_shurtcut">yr</string>
@@ -76,17 +76,17 @@
     <string name="start_date">XXXX</string>
     <string name="end_date">YYYY</string>
     
-    <string name="slider_info">Use slider to compare childs over time</string>
+    <string name="slider_info">Use the slider to compare children over time</string>
     
     <string name="scale_image_description">Scale for children</string>
     <string name="own_child_image_description">Image to represent own child</string>
     <string name="compare_child_image_description">Image to represent average child</string>
     <string name="calendar_image_description">Image to represent calendar</string>
     
-    <string name="share_menu_text">Share Infographic:</string>
-    <string name="share_mail_title">Born in Bradford Infographic</string>
+    <string name="share_menu_text">Share infographic:</string>
+    <string name="share_mail_title">Born in Bradford infographic</string>
     <string name="share_mail_subject">My latest personal Born in Bradford infographic</string>
-    <string name="share_mail_text">Hello, take a look at my latest personal Born in Bradford infographic. For more information visit: www.borninbradford.nhs.uk</string>
+    <string name="share_mail_text">Take a look at my latest personal Born in Bradford infographic. For more information visit: www.borninbradford.nhs.uk</string>
     
     
     
@@ -110,10 +110,10 @@
     <string-array name="program_descriptions">
         <item>Eclipse description</item>
         <item>PrimaryCare description</item>
-        <item>Education description</item>
-        <item>BIB1000 description</item>
-        <item>MeDALL description</item>
-        <item>ALL-IN description</item>
+        <item>Illness impact on school education</item>
+        <item>Obesity in a multi-ethnic population</item>
+        <item>Mechanisms of the Development of Allergy</item>
+        <item>Allergy and Infection Study</item>
     </string-array>
     
     
@@ -122,8 +122,9 @@
     <string name="title_activity_survey">Survey</string>
     
     <string name="load_website"><b>Survey generation</b> is almost done.</string>
-    <string name="please_wait"><i>Please wait..</i></string>
+    <string name="please_wait"><i>Please wait...</i></string>
     <string name="survey_complete_batch_description">Batch to visualise survey completion</string>
+    <string name="return_help"><b>Please use the back button of the phone\n to return to the navigation</b></string>
     
     
     
@@ -132,20 +133,22 @@
     
     <string name="about_text"><b>What is Born in Bradford?</b>\n\nBorn 
         in Bradford is a long term study of a cohort of 13,500 children, born at Bradford Royal 
-		Infirmary between March 2007 and December 2010, whose health is being tracked from pregnancy 
-		through childhood and into adult life. A birth cohort study is a powerful way of researching 
-		into the many influences that shape our lives: our parents and our wider family, our genes, 
-		the way we choose to live, the local environment, the services we access and how all these 
-		come together to affect our health and well-being. The information collected from the BiB 
-		families is being used to find the causes of common childhood illnesses and to explore the 
-		mental and social development of this new generation.\n\n<b>The Born in Bradford Charter</b>
-		\n\nBorn in Bradford will: learn why most Bradford babies are healthy but some babies and 
-		children get sick use what we learn to help plan ways to improve health for people in 
-		Bradford and elsewhere do this by getting information from mothers, fathers and babies about 
-		how they live, where they live, where they come from and all the other things that help make 
-		us stay healthy or that can make us sick work with families, community groups, health 
-		professionals and all those others whose actions can help to make Bradford a healthier place.
-		\n\n<b>The Born in Bradford App</b>\n\nBorn This app does not provide medical advice etc.	</string>
+        Infirmary between March 2007 and December 2010, whose health is being tracked from pregnancy 
+        through childhood and into adult life.\n\nA birth cohort study is a powerful way of researching 
+        into the many influences that shape our lives: our parents and our wider family, our genes, 
+        the way we choose to live, the local environment, the services we access and how all these come 
+        together to affect our health and well-being. The information collected from the BiB families is 
+        being used to find the causes of common childhood illnesses and to explore the mental and social 
+        development of this new generation.\n\n<b>The Born in Bradford Charter</b>\n\nBorn in Bradford 
+        will: learn why most Bradford babies are healthy but some babies and children get sick use what 
+        we learn to help plan ways to improve health for people in Bradford and elsewhere do this by 
+        getting information from mothers, fathers and babies about how they live, where they live, 
+        where they come from and all the other things that help make us stay healthy or that can make 
+        us sick work with families, community groups, health professionals and all those others whose 
+        actions can help to make Bradford a healthier place.\n\n<b>The Born in Bradford App</b>\n\nBorn 
+        This app does not provide medical advice and any data displayed is for informal use only.  
+        If you are concerned you should always seek the help of a medical professional.
+	</string>
 	
     <string name="about_banner_description">Banner for the about screen</string>
 

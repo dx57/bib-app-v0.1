@@ -1,7 +1,10 @@
 package com.uni.bradford.bib.model;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.ksoap2.HeaderProperty;
 import org.ksoap2.SoapEnvelope;
@@ -21,9 +24,16 @@ public class WebServiceInteraction
 	private DataModel dataModel;
 	
 	private static final String NAME_SPACE = "http://bib.service.code/";
+	private static final String URL = "http://vmjsp1.inf.brad.ac.uk:8080/BIBService/BIBWebService?wsdl";
 //	private static final String URL = "http://medicalxtra.cloudapp.net/BIBService/BIBWebService?wsdl";
-	private static final String URL = "http://192.168.173.1:8084/BIBService/BIBWebService?wsdl"; // TODO: Switch and adjustfor live demo
+//	private static final String URL = "http://192.168.137.1:8084/BIBService/BIBWebService?wsdl"; // TODO: Switch and adjustfor live demo
 	 
+	private static final String GET_NEW_VERSION_DATE = "GetNewVersionDate";
+	private static final String GET_NEW_VERSION_DATE_RESPONSE = "GetNewVersionDateResponse";
+	private static final String GET_RECIPIENT_MAIL = "GetRecipientMail";
+	private static final String GET_RECIPIENT_MAIL_RESPONSE = "GetRecipientMailResponse";
+	private static final String GET_SURVEY_URL = "GetSurveyUrl";
+	private static final String GET_SURVEY_URL_RESPONSE = "GetSurveyUrlResponse";
 	private static final String GET_MOTHER_BY_ID = "GetMotherByID";
 	private static final String GET_MOTHER_BY_ID_RESPONSE = "GetMotherByIDResponse";
 	private static final String GET_CHILD_ID_BY_MOTHER_ID = "GetChildIDbyMotherID"; 
@@ -41,6 +51,30 @@ public class WebServiceInteraction
 	public WebServiceInteraction(DataModel dataModel)
 	{
 		this.dataModel = dataModel;
+	}
+	
+	/**
+	 * Build request to ask for information about recipient for forgotten login id requests
+	 */
+	public boolean getRecipientMail()
+	{
+		return sendReceiveSoapMessage(GET_RECIPIENT_MAIL, null);
+	}
+	
+	/**
+	 * Build request to ask for information about the current survey link
+	 */
+	public boolean getSurveyUrl()
+	{
+		return sendReceiveSoapMessage(GET_SURVEY_URL, null);
+	}
+	
+	/**
+	 * Build request to ask for information about time of last update
+	 */
+	public boolean getLastUpdate()
+	{
+		return sendReceiveSoapMessage(GET_NEW_VERSION_DATE, null);
 	}
 	
 	/**
@@ -157,9 +191,12 @@ public class WebServiceInteraction
 		SoapObject request = new SoapObject(NAME_SPACE, requestType);
 
 		// Pass arguments to request
-		for (PropertyInfo propertyInfo : propertyInfos)
+		if (propertyInfos != null)
 		{
-			request.addProperty(propertyInfo);
+			for (PropertyInfo propertyInfo : propertyInfos)
+			{
+				request.addProperty(propertyInfo);
+			}
 		}
 
 		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
@@ -209,6 +246,56 @@ public class WebServiceInteraction
 		// Check for particular response type
 		switch (response.getName())
 		{
+			case GET_NEW_VERSION_DATE_RESPONSE:
+			{
+				if (response.getPropertyCount() == 0)
+				{
+					// Something went wrong
+					return false;
+				}
+				
+				String updateDate = response.getProperty("return").toString();
+				
+				// Convert date string to time in milliseconds
+				try
+				{
+					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					Date date = format.parse(updateDate);
+					long milliseconds = date.getTime();
+					dataModel.setLastUpdate(milliseconds);
+				} 
+				catch (ParseException e)
+				{
+					e.printStackTrace();
+				}
+				
+				
+				break;
+			}
+			case GET_RECIPIENT_MAIL_RESPONSE:
+			{
+				if (response.getPropertyCount() == 0)
+				{
+					// Something went wrong
+					return false;
+				}
+				
+				dataModel.setRecipientMail(response.getProperty("return").toString());
+				
+				break;
+			}
+			case GET_SURVEY_URL_RESPONSE:
+			{
+				if (response.getPropertyCount() == 0)
+				{
+					// Something went wrong
+					return false;
+				}
+				
+				dataModel.setSurveyUrl(response.getProperty("return").toString());
+				
+				break;
+			}
 			case GET_MOTHER_BY_ID_RESPONSE:
 			{
 				if (response.getPropertyCount() == 0)
@@ -217,9 +304,9 @@ public class WebServiceInteraction
 					return false;
 				}
 				
-				SoapObject soapObject =  (SoapObject)response.getProperty(0);
+				SoapObject soapObject = (SoapObject)response.getProperty(0);
 				
-				// TODO: Just for debug.. 
+				// Just for debug.. 
 				System.out.println("id: " + soapObject.getProperty("id").toString());
 				System.out.println("phoneID: " + soapObject.getProperty("phoneID").toString());
 				System.out.println("PrimaryCare: " + soapObject.getProperty("primaryCare").toString());
@@ -244,7 +331,7 @@ public class WebServiceInteraction
 				{
 					SoapObject soapObject =  (SoapObject)response.getProperty(index);
 					
-					// TODO: Just for debug.. 
+					// Just for debug.. 
 					System.out.println("Child ID: " + soapObject.getProperty("childID").toString());
 					System.out.println("MotherID: " + soapObject.getProperty("motherID").toString());
 					System.out.println("Pregnancy: " + soapObject.getProperty("pregnancy").toString());
@@ -290,9 +377,7 @@ public class WebServiceInteraction
 				{
 					SoapObject soapObject =  (SoapObject)response.getProperty(index);
 				
-					
-					
-					// TODO: Just for debug.. 
+					// Just for debug.. 
 					System.out.println("childID: " + soapObject.getProperty("childID").toString());
 					System.out.println("source: " + soapObject.getProperty("source").toString());
 					System.out.println("AgeDays: " + soapObject.getProperty("ageDays").toString());
@@ -319,8 +404,7 @@ public class WebServiceInteraction
 			}
 			case GET_ALL_INFO_BY_MOTHER_ID_RESPONSE:
 			{
-				// TODO: 
-				System.out.println("super.. it is working");
+				System.out.println("Do nothing.. not part of the prototype");
 				
 				break;
 			}
