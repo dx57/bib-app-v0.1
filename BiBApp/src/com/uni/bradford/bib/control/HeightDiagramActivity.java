@@ -83,7 +83,7 @@ public class HeightDiagramActivity extends Activity
 
 		// Do not start with 0 for y axis
 		lcHeight.setStartAtZero(false);
-
+		
 		// create a custom MarkerView (extend MarkerView) and specify the layout to use for it
 		MarkerView mvMarker = new DiagramMarkerView(this, R.layout.diagram_marker_view);
 
@@ -247,27 +247,24 @@ public class HeightDiagramActivity extends Activity
 			yValuesOwnChild.add(new Entry(selectedChild.getChildData(i).getHeight().floatValue(), selectedChild.getChildData(i).getAgeDays()));
 		}
 		
-		// TODO: Only local approach until data gets from WebService
+		
 		ArrayList<Entry> yValsAverage = new ArrayList<Entry>();
-		yValsAverage.add(new Entry((float) 50, DataModel.averageYear*0));
-		yValsAverage.add(new Entry((float) 70, DataModel.averageYear*1));
-		yValsAverage.add(new Entry((float) 80, DataModel.averageYear*2));
-		yValsAverage.add(new Entry((float) 88, DataModel.averageYear*3));
-		yValsAverage.add(new Entry((float) 96, DataModel.averageYear*4));
-		yValsAverage.add(new Entry((float) 100, DataModel.averageYear*5));
-		yValsAverage.add(new Entry((float) 106, DataModel.averageYear*6));
-		yValsAverage.add(new Entry((float) 112, DataModel.averageYear*7));
-		yValsAverage.add(new Entry((float) 119, DataModel.averageYear*8));
-		yValsAverage.add(new Entry((float) 126, DataModel.averageYear*9));
-		yValsAverage.add(new Entry((float) 130, DataModel.averageYear*10));
-		yValsAverage.add(new Entry((float) 136, DataModel.averageYear*11));
-		yValsAverage.add(new Entry((float) 141, DataModel.averageYear*12));
-		yValsAverage.add(new Entry((float) 145, DataModel.averageYear*13));
-		yValsAverage.add(new Entry((float) 150, DataModel.averageYear*14));
-		yValsAverage.add(new Entry((float) 153, DataModel.averageYear*15));
-		yValsAverage.add(new Entry((float) 155, DataModel.averageYear*16));
-		yValsAverage.add(new Entry((float) 156, DataModel.averageYear*17));
-		yValsAverage.add(new Entry((float) 156, DataModel.averageYear*18));
+		
+		// Check which average data to use
+		double[] average = selectedChild.getAverageForChildGender();
+		
+		// Only add average data until the last height data of the child, to make diagram focus better
+		for (int i = 0, limit = 0; (i < average.length) && (limit <= 1); i++)
+		{
+			if ( (i*2*DataModel.averageMonth) >= selectedChild.getLastChildData().getAgeDays())
+			{
+				// Only one value above last child height entry
+				limit++;
+			}
+			
+			yValsAverage.add(new Entry((float) average[i], DataModel.averageMonth*(i*2) ));
+		}
+			
 		
 		// Create a dataset for own child data
 		LineDataSet ownChildDataSet = new LineDataSet(yValuesOwnChild, getResources().getString(R.string.own_child));
@@ -293,9 +290,9 @@ public class HeightDiagramActivity extends Activity
 		
 		// Add datasets for line chart
 		ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
-		dataSets.add(ownChildDataSet);
 		dataSets.add(averageDataSet);
-
+		dataSets.add(ownChildDataSet);
+		
 		// Create a data object with the datasets
 		LineData data = new LineData(xVals, dataSets);
 

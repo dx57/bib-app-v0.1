@@ -94,6 +94,25 @@ public class Child implements Serializable, Comparable<Child>
 		
 		return 1;
 	}
+	
+	/**
+	 * Provide average values for child's gender
+	 * 
+	 * @return Array with average values of child's gender
+	 */
+	public double[] getAverageForChildGender()
+	{
+		if (getGenderId() == 2)
+		{
+			// Boys
+			return DataModel.AVERAGE_BOY;
+		}
+		else
+		{
+			// Girls
+			return DataModel.AVERAGE_GIRL;
+		}
+	}
     
 	public String getChildId()
 	{

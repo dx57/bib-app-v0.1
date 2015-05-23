@@ -27,6 +27,36 @@ public class DataModel implements Serializable
 	public static final int averageYear = 360;
 	public static final int averageMonth = 30;
 	
+	// data from http://www.healthforallchildren.com/wp-content/uploads/2013/07/136637-Boys-Duo-Chart-4.jpg
+											     /* m0,    m2,    m4,    m6,    m8,   m10 */
+	public static final double[] AVERAGE_BOY  = { 51.5,  58.5,  64.0,  68.0,  71.0,  73.5, /*  0 year */
+											 	  76.0,  78.0,  80.0,  82.0,  84.0,  85.5, /*  1 year */
+												  87.0,  88.5,  90.0,  91.5,  93.0,  94.0, /*  2 year */
+												  95.5,  97.0,  98.0,  99.0, 100.5, 101.5, /*  3 year */
+												 102.5, 103.7, 105.0, 106.0, 107.4, 108.5, /*  4 year */
+												 109.8, 110.9, 112.0, 113.0, 114.0, 115.0, /*  5 year */
+												 116.0, 117.0, 118.0, 119.0, 120.0, 121.0, /*  6 year */
+												 122.0, 123.0, 124.0, 125.0, 126.0, 127.0, /*  7 year */
+												 127.9, 128.9, 129.9, 130.6, 131.5, 132.5, /*  8 year */
+												 133.4, 134.2, 135.0, 135.9, 136.6, 137.5, /*  9 year */
+												 138.4, 139.4, 140.1, 141.0, 141.9, 142.8  /* 10 year */
+											    }; 
+	
+	// data from http://www.healthforallchildren.com/wp-content/uploads/2013/07/138664-Girls-Duo-Chart-4.jpg
+    										    /* m0,    m2,    m4,    m6,    m8,   m10 */
+	public static final double[] AVERAGE_GIRL = { 50.5,  56.0,  62.0,  66.0,  69.0,  71.5,  /*  0 year */
+												  74.0,  76.5,  78.6,  80.7,  82.7,  84.4,  /*  1 year */
+												  86.0,  87.5,  89.0,  90.5,  91.9,  93.1,  /*  2 year */
+												  94.7,  95.9,  97.0,  98.1,  99.3, 100.4,  /*  3 year */
+												 101.6, 102.8, 104.0, 105.2, 106.4, 107.7,  /*  4 year */
+												 109.0, 110.0, 111.1, 112.2, 113.4, 114.3,  /*  5 year */
+												 115.5, 116.4, 117.3, 118.2, 119.3, 120.3,  /*  6 year */
+												 121.3, 122.3, 123.4, 124.3, 125.4, 126.5,  /*  7 year */
+												 127.4, 128.4, 129.2, 130.1, 131.0, 132.0,  /*  8 year */
+												 132.9, 133.8, 134.7, 135.7, 136.6, 137.5,  /*  9 year */
+												 138.5, 139.5, 140.4, 141.3, 142.2, 143.1   /* 10 year */
+											    };
+	
 	private long lastUpdate;
 	private boolean tookSurvey;
 	private boolean rememberUser;

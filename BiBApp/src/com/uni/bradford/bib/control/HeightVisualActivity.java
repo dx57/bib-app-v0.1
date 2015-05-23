@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -49,6 +50,7 @@ public class HeightVisualActivity extends Activity
 	private TextView tvStartDate;
 	private TextView tvEndDate;
 	private SeekBar sbTimeLine;
+	private TextView tvNoData;
 	
 	// Logic
 	private int maxHeight;
@@ -81,6 +83,7 @@ public class HeightVisualActivity extends Activity
 		tvCurrent = (TextView)findViewById(R.id.tvCurrent);
 		tvStartDate = (TextView)findViewById(R.id.tvStartDate);
 		tvEndDate = (TextView)findViewById(R.id.tvEndDate);
+		tvNoData = (TextView)findViewById(R.id.tvNoData);
 				
 		// Init timeline
 		sbTimeLine = (SeekBar)findViewById(R.id.sbTimeLine);
@@ -170,15 +173,27 @@ public class HeightVisualActivity extends Activity
 	 * Change GUI according to data model
 	 */
 	public void updateGui()
-	{	
+	{			
 		if (dataModel.getMother().getChild(0).getChildDataAmount() != 0)
 		{	
 			// Init relative height
-			lowestHeight = dataModel.getMother().getChild(0).getChildData(0).getHeight();
-			highestHeight = dataModel.getMother().getChild(0).getLastChildData().getHeight();
-
+			initRelativeHeightFor(dataModel.getMother().getChild(0)); 			
+			
 			// Init slider description
 			tvCurrent.setText(constructRelativeAge(dataModel.getMother().getChild(0).getChildData(0).getAgeDays()));
+			
+			tvNoData.setVisibility(TextView.INVISIBLE);
+		}
+		else
+		{
+			// Hide some GUI elements
+			sbTimeLine.setVisibility(SeekBar.INVISIBLE);
+			tvStartDate.setText("");
+			tvEndDate.setText("");
+			tvOwnChildHeight.setText("");
+			tvCompareChildHeight.setText("");
+			tvCurrent.setText("");
+			tvNoData.setVisibility(TextView.VISIBLE);
 		}
 		
 		// Create array for all children of a mother for spinner
@@ -202,6 +217,11 @@ public class HeightVisualActivity extends Activity
 			{
 				// If there is no data, it is not possible to say
 				tvEndDate.setText("");
+				tvStartDate.setText("");
+				tvOwnChildHeight.setText("");
+				tvCompareChildHeight.setText("");
+				tvCurrent.setText("");
+				tvNoData.setVisibility(TextView.VISIBLE);
 			}
 			else
 			{
@@ -209,6 +229,7 @@ public class HeightVisualActivity extends Activity
 				tvEndDate.setText(dataModel.getMother().getChild(0).getYearOfBirth() + yearsOld + "");
 			
 				tvCurrent.setText( sbTimeLine.getProgress() + " month");
+				tvNoData.setVisibility(TextView.INVISIBLE); 
 			
 				// Init child representation
 				ivOwnChild.setImageResource(R.drawable.own_child);
@@ -217,7 +238,35 @@ public class HeightVisualActivity extends Activity
 	}
 	
 	/**
+	 * Init relative height according to selected child
+	 * 
+	 * @param selectedChild Child to calculate relative height for
+	 */
+	private void initRelativeHeightFor(Child selectedChild)
+	{
+		double lowestHeightChild = selectedChild.getChildData(0).getHeight();
+		double highestHeightChild = selectedChild.getLastChildData().getHeight();
+
+		double lowestHeightAverage = calcAverageValueForDay(selectedChild.getAverageForChildGender(), selectedChild.getChildData(0).getAgeDays());
+		double highestHeightAverage = calcAverageValueForDay(selectedChild.getAverageForChildGender(), selectedChild.getLastChildData().getAgeDays());
+		
+		lowestHeight = lowestHeightChild;
+		if (lowestHeightChild > lowestHeightAverage)
+		{
+			lowestHeight = lowestHeightAverage;
+		}
+		
+		highestHeight = highestHeightChild;
+		if (highestHeightChild > highestHeightAverage)
+		{
+			highestHeight = highestHeightAverage;
+		}
+	}
+	
+	/**
 	 * Calculate the relative age for a given amount of days
+	 * 
+	 * @return String representation of relative age
 	 */
 	public String constructRelativeAge(int ageDays)
 	{
@@ -261,6 +310,28 @@ public class HeightVisualActivity extends Activity
 		}
 
 		return relativeAgeString;
+	}
+	
+	/**
+	 * Calculate the average value for a given amount of age days
+	 * 
+	 * @return Average value for the specified age days
+	 */
+	private double calcAverageValueForDay(double[] average, int ageDays)
+	{
+		int month = ageDays / DataModel.averageMonth / 2;
+		double leftMonthValue = average[month];
+		double rightMonthValue = average[month+1];
+		
+		int days = ageDays % (DataModel.averageMonth*2);
+		
+		// m = (y1-y0)/(x1-x0)
+		double increase = ((double)rightMonthValue-(double)leftMonthValue)/((double)60);
+		
+		// f(x) = mx + b
+		double averageValue = increase * days + leftMonthValue;
+		
+		return averageValue;
 	}
 	
 	/**
@@ -313,12 +384,37 @@ public class HeightVisualActivity extends Activity
 					// No data => Nothing to construct a infographic to display
 					ivOwnChild.setVisibility(ImageView.INVISIBLE);
 					ivCompareChild.setVisibility(ImageView.INVISIBLE);
+
+					// Hide some GUI elements
+					sbTimeLine.setVisibility(SeekBar.INVISIBLE);
+					tvStartDate.setText("");
+					tvEndDate.setText("");
+					tvOwnChildHeight.setText("");
+					tvCompareChildHeight.setText("");
+					tvCurrent.setText("");
+					tvNoData.setVisibility(TextView.VISIBLE);
 					return;
 				}
 				else
 				{
 					ivOwnChild.setVisibility(ImageView.VISIBLE);
 					ivCompareChild.setVisibility(ImageView.VISIBLE);
+					
+					sbTimeLine.setVisibility(SeekBar.VISIBLE);
+					tvNoData.setVisibility(TextView.INVISIBLE);
+	
+					tvOwnChildHeight.setText(dataModel.getMother().getChild(position).getChildData(sbTimeLine.getProgress()).getHeight() + " " + getResources().getString(R.string.cm));
+					
+					// Use correct average curve
+					double[] average = dataModel.getMother().getChild(position).getAverageForChildGender();
+					
+					// Calculate average value for the day of the child data height value
+					double averageValue = calcAverageValueForDay(average, dataModel.getMother().getChild(position).getChildData(sbTimeLine.getProgress()).getAgeDays());
+					
+					// Format calculated value for visualisation
+					DecimalFormat f = new DecimalFormat("#0.0"); 
+					
+					tvCompareChildHeight.setText(f.format(averageValue) + " " + getResources().getString(R.string.cm));
 				}
 				
 				// Visualise first year with growth data
@@ -332,8 +428,7 @@ public class HeightVisualActivity extends Activity
 				ivOwnChild.setImageResource(R.drawable.own_child);
 				ivCompareChild.setImageResource(R.drawable.average_child);
 				
-				lowestHeight = dataModel.getMother().getChild(position).getChildData(0).getHeight();
-				highestHeight = dataModel.getMother().getChild(position).getLastChildData().getHeight();
+				initRelativeHeightFor(dataModel.getMother().getChild(position));
 				
 				sbTimeLine.setMax(dataModel.getMother().getChild(position).getChildDataAmount()-1);
 			}
@@ -343,6 +438,9 @@ public class HeightVisualActivity extends Activity
 		public void onNothingSelected(AdapterView<?> parent) { }
 	}
 	
+	/**
+	 * Class to change visualisation according to time progress
+	 */
 	private class OnSeekBarTimeLineChangeListener implements OnSeekBarChangeListener
 	{
 		@Override
@@ -354,33 +452,36 @@ public class HeightVisualActivity extends Activity
 			Child selectedChild = dataModel.getMother().getChild(sSelectChild.getSelectedItemPosition());
 			
 			// Convert child's height in cm to pixel height for the image representation  
-			double percentageQuotationCm = selectedChild.getChildData(progress).getHeight() - lowestHeight;
-			double percentageRate = 100;
-			if ((highestHeight - lowestHeight) > 0)
-			{
-				percentageRate = (percentageQuotationCm * 100) / (highestHeight - lowestHeight);
-			}
-			double percentageQuotationPixel = ((maxHeight - minHeight) * percentageRate) / (double)100;
+			double percentageQuotationPixel = calcPixelPercentageQuotation(selectedChild.getChildData(progress).getHeight());
 			
-			// TODO: Only for debug
+			// Only for debug
 			System.out.println("lowestHeight:             " + lowestHeight);
 			System.out.println("highestHeight:            " + highestHeight);
-			System.out.println("percentageQuotationCm:    " + percentageQuotationCm);
-			System.out.println("percentageRate:           " + percentageRate);
-			System.out.println("percentageQuotationPixel: " + percentageQuotationPixel);
 			
 			// Use convertet height to adjust child image
 			ivOwnChild.getLayoutParams().height = (int)(minHeight + percentageQuotationPixel);
 			ivOwnChild.requestLayout();
 			tvOwnChildHeight.setText(selectedChild.getChildData(progress).getHeight() + " " + getResources().getString(R.string.cm));
 			
-			// Dummy behaviour
-			float onePercentForPixel = (maxHeight - minHeight) / (float)100;
 			
-			// TODO: Only until Dan Mason provides the new dataset with national average
-			ivCompareChild.getLayoutParams().height = (int)(minHeight + progress*(float)onePercentForPixel);
+			// Hard coded values because BiB organisation did not provide data in time
+			
+			// Use correct average curve
+			double[] average = selectedChild.getAverageForChildGender();
+			
+			// Calculate average value for the day of the child data height value
+			double averageValue = calcAverageValueForDay(average, selectedChild.getChildData(progress).getAgeDays());
+			
+			// Convert average height in cm to pixel height for the image representation  
+			percentageQuotationPixel = calcPixelPercentageQuotation(averageValue);
+				
+			
+			// Format calculated value for visualisation
+			DecimalFormat f = new DecimalFormat("#0.0"); 
+			
+			ivCompareChild.getLayoutParams().height = (int)(minHeight + percentageQuotationPixel);
 			ivCompareChild.requestLayout();
-			tvCompareChildHeight.setText(ivCompareChild.getLayoutParams().height + " " + getResources().getString(R.string.cm));
+			tvCompareChildHeight.setText(f.format(averageValue) + " " + getResources().getString(R.string.cm));
 			
 			// Update text representation for slider progress
 			tvCurrent.setText(constructRelativeAge(selectedChild.getChildData(progress).getAgeDays()));
@@ -391,6 +492,29 @@ public class HeightVisualActivity extends Activity
 
 		@Override
 		public void onStopTrackingTouch(SeekBar seekBar) { }
+		
+		/**
+		 * Convert average height in cm to pixel height for the image representation  
+		 * 
+		 * @return 
+		 */
+		private double calcPixelPercentageQuotation(double value)
+		{
+			double percentageQuotationCm = value - lowestHeight;
+			double percentageRate = 100;
+			if ((highestHeight - lowestHeight) > 0)
+			{
+				percentageRate = (percentageQuotationCm * 100) / (highestHeight - lowestHeight);
+			}
+			double percentageQuotationPixel = ((maxHeight - minHeight) * percentageRate) / (double)100;
+			
+			// Only debug
+			System.out.println("percentageQuotationCm:    " + percentageQuotationCm);
+			System.out.println("percentageRate:           " + percentageRate);
+			System.out.println("percentageQuotationPixel: " + percentageQuotationPixel);
+			
+			return percentageQuotationPixel;
+		}
 	}
 	
 	/**
