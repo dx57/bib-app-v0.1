@@ -37,7 +37,7 @@
         android:layout_marginRight="42dp"
         android:background="#ffffff"
         android:ems="10"
-        android:text="b65f389b-aa54-4b1b-ae23-d028906237fb"
+        android:text="b65f389b"
         android:hint="@string/login_hint"
         android:inputType="text" />
 

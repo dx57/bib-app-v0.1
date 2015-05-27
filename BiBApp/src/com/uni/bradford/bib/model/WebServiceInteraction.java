@@ -26,7 +26,7 @@ public class WebServiceInteraction
 	private static final String NAME_SPACE = "http://bib.service.code/";
 	private static final String URL = "http://vmjsp1.inf.brad.ac.uk:8080/BIBService/BIBWebService?wsdl";
 //	private static final String URL = "http://medicalxtra.cloudapp.net/BIBService/BIBWebService?wsdl";
-//	private static final String URL = "http://192.168.137.1:8084/BIBService/BIBWebService?wsdl"; // TODO: Switch and adjustfor live demo
+//	private static final String URL = "http://192.168.173.1:8084/BIBService/BIBWebService?wsdl"; // TODO: Switch live demo
 	 
 	private static final String GET_NEW_VERSION_DATE = "GetNewVersionDate";
 	private static final String GET_NEW_VERSION_DATE_RESPONSE = "GetNewVersionDateResponse";
@@ -38,8 +38,8 @@ public class WebServiceInteraction
 	private static final String GET_MOTHER_BY_ID_RESPONSE = "GetMotherByIDResponse";
 	private static final String GET_CHILD_ID_BY_MOTHER_ID = "GetChildIDbyMotherID"; 
 	private static final String GET_CHILD_ID_BY_MOTHER_ID_RESPONSE = "GetChildIDbyMotherIDResponse";
-	private static final String GET_CHILD_GROWTH_DATA_BY_ID = "ChildGrowthData"; // TODO: S.. same var chemata please
-	private static final String GET_CHILD_GROWTH_DATA_BY_ID_RESPONSE = "ChildGrowthDataResponse"; // TODO: S.. same var chemata please
+	private static final String GET_CHILD_GROWTH_DATA_BY_ID = "ChildGrowthData"; 
+	private static final String GET_CHILD_GROWTH_DATA_BY_ID_RESPONSE = "ChildGrowthDataResponse";
 	private static final String GET_ALL_INFO_BY_MOTHER_ID = "GetAllInfoByMotherID";
 	private static final String GET_ALL_INFO_BY_MOTHER_ID_RESPONSE = "GetAllInfoByMotherIDResponse";
 	
@@ -259,7 +259,7 @@ public class WebServiceInteraction
 				// Convert date string to time in milliseconds
 				try
 				{
-					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy"); //"yyyy-MM-dd"
 					Date date = format.parse(updateDate);
 					long milliseconds = date.getTime();
 					dataModel.setLastUpdate(milliseconds);

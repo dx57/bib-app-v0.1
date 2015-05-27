@@ -162,7 +162,7 @@ public class SurveyActivity extends Activity
 		@Override
 	    public boolean shouldOverrideUrlLoading(WebView  view, String  url)
 		{
-			if (url.contains(dataModel.getSurveyUrl()) || url.contains(SURVEY_COMPLETE))
+			if (url.contains(dataModel.getSurveyUrl()) || url.contains("www.surveymonkey.com/r/") || url.contains(SURVEY_COMPLETE))
 			{
 				// User started or finished survey.. do react (load new page)
 				return false;
@@ -230,6 +230,8 @@ public class SurveyActivity extends Activity
 			if (networkInfo != null && networkInfo.isConnected())
 			{
 				System.out.println("Internet connection.");
+				
+				connected = true;
 				
 				wvSurvey.setVisibility(WebView.VISIBLE);
 			}

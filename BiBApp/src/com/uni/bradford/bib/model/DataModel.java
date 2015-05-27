@@ -167,7 +167,7 @@ public class DataModel implements Serializable
 		if (wsi.getMotherById(loginId, deviceId))
 		{
 			// Correct loginId and phoneId pair
-			if (wsi.getChildIdByMotherId(loginId))
+			if (wsi.getChildIdByMotherId(dataModel.getMother().getMotherId()))
 			{
 				// Mother with children
 				for (int i = 0; i < dataModel.getMother().getChildCount(); i++)

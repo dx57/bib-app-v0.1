@@ -102,7 +102,7 @@ public class Child implements Serializable, Comparable<Child>
 	 */
 	public double[] getAverageForChildGender()
 	{
-		if (getGenderId() == 2)
+		if (getGenderId() == 1)
 		{
 			// Boys
 			return DataModel.AVERAGE_BOY;
