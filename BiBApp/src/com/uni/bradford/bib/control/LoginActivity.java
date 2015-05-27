@@ -328,7 +328,7 @@ public class LoginActivity extends Activity
 				LoadDataModelFromWebServiceAsyncTask loadRemoteTask = new LoadDataModelFromWebServiceAsyncTask();
 				loadRemoteTask.execute();
 			}
-			else if ( dataModel.getMother().getMotherId().equals(etLogin.getText().toString()) )
+			else if ( dataModel.getMother().getMotherId().contains(etLogin.getText().toString()) )
 			{
 				// Change to overview activity 
 				Intent changeToOverview = new Intent(LoginActivity.this, OverviewActivity.class);
